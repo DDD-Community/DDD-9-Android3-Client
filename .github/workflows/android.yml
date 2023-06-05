@@ -20,13 +20,13 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build debug
-        run: ./gradlew assembleDebug
+      - name: Build component-demo
+        run: ./gradlew :component-demo:assembleDebug
 
       - name: Send APK file to Slack
-        env:
-          APP_TOKEN: ${{ secrets.APP_TOKEN }}
-        run: curl https://slack.com/api/files.upload -F token=$APP_TOKEN -F channels=apk-tester -F file=@app/build/outputs/apk/debug/app-debug.apk
+        run: |
+          echo ${{ secrets.APP_TOKEN }}
+          curl https://slack.com/api/files.upload -F token=${{ secrets.APP_TOKEN }} -F channels=apk-tester -F file=@component-demo/build/outputs/apk/debug/component-demo-debug.apk
 
       - name: action-slack
         uses: 8398a7/action-slack@v3
