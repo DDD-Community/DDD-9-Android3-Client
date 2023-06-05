@@ -25,7 +25,7 @@ jobs:
 
       - name: Send APK file to Slack
         env:
-          SLACK_TOKEN: ${{ secrets.APP_TOKEN }}
+          APP_TOKEN: ${{ secrets.APP_TOKEN }}
         run: curl https://slack.com/api/files.upload -F token=$APP_TOKEN -F channels=apk-tester -F file=@app/build/outputs/apk/debug/app-debug.apk
 
       - name: action-slack
