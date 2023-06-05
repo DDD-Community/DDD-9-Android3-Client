@@ -29,11 +29,18 @@ jobs:
         run: curl https://slack.com/api/files.upload -F token=$APP_TOKEN -F channels=apk-tester -F file=@app/build/outputs/apk/debug/app-debug.apk
 
       - name: action-slack
-        uses: 8398a7/action-slack@v3.8.0
+        uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           mention: "<!channel>"
-          text: "APK를 테스트 해보셔용! (version : ${{ steps.version.outputs.VERSION_NAME }})"
-          fields: repo, commit, ref, took
+          fields: workflow,job,commit,repo,ref,author,took
+          custom_payload: |
+            {
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                text: `APK 빌드 완료!\n${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
+              }]
+            }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always() 
