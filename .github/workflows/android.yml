@@ -11,6 +11,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
+          distribution: 'temurin'
 
       - name: 버전 추출하기
         run: echo "::set-output name=VERSION_NAME::$(grep -i "versionName " app/build.gradle | awk '{print $3}')"
