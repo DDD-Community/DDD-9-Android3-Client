@@ -1,0 +1,46 @@
+name: 'Android Apk 빌드 & 업로드'
+on:
+  push:
+    branches: [ main, develop, github-action ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: 버전 추출하기
+        run: echo "::set-output name=VERSION_NAME::$(grep -i "versionName " app/build.gradle | awk '{print $2}')"
+        id: version
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build component-demo
+        run: ./gradlew :component-demo:assembleDebug
+
+      - name: Send APK file to Slack
+        run: |
+          echo ${{ secrets.APP_TOKEN }}
+          curl https://slack.com/api/files.upload -F token=${{ secrets.APP_TOKEN }} -F channels=apk-tester -F file=@component-demo/build/outputs/apk/debug/component-demo-debug.apk
+
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          mention: "<!channel>"
+          fields: workflow,job,commit,repo,ref,author,took
+          custom_payload: |
+            {
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                text: `APK 빌드 완료!\n${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
+              }]
+            }
+        if: always() 
