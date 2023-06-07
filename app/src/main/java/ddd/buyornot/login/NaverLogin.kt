@@ -1,6 +1,7 @@
 package ddd.buyornot.login
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
@@ -9,6 +10,7 @@ import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import ddd.buyornot.BuildConfig
 import ddd.buyornot.R
+import ddd.buyornot.prefs.SharedPreferenceWrapper
 
 /*
     네이버 로그인 사용법
@@ -24,8 +26,11 @@ class NaverLogin {
             NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                 override fun onSuccess(result: NidProfileResponse) {
                     // result로 유저 정보 확인 가능
-                    val name = result.profile?.name
-                    val birthYear = result.profile?.birthYear
+                    val name = result.profile?.name.toString()
+                    val birthYear = result.profile?.birthYear.toString()
+
+                    SharedPreferenceWrapper.instance.name = name
+                    SharedPreferenceWrapper.instance.birthYear = birthYear
 
                     Log.d("Naver Login", "로그인 유저 이름 : $name")
                     Log.d("Naver Login", "로그인 유저 출생연도 : $birthYear")
