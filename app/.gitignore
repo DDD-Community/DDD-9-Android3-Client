@@ -1,1 +1,6 @@
 /build
+
+# Local Configuration Files (api key, etc)
+local.properties
+
+google-services.json
