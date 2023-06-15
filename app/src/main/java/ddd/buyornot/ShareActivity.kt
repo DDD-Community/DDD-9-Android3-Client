@@ -18,16 +18,21 @@ class SubActivity : ComponentActivity() {
             BuyOrNotTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-
-                    when (intent?.action) {
-                        Intent.ACTION_SEND -> {
-                            if (intent?.type?.contains("text") == true) {
-                                // Greeting(intent.getStringExtra(Intent.EXTRA_TEXT) ?: "null")
-                            }
-                        }
-                    }
+                    Greeting(name = intent.getShareString("no data"))
                 }
             }
+        }
+    }
+}
+
+fun Intent?.getShareString(default: String): String {
+    return when (this?.action) {
+        Intent.ACTION_SEND -> {
+            this.getStringExtra(Intent.EXTRA_TEXT) ?: default
+        }
+
+        else -> {
+            default
         }
     }
 }
