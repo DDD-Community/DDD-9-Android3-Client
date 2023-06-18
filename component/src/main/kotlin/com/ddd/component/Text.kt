@@ -10,15 +10,13 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.ddd.component.theme.BDSKorFontFamily
-
+import com.ddd.component.theme.BDSFontFamily
 
 @Composable
 fun BDSText(
@@ -28,7 +26,7 @@ fun BDSText(
     fontSize: TextUnit = TextUnit.Unspecified,
     fontStyle: FontStyle? = FontStyle.Normal,
     fontWeight: FontWeight? = FontWeight.Normal,
-    fontFamily: FontFamily? = FontFamily.Default,
+    fontFamily: BDSFontFamily? = BDSFontFamily.Korean,
     letterSpacing: TextUnit = TextUnit.Unspecified,
     textDecoration: TextDecoration? = null,
     textAlign: TextAlign? = TextAlign.Start,
@@ -47,7 +45,7 @@ fun BDSText(
         fontSize = fontSize,
         fontStyle = fontStyle ?: FontStyle.Normal,
         fontWeight = fontWeight ?: FontWeight.Normal,
-        fontFamily = fontFamily ?: BDSKorFontFamily,
+        fontFamily = fontFamily,
         letterSpacing = letterSpacing,
         textDecoration = textDecoration,
         textAlign = textAlign,
@@ -69,7 +67,7 @@ fun BDSText(
     fontSize: TextUnit = TextUnit.Unspecified,
     fontStyle: FontStyle? = FontStyle.Normal,
     fontWeight: FontWeight? = FontWeight.Normal,
-    fontFamily: FontFamily? = FontFamily.Default,
+    fontFamily: BDSFontFamily? = BDSFontFamily.Korean,
     letterSpacing: TextUnit = TextUnit.Unspecified,
     textDecoration: TextDecoration? = null,
     textAlign: TextAlign? = TextAlign.Start,
@@ -88,7 +86,7 @@ fun BDSText(
         fontSize = fontSize,
         fontStyle = fontStyle ?: FontStyle.Normal,
         fontWeight = fontWeight ?: FontWeight.Normal,
-        fontFamily = fontFamily ?: BDSKorFontFamily,
+        fontFamily = fontFamily?.fontFamily ?: BDSFontFamily.Korean.fontFamily,
         letterSpacing = letterSpacing,
         textDecoration = textDecoration,
         textAlign = textAlign,

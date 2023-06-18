@@ -6,12 +6,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ddd.component.BDSDivider
+import com.ddd.component.BDSText
+import com.ddd.component.theme.BDSFontFamily
 
 @Composable
 @Preview
@@ -24,15 +25,20 @@ fun TypographyTestScreen() {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Text(
+        BDSText(
+            text = "바이올낫 titleLarge 영문 폰트",
+            style = MaterialTheme.typography.titleLarge,
+            fontFamily = BDSFontFamily.English
+        )
+        BDSText(
             text = "바이올낫 titleLarge",
             style = MaterialTheme.typography.titleLarge
         )
-        Text(
+        BDSText(
             text = "바이올낫 titleMedium",
             style = MaterialTheme.typography.titleMedium
         )
-        Text(
+        BDSText(
             text = "바이올낫 titleSmall",
             style = MaterialTheme.typography.titleSmall
         )
@@ -41,15 +47,15 @@ fun TypographyTestScreen() {
             modifier = Modifier.padding(vertical = 16.dp)
         )
 
-        Text(
+        BDSText(
             text = "바이올낫 bodyLarge",
             style = MaterialTheme.typography.bodyLarge
         )
-        Text(
+        BDSText(
             text = "바이올낫 bodyMedium",
             style = MaterialTheme.typography.bodyMedium
         )
-        Text(
+        BDSText(
             text = "바이올낫 bodySmall",
             style = MaterialTheme.typography.bodySmall
         )
@@ -58,15 +64,15 @@ fun TypographyTestScreen() {
             modifier = Modifier.padding(vertical = 16.dp)
         )
 
-        Text(
+        BDSText(
             text = "바이올낫 displayLarge",
             style = MaterialTheme.typography.displayLarge
         )
-        Text(
+        BDSText(
             text = "바이올낫 displayMedium",
             style = MaterialTheme.typography.displayMedium
         )
-        Text(
+        BDSText(
             text = "바이올낫 displaySmall",
             style = MaterialTheme.typography.displaySmall
         )
@@ -75,15 +81,15 @@ fun TypographyTestScreen() {
             modifier = Modifier.padding(vertical = 16.dp)
         )
 
-        Text(
+        BDSText(
             text = "바이올낫 headlineLarge",
             style = MaterialTheme.typography.headlineLarge
         )
-        Text(
+        BDSText(
             text = "바이올낫 headlineMedium",
             style = MaterialTheme.typography.headlineMedium
         )
-        Text(
+        BDSText(
             text = "바이올낫 headlineSmall",
             style = MaterialTheme.typography.headlineSmall
         )
@@ -92,15 +98,15 @@ fun TypographyTestScreen() {
             modifier = Modifier.padding(vertical = 16.dp)
         )
 
-        Text(
+        BDSText(
             text = "바이올낫 labelLarge",
             style = MaterialTheme.typography.labelLarge
         )
-        Text(
+        BDSText(
             text = "바이올낫 labelMedium",
             style = MaterialTheme.typography.labelMedium
         )
-        Text(
+        BDSText(
             text = "바이올낫 labelSmall",
             style = MaterialTheme.typography.labelSmall
         )

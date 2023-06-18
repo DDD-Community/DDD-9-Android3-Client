@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.ddd.component.R
 
 
-val BDSKorFontFamily = FontFamily(
+internal val BDSKorFontFamily = FontFamily(
     Font(R.font.font_thin, FontWeight.Light),
     Font(R.font.font_thin, FontWeight.Normal),
     Font(R.font.font_thin, FontWeight.Normal, FontStyle.Italic),
@@ -17,7 +17,7 @@ val BDSKorFontFamily = FontFamily(
     Font(R.font.font_bold, FontWeight.Bold),
 )
 
-val BDSEngFontFamily = FontFamily(
+internal val BDSEngFontFamily = FontFamily(
     Font(R.font.font_thin_en, FontWeight.Light),
     Font(R.font.font_thin_en, FontWeight.Normal),
     Font(R.font.font_thin_en, FontWeight.Normal, FontStyle.Italic),
@@ -25,6 +25,17 @@ val BDSEngFontFamily = FontFamily(
     Font(R.font.font_semibold_en, FontWeight.SemiBold),
     Font(R.font.font_bold_en, FontWeight.Bold),
 )
+
+sealed class BDSFontFamily {
+
+    open val fontFamily: FontFamily = BDSKorFontFamily
+
+    object Korean : BDSFontFamily()
+
+    object English : BDSFontFamily() {
+        override val fontFamily: FontFamily = BDSEngFontFamily
+    }
+}
 
 private val defaultTypography = Typography()
 
