@@ -3,6 +3,8 @@ package com.ddd.component.demo
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,13 +15,14 @@ import com.ddd.component.BDSDivider
 
 @Composable
 @Preview
-fun TypographyTestScreen(
+fun TypographyTestScreen() {
+    val scrollState = rememberScrollState()
 
-) {
     Column(
         modifier = Modifier
+            .verticalScroll(scrollState)
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(16.dp)
     ) {
         Text(
             text = "바이올낫 titleLarge",

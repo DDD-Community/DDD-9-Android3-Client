@@ -9,12 +9,12 @@ import com.ddd.component.R
 
 
 val BDSKorFontFamily = FontFamily(
-    Font(R.font.pretendard_thin, FontWeight.Light),
-    Font(R.font.pretendard_regular, FontWeight.Normal),
-    Font(R.font.pretendard_regular, FontWeight.Normal, FontStyle.Italic),
-    Font(R.font.pretendard_regular, FontWeight.Medium),
-    Font(R.font.pretendard_semibold, FontWeight.SemiBold),
-    Font(R.font.pretendard_bold, FontWeight.Bold),
+    Font(R.font.font_thin, FontWeight.Light),
+    Font(R.font.font_thin, FontWeight.Normal),
+    Font(R.font.font_thin, FontWeight.Normal, FontStyle.Italic),
+    Font(R.font.font_thin, FontWeight.Medium),
+    Font(R.font.font_semibold, FontWeight.SemiBold),
+    Font(R.font.font_bold, FontWeight.Bold),
 )
 
 private val defaultTypography = Typography()
@@ -23,17 +23,35 @@ private val defaultTypography = Typography()
  * TODO : 크기, 행간 등은 디자인 시스템 나오면 적용할 예정
  */
 val Typography = Typography(
-    displayLarge = defaultTypography.displayLarge.copy(fontFamily = BDSKorFontFamily),
-    displayMedium = defaultTypography.displayMedium.copy(fontFamily = BDSKorFontFamily),
-    displaySmall = defaultTypography.displaySmall.copy(fontFamily = BDSKorFontFamily),
+    displayLarge = defaultTypography.displayLarge.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.Bold,
+    ),
+    displayMedium = defaultTypography.displayMedium.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.Bold,
+    ),
+    displaySmall = defaultTypography.displaySmall.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.SemiBold
+    ),
 
     headlineLarge = defaultTypography.headlineLarge.copy(fontFamily = BDSKorFontFamily),
     headlineMedium = defaultTypography.headlineMedium.copy(fontFamily = BDSKorFontFamily),
     headlineSmall = defaultTypography.headlineSmall.copy(fontFamily = BDSKorFontFamily),
 
-    titleLarge = defaultTypography.titleLarge.copy(fontFamily = BDSKorFontFamily),
-    titleMedium = defaultTypography.titleMedium.copy(fontFamily = BDSKorFontFamily),
-    titleSmall = defaultTypography.titleSmall.copy(fontFamily = BDSKorFontFamily),
+    titleLarge = defaultTypography.titleLarge.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.Bold,
+    ),
+    titleMedium = defaultTypography.titleMedium.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.Bold,
+    ),
+    titleSmall = defaultTypography.titleSmall.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.SemiBold,
+    ),
 
     bodyLarge = defaultTypography.bodyLarge.copy(fontFamily = BDSKorFontFamily),
     bodyMedium = defaultTypography.bodyMedium.copy(fontFamily = BDSKorFontFamily),
