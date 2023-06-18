@@ -26,6 +26,15 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SubActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/*" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".fcm.FcmService"
             android:exported="false">
