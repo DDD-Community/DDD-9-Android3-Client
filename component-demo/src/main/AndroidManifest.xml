@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuyOrNot">
         <activity
-            android:name=".MainActivity"
+            android:name=".DemoHomeActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.BuyOrNot">
