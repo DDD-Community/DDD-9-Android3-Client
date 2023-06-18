@@ -17,6 +17,15 @@ val BDSKorFontFamily = FontFamily(
     Font(R.font.font_bold, FontWeight.Bold),
 )
 
+val BDSEngFontFamily = FontFamily(
+    Font(R.font.font_thin_en, FontWeight.Light),
+    Font(R.font.font_thin_en, FontWeight.Normal),
+    Font(R.font.font_thin_en, FontWeight.Normal, FontStyle.Italic),
+    Font(R.font.font_regular_en, FontWeight.Medium),
+    Font(R.font.font_semibold_en, FontWeight.SemiBold),
+    Font(R.font.font_bold_en, FontWeight.Bold),
+)
+
 private val defaultTypography = Typography()
 
 /*
