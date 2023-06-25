@@ -18,6 +18,9 @@ fun DemoNavHost(navController: NavHostController) {
         composable(DemoNavigationRoute.Typography.route) {
             TypographyTestScreen()
         }
+        composable(DemoNavigationRoute.Image.route) {
+            ImageTestScreen()
+        }
     }
 }
 
@@ -31,5 +34,9 @@ internal sealed interface DemoNavigationRoute {
 
     object Typography : DemoNavigationRoute {
         override val route: String = "typography"
+    }
+
+    object Image : DemoNavigationRoute {
+        override val route: String = "image"
     }
 }
