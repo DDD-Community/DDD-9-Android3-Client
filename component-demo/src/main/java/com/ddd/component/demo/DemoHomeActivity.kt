@@ -50,11 +50,23 @@ fun DemoHomeScreen(
             .verticalScroll(scrollState)
             .padding(vertical = 24.dp, horizontal = 16.dp)
     ) {
-        Button(onClick = {
-            navController.navigate(DemoNavigationRoute.Typography.route)
-        }) {
+        Button(
+            onClick = {
+                navController.navigate(DemoNavigationRoute.Typography.route)
+            }) {
             Text(
                 text = "Typography Test",
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
+        Button(
+            modifier = Modifier.padding(top = 8.dp),
+            onClick = {
+                navController.navigate(DemoNavigationRoute.Image.route)
+            }) {
+            Text(
+                text = "Image Test",
                 modifier = Modifier
                     .fillMaxWidth()
             )
