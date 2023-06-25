@@ -5,6 +5,8 @@ plugins {
     id 'com.google.gms.google-services'
     // Apply the Crashlytics Gradle plugin
     id 'com.google.firebase.crashlytics'
+    // // Apply the Secret Gradle plugin
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 def localProperties = new Properties()

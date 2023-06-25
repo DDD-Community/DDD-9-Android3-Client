@@ -26,18 +26,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth"
-        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="oauth"
-                    android:scheme="kakao0e85df086c5c6bf42a232527a8303d0c" />
-            </intent-filter>
-        </activity>-->
-
         <service
             android:name=".fcm.FcmService"
             android:exported="false">
@@ -45,6 +33,18 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth"-->
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="oauth"
+                    android:scheme="${KAKAO_OAUTH_HOST_SCHEME}" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
