@@ -7,7 +7,6 @@ plugins {
     id 'com.google.firebase.crashlytics'
     // Apply the Secret Gradle plugin
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-
     // kapt
     id "org.jetbrains.kotlin.kapt"
 }
@@ -65,6 +64,7 @@ android {
 dependencies {
     def lifecycle_version = "2.5.1"
     def retrofit_version = "2.9.0"
+    def dagger_version = "2.41"
 
     implementation project(":component")
 
@@ -128,4 +128,12 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 
+    // Dagger
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    implementation "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // Dagger-Hilt
+    implementation "com.google.dagger:hilt-android:$dagger_version"
+    implementation "com.google.dagger:hilt-compiler:$dagger_version"
 }
