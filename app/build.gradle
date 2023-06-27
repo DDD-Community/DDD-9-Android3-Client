@@ -5,8 +5,11 @@ plugins {
     id 'com.google.gms.google-services'
     // Apply the Crashlytics Gradle plugin
     id 'com.google.firebase.crashlytics'
-    // // Apply the Secret Gradle plugin
+    // Apply the Secret Gradle plugin
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
+    // kapt
+    id "org.jetbrains.kotlin.kapt"
 }
 
 def localProperties = new Properties()
@@ -102,4 +105,23 @@ dependencies {
 
     // Coroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
+    def lifecycle_version = "2.5.1"
+    def arch_version = "2.1.0"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // ViewModel utilities for Compose
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+    // Saved state module for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+
+    // Annotation processor
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
 }
