@@ -128,6 +128,9 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 
+    // Gson
+    implementation "com.google.code.gson:gson:2.9.0"
+
     // Dagger
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     implementation "com.google.dagger:dagger-compiler:$dagger_version"
