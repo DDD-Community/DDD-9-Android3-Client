@@ -63,6 +63,9 @@ android {
 }
 
 dependencies {
+    def lifecycle_version = "2.5.1"
+    def retrofit_version = "2.9.0"
+
     implementation project(":component")
 
     implementation 'androidx.core:core-ktx:1.8.0'
@@ -106,9 +109,6 @@ dependencies {
     // Coroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
-    def lifecycle_version = "2.5.1"
-    def arch_version = "2.1.0"
-
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     // ViewModel utilities for Compose
@@ -123,5 +123,9 @@ dependencies {
 
     // Annotation processor
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 
 }
