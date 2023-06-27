@@ -139,4 +139,7 @@ dependencies {
     // Dagger-Hilt
     implementation "com.google.dagger:hilt-android:$dagger_version"
     implementation "com.google.dagger:hilt-compiler:$dagger_version"
+
+    // Lottie
+    implementation "com.airbnb.android:lottie:5.2.0"
 }
