@@ -5,6 +5,8 @@ plugins {
     id 'com.google.gms.google-services'
     // Apply the Crashlytics Gradle plugin
     id 'com.google.firebase.crashlytics'
+    // // Apply the Secret Gradle plugin
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 def localProperties = new Properties()
@@ -95,7 +97,10 @@ dependencies {
 
     // naver login
     implementation 'com.navercorp.nid:oauth:5.6.0'
-    
+
+    // kakao sdk
+    implementation 'com.kakao.sdk:v2-all:2.14.0' // 전체 모듈 설치, 2.11.0 버전부터 지원
+
     // Coroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 }

@@ -4,6 +4,7 @@ buildscript {
         // Make sure that you have the following two repositories
         google()  // Google's Maven repository
         mavenCentral()  // Maven Central repository
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
 
     dependencies {
@@ -13,6 +14,9 @@ buildscript {
 
         // Add the Crashlytics Gradle plugin
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.5'
+
+        // Add the Secret Gradle plugin
+        classpath 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1'
     }
 }
 
