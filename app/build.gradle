@@ -9,6 +9,7 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     // kapt
     id "org.jetbrains.kotlin.kapt"
+    id "dagger.hilt.android.plugin"
 }
 
 def localProperties = new Properties()
@@ -62,7 +63,7 @@ android {
 }
 
 dependencies {
-    def lifecycle_version = "2.6.1"
+    def lifecycle_version = "2.3.1"
     def retrofit_version = "2.9.0"
     def dagger_version = "2.41"
 
@@ -135,12 +136,12 @@ dependencies {
 
     // Dagger
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    implementation "com.google.dagger:dagger-compiler:$dagger_version"
-    implementation "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
     // Dagger-Hilt
     implementation "com.google.dagger:hilt-android:$dagger_version"
-    implementation "com.google.dagger:hilt-compiler:$dagger_version"
+    kapt "com.google.dagger:hilt-compiler:$dagger_version"
 
     // Lottie
     implementation "com.airbnb.android:lottie:5.2.0"
