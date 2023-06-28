@@ -1,6 +1,7 @@
 package ddd.buyornot
 
 import android.app.Application
+import com.kakao.sdk.common.KakaoSdk
 
 class BuyOrNotApplication : Application() {
 
@@ -12,5 +13,6 @@ class BuyOrNotApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        KakaoSdk.init(this, BuildConfig.KAKAO_OAUTH_HOST_SCHEME)
     }
 }
