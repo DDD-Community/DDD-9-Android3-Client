@@ -17,6 +17,9 @@ buildscript {
 
         // Add the Secret Gradle plugin
         classpath 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1'
+
+        // Add the Hilt Gradle plugin
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.41'
     }
 }
 

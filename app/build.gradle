@@ -5,8 +5,11 @@ plugins {
     id 'com.google.gms.google-services'
     // Apply the Crashlytics Gradle plugin
     id 'com.google.firebase.crashlytics'
-    // // Apply the Secret Gradle plugin
+    // Apply the Secret Gradle plugin
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    // kapt
+    id "org.jetbrains.kotlin.kapt"
+    id "dagger.hilt.android.plugin"
 }
 
 def localProperties = new Properties()
@@ -60,11 +63,14 @@ android {
 }
 
 dependencies {
+    def lifecycle_version = "2.3.1"
+    def retrofit_version = "2.9.0"
+    def dagger_version = "2.41"
+
     implementation project(":component")
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.activity:activity-compose:1.5.1'
     implementation platform('androidx.compose:compose-bom:2022.10.00')
     implementation 'androidx.compose.ui:ui'
@@ -103,4 +109,41 @@ dependencies {
 
     // Coroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // ViewModel utilities for Compose
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+    // Saved state module for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+
+    // Annotation processor
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+
+    // okhttp3LoggingInterceptor
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
+
+    // Gson
+    implementation "com.google.code.gson:gson:2.9.0"
+
+    // Dagger
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // Dagger-Hilt
+    implementation "com.google.dagger:hilt-android:$dagger_version"
+    kapt "com.google.dagger:hilt-compiler:$dagger_version"
+
+    // Lottie
+    implementation "com.airbnb.android:lottie:5.2.0"
 }
