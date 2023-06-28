@@ -84,6 +84,7 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation "androidx.core:core-splashscreen:1.0.1"
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:32.1.0')
