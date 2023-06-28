@@ -17,4 +17,6 @@
     <color name="background200">#17171B</color>
     <color name="background300">#202027</color>
     <color name="background400">#2C2C35</color>
+
+    <color name="splash_background">#8468F2</color>
 </resources>
