@@ -5,9 +5,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface LoginService {
-    companion object {
-        const val BASE_URL = "http://Buyornot-env.eba-f34a7fzj.ap-northeast-2.elasticbeanstalk.com"
-    }
 
     @POST("/auth/kakao")
     suspend fun postKakaoAuth(
