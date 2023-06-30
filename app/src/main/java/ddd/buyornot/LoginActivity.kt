@@ -26,8 +26,6 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
 
-        val TAG = "KakaoLogin"
-
         setContent {
             BuyOrNotTheme {
                 val kakaoLogin = KakaoLogin(baseContext) { token ->
