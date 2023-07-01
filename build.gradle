@@ -19,7 +19,9 @@ buildscript {
         classpath 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1'
 
         // Add the Hilt Gradle plugin
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.41'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
+
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20'
     }
 }
 
@@ -28,4 +30,5 @@ plugins {
     id 'com.android.application' version '7.4.2' apply false
     id 'com.android.library' version '7.4.2' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
+    id "org.jetbrains.kotlin.kapt" version "1.7.20" apply false
 }
