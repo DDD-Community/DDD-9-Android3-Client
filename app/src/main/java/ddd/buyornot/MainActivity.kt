@@ -10,7 +10,6 @@ import com.ddd.component.BDSImage
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ddd.component.BDSBottomNavigation
 import com.ddd.component.theme.BuyOrNotTheme
-import ddd.buyornot.login.KakaoLogin
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,10 +18,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             BuyOrNotTheme {
-                val kakaoLogin = KakaoLogin(baseContext)
                 IconButton(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = { kakaoLogin.kakaoLogin() }
+                    onClick = { }
                 ) {
                     BDSImage(
                         modifier = Modifier.fillMaxWidth(),
