@@ -63,87 +63,87 @@ android {
 }
 
 dependencies {
-    def lifecycle_version = "2.3.1"
-    def retrofit_version = "2.9.0"
-    def dagger_version = "2.38.1"
-
     implementation project(":component")
 
-    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation rootProject.ext.coreKtx
     implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
-    implementation 'androidx.activity:activity-compose:1.5.1'
+
+    implementation rootProject.ext.compose
     implementation platform('androidx.compose:compose-bom:2022.10.00')
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.ui:ui-graphics'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material3:material3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation rootProject.ext.composeUi
+    implementation rootProject.ext.composeUiGraphics
+    implementation rootProject.ext.composeUiPreview
+    implementation rootProject.ext.composeMaterial3
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest'
-    implementation "androidx.core:core-splashscreen:1.0.1"
+    androidTestImplementation rootProject.ext.composeUiTest
+    debugImplementation rootProject.ext.composeUiTooling
+    debugImplementation rootProject.ext.composeUiTestManifest
+
+    testImplementation rootProject.ext.junit
+    androidTestImplementation rootProject.ext.junitExt
+    androidTestImplementation rootProject.ext.espresso
+    androidTestImplementation rootProject.ext.composeUiTest
+
+    implementation rootProject.ext.splashscreen
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:32.1.0')
     // When using the BoM, don't specify versions in Firebase dependencies
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation rootProject.ext.firebaseAnalytics
     // fcm
-    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation rootProject.ext.firebaseMessaging
     // crashlytics
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ndk'
+    implementation rootProject.ext.firebaseCrashlyticsKtx
+    implementation rootProject.ext.firebaseCrashlyticsNdk
     // dynamic link
-    implementation 'com.google.firebase:firebase-dynamic-links-ktx'
+    implementation rootProject.ext.firebaseDynamicLinks
     // inapp message
-    implementation 'com.google.firebase:firebase-inappmessaging-ktx'
-    implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
+    implementation rootProject.ext.firebaseInAppMessaging
+    implementation rootProject.ext.firebaseInAppMessagingDisplay
 
     // naver login
-    implementation 'com.navercorp.nid:oauth:5.6.0'
+    implementation rootProject.ext.naverLogin
 
     // kakao sdk
-    implementation 'com.kakao.sdk:v2-all:2.14.0' // 전체 모듈 설치, 2.11.0 버전부터 지원
+    implementation rootProject.ext.kakaoLogin // 전체 모듈 설치, 2.11.0 버전부터 지원
 
     // Coroutine
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation rootProject.ext.coroutine
 
     // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation rootProject.ext.viewModel
     // ViewModel utilities for Compose
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    implementation rootProject.ext.viewModelCompose
     // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation rootProject.ext.liveData
     // Lifecycles only (without ViewModel or LiveData)
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation rootProject.ext.lifecycleRuntime
 
     // Saved state module for ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+    implementation rootProject.ext.viewModelSavedState
 
     // Annotation processor
-    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    kapt rootProject.ext.lifecyclerCompiler
 
     // Retrofit
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation rootProject.ext.retrofitGsonConverter
+    implementation rootProject.ext.retrofit
 
     // okhttp3LoggingInterceptor
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
+    implementation rootProject.ext.okhttp3LoggingInterceptor
 
     // Gson
-    implementation "com.google.code.gson:gson:2.9.0"
+    implementation rootProject.ext.gson
 
     // Dagger-Hilt
-    implementation "com.google.dagger:hilt-android:$dagger_version"
-    kapt "com.google.dagger:hilt-compiler:$dagger_version"
+    implementation rootProject.ext.daggerHilt
+    kapt rootProject.ext.daggerHiltCompiler
 
-    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
-    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+    implementation rootProject.ext.hiltViewModel
+    kapt rootProject.ext.hiltCompiler
 
-    kapt 'org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0'
+    kapt rootProject.ext.kotlinMetadataJvm
 
     // Lottie
-    implementation "com.airbnb.android:lottie:5.2.0"
+    implementation rootProject.ext.lottie
 }

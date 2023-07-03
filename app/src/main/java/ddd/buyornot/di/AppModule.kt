@@ -37,6 +37,11 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideGsonConverterFactory(): GsonConverterFactory =
+        GsonConverterFactory.create()
+
+    @Provides
+    @Singleton
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory

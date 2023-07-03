@@ -32,3 +32,75 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
     id "org.jetbrains.kotlin.kapt" version "1.7.20" apply false
 }
+
+ext {
+    coreKtx = "androidx.core:core-ktx:1.8.0"
+    kotlinBom = "platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')"
+
+    compose = "androidx.activity:activity-compose:1.5.1"
+    composeBom = "platform('androidx.compose:compose-bom:2022.10.00')"
+    composeUi = "androidx.compose.ui:ui"
+    composeUiGraphics = "androidx.compose.ui:ui-graphics"
+    composeUiPreview = "androidx.compose.ui:ui-tooling-preview"
+    composeMaterial3 = "androidx.compose.material3:material3"
+    composeUiTest = "androidx.compose.ui:ui-test-junit4"
+    composeUiTooling = "androidx.compose.ui:ui-tooling"
+    composeUiTestManifest = "androidx.compose.ui:ui-test-manifest"
+
+    navigationCompose = "androidx.navigation:navigation-compose:2.6.0"
+
+    junit = "junit:junit:4.13.2"
+    junitExt = "androidx.test.ext:junit:1.1.5"
+    espresso = "androidx.test.espresso:espresso-core:3.5.1"
+
+    splashscreen = "androidx.core:core-splashscreen:1.0.1"
+
+    firebaseBom = "platform('com.google.firebase:firebase-bom:32.1.0')"
+    firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
+    firebaseMessaging = "com.google.firebase:firebase-messaging-ktx"
+    firebaseCrashlyticsKtx = "com.google.firebase:firebase-crashlytics-ktx"
+    firebaseCrashlyticsNdk = "com.google.firebase:firebase-crashlytics-ndk"
+    firebaseDynamicLinks = "com.google.firebase:firebase-dynamic-links-ktx"
+    firebaseInAppMessaging = "com.google.firebase:firebase-inappmessaging-ktx"
+    firebaseInAppMessagingDisplay = "com.google.firebase:firebase-inappmessaging-display-ktx"
+
+    naverVersion = "5.6.0"
+    naverLogin = "com.navercorp.nid:oauth:$naverVersion"
+
+    kakaoVersion = "2.14.0"
+    kakaoLogin = "com.kakao.sdk:v2-all:$kakaoVersion"
+
+    coroutineVersion = "1.6.4"
+    coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+
+    lifecycleVersion = "2.3.1"
+    viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
+    viewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
+    liveData = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+    lifecyclerCompiler = "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
+
+    retrofitVersion = "2.9.0"
+    retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    okhttp3LoggingInterceptorVersion = "4.9.2"
+    okhttp3LoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$okhttp3LoggingInterceptorVersion"
+
+    gson = "com.google.code.gson:gson:2.9.0"
+
+    hiltVersion = "2.38.1"
+    daggerHilt = "com.google.dagger:hilt-android:$hiltVersion"
+    daggerHiltCompiler = "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    hiltCompiler = "androidx.hilt:hilt-compiler:1.0.0"
+    kotlinMetadataJvm = "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0"
+
+    lottie = "com.airbnb.android:lottie:5.2.0"
+
+    coil = "io.coil-kt:coil-compose:2.4.0"
+
+
+}
