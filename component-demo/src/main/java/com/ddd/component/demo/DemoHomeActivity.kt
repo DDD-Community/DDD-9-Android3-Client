@@ -60,7 +60,6 @@ fun DemoHomeScreen(
     DemoBottomSheet(navController)
 }
 
-
 @Composable
 @ExperimentalMaterialApi
 fun DemoBottomSheet(
@@ -69,12 +68,11 @@ fun DemoBottomSheet(
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
-        skipHalfExpanded = true
+        initialValue = ModalBottomSheetValue.Hidden
     )
 
     BDSBottomSheetLayout(
+        coroutineScope = coroutineScope,
         sheetState = sheetState,
         sheetContent = {
             Box(modifier = Modifier.fillMaxWidth().height(224.dp)) {
