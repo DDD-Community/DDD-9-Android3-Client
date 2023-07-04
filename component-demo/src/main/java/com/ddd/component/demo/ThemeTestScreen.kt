@@ -1,5 +1,6 @@
 package com.ddd.component.demo
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,8 +9,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ddd.component.BDSText
 import com.ddd.component.theme.Background100
 import com.ddd.component.theme.Background200
@@ -121,7 +126,25 @@ private val solidColors = listOf(
     Red,
 )
 
-private val allColors = backgroundColors + primaryColors + secondaryColors + slateGrayColors + grayColors + solidColors
+private val allColors = listOf(
+    "background" to backgroundColors,
+    "primary" to primaryColors,
+    "secondary" to secondaryColors,
+    "slateGray" to slateGrayColors,
+    "gray" to grayColors,
+    "solid" to solidColors
+)
+
+private fun getContrastColor(background: Color): Color {
+    val backgroundLuminance = background.luminance()
+    val darkContrastThreshold = 0.15
+
+    return if (backgroundLuminance > darkContrastThreshold) {
+        Color.Black
+    } else {
+        Color.White
+    }
+}
 
 @Composable
 @Preview(showBackground = true)
@@ -133,12 +156,25 @@ fun ThemeTestScreen() {
             .verticalScroll(scrollState)
             .fillMaxSize()
     ) {
-        allColors.forEach { color ->
+        allColors.forEach { (title, colors) ->
             BDSText(
-                text = color.toString(), modifier = Modifier
+                fontWeight = FontWeight.Bold,
+                text = title,
+                fontSize = 30.sp,
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 30.dp)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             )
+
+            colors.forEach { color ->
+                BDSText(
+                    color = getContrastColor(color),
+                    text = color.toString(), modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color)
+                        .padding(horizontal = 16.dp, vertical = 30.dp)
+                )
+            }
         }
     }
 }

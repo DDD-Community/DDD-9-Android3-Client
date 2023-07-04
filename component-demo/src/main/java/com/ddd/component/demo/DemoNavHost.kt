@@ -24,7 +24,7 @@ fun DemoNavHost(navController: NavHostController) {
         composable(DemoNavigationRoute.Layout.route) {
             LayoutTestScreen()
         }
-        composable(DemoNavigationRoute.Layout.route) {
+        composable(DemoNavigationRoute.Theme.route) {
             ThemeTestScreen()
         }
     }
