@@ -172,7 +172,7 @@ fun ThemeTestScreen() {
                     text = color.toString(), modifier = Modifier
                         .fillMaxWidth()
                         .background(color)
-                        .padding(horizontal = 16.dp, vertical = 30.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
                 )
             }
         }
