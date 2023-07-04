@@ -58,7 +58,7 @@ fun BuyOrNotTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = BDSTypography,
         content = {
             CompositionLocalProvider() {
                 content.invoke()
