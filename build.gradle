@@ -42,6 +42,7 @@ ext {
     composeUi = "androidx.compose.ui:ui"
     composeUiGraphics = "androidx.compose.ui:ui-graphics"
     composeUiPreview = "androidx.compose.ui:ui-tooling-preview"
+    composeMaterial = "androidx.compose.material:material"
     composeMaterial3 = "androidx.compose.material3:material3"
     composeUiTest = "androidx.compose.ui:ui-test-junit4"
     composeUiTooling = "androidx.compose.ui:ui-tooling"
