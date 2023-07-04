@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ddd.component.BDSImage
 import com.ddd.component.ImageSize
-import com.ddd.component.theme.Grey100
+import com.ddd.component.theme.Gray100
 
 @Composable
 @Preview(showBackground = true)
@@ -37,7 +37,7 @@ fun ImageTestScreen() {
             resId = com.google.android.material.R.drawable.ic_clear_black_24,
             tintColor = White,
             modifier = Modifier
-                .background(color = Grey100, shape = CircleShape)
+                .background(color = Gray100, shape = CircleShape)
                 .size(24.dp),
         )
 
@@ -49,7 +49,7 @@ fun ImageTestScreen() {
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
-                .background(color = Grey100),
+                .background(color = Gray100),
         )
     }
 }

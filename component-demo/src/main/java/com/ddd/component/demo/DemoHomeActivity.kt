@@ -82,5 +82,16 @@ fun DemoHomeScreen(
                     .fillMaxWidth()
             )
         }
+        Button(
+            modifier = Modifier.padding(top = 8.dp),
+            onClick = {
+                navController.navigate(DemoNavigationRoute.Theme.route)
+            }) {
+            Text(
+                text = "Theme Test",
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
     }
 }

@@ -24,12 +24,15 @@ fun DemoNavHost(navController: NavHostController) {
         composable(DemoNavigationRoute.Layout.route) {
             LayoutTestScreen()
         }
+        composable(DemoNavigationRoute.Layout.route) {
+            ThemeTestScreen()
+        }
     }
 }
 
 internal sealed interface DemoNavigationRoute {
 
-    abstract val route: String
+    val route: String
 
     object Home : DemoNavigationRoute {
         override val route: String = "home"
@@ -45,5 +48,9 @@ internal sealed interface DemoNavigationRoute {
 
     object Layout : DemoNavigationRoute {
         override val route: String = "layout"
+    }
+
+    object Theme : DemoNavigationRoute {
+        override val route: String = "theme"
     }
 }
