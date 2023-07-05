@@ -108,10 +108,11 @@ fun DemoHomeScreen(
 
     if (openBottomSheet) {
         DemoBottomSheet(
-            onDismissRequest = { openBottomSheet = false}
+            onDismissRequest = { openBottomSheet = false }
         )
     }
 }
+
 
 @Composable
 @ExperimentalMaterial3Api
@@ -158,4 +159,3 @@ fun DemoBottomSheet(
             }
         }
     }
-}

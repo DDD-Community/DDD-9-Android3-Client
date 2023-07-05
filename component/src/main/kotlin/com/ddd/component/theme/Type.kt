@@ -10,17 +10,17 @@ import com.ddd.component.R
 
 internal val BDSKorFontFamily = FontFamily(
     Font(R.font.font_thin, FontWeight.Light),
-    Font(R.font.font_thin, FontWeight.Normal),
-    Font(R.font.font_thin, FontWeight.Normal, FontStyle.Italic),
-    Font(R.font.font_thin, FontWeight.Medium),
+    Font(R.font.font_regular, FontWeight.Normal),
+    Font(R.font.font_regular, FontWeight.Normal, FontStyle.Italic),
+    Font(R.font.font_regular, FontWeight.Medium),
     Font(R.font.font_semibold, FontWeight.SemiBold),
     Font(R.font.font_bold, FontWeight.Bold),
 )
 
 internal val BDSEngFontFamily = FontFamily(
     Font(R.font.font_thin_en, FontWeight.Light),
-    Font(R.font.font_thin_en, FontWeight.Normal),
-    Font(R.font.font_thin_en, FontWeight.Normal, FontStyle.Italic),
+    Font(R.font.font_regular_en, FontWeight.Normal),
+    Font(R.font.font_regular_en, FontWeight.Normal, FontStyle.Italic),
     Font(R.font.font_regular_en, FontWeight.Medium),
     Font(R.font.font_semibold_en, FontWeight.SemiBold),
     Font(R.font.font_bold_en, FontWeight.Bold),

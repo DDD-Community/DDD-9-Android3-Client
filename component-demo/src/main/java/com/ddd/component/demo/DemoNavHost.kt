@@ -24,6 +24,9 @@ fun DemoNavHost(navController: NavHostController) {
         composable(DemoNavigationRoute.Image.route) {
             ImageTestScreen()
         }
+        composable(DemoNavigationRoute.Layout.route) {
+            LayoutTestScreen()
+        }
     }
 }
 
@@ -41,5 +44,9 @@ internal sealed interface DemoNavigationRoute {
 
     object Image : DemoNavigationRoute {
         override val route: String = "image"
+    }
+
+    object Layout : DemoNavigationRoute {
+        override val route: String = "layout"
     }
 }
