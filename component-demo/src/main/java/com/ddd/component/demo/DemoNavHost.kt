@@ -1,11 +1,14 @@
 package com.ddd.component.demo
 
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
 @Composable
+@ExperimentalMaterial3Api
 fun DemoNavHost(navController: NavHostController) {
 
     NavHost(

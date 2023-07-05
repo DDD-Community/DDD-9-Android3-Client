@@ -57,6 +57,7 @@ dependencies {
     implementation rootProject.ext.composeUi
     implementation rootProject.ext.composeUiGraphics
     implementation rootProject.ext.composeUiPreview
+    implementation rootProject.ext.composeMaterial
     implementation rootProject.ext.composeMaterial3
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
     androidTestImplementation rootProject.ext.composeUiTest
