@@ -123,9 +123,11 @@ fun DemoBottomSheet(
         onDismissRequest = onDismissRequest,
         dragHandle = null
     ) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(224.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(224.dp)
+        ) {
             BDSText(
                 text = "상품을 삭제할까요?",
                 style = MaterialTheme.typography.titleLarge,
@@ -159,3 +161,4 @@ fun DemoBottomSheet(
             }
         }
     }
+}
