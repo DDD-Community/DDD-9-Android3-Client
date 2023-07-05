@@ -5,6 +5,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import com.ddd.component.R
 
 
@@ -39,45 +40,99 @@ sealed class BDSFontFamily {
 
 private val defaultTypography = Typography()
 
-/*
- * TODO : 크기, 행간 등은 디자인 시스템 나오면 적용할 예정
- */
-val Typography = Typography(
+val BDSTypography = Typography(
     displayLarge = defaultTypography.displayLarge.copy(
         fontFamily = BDSKorFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 36.sp,
+        lineHeight = 44.sp
     ),
     displayMedium = defaultTypography.displayMedium.copy(
         fontFamily = BDSKorFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 24.sp,
+        lineHeight = 32.sp
     ),
     displaySmall = defaultTypography.displaySmall.copy(
         fontFamily = BDSKorFontFamily,
-        fontWeight = FontWeight.SemiBold
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp,
+        lineHeight = 28.sp
     ),
 
-    headlineLarge = defaultTypography.headlineLarge.copy(fontFamily = BDSKorFontFamily),
-    headlineMedium = defaultTypography.headlineMedium.copy(fontFamily = BDSKorFontFamily),
-    headlineSmall = defaultTypography.headlineSmall.copy(fontFamily = BDSKorFontFamily),
+    headlineLarge = defaultTypography.headlineLarge.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        lineHeight = 26.sp
+    ),
+    headlineMedium = defaultTypography.headlineMedium.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 18.sp,
+        lineHeight = 26.sp
+    ),
+    headlineSmall = defaultTypography.headlineSmall.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    ),
 
     titleLarge = defaultTypography.titleLarge.copy(
         fontFamily = BDSKorFontFamily,
         fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
     ),
     titleMedium = defaultTypography.titleMedium.copy(
         fontFamily = BDSKorFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
     ),
     titleSmall = defaultTypography.titleSmall.copy(
         fontFamily = BDSKorFontFamily,
         fontWeight = FontWeight.SemiBold,
+        fontSize = 14.sp,
+        lineHeight = 22.sp
     ),
 
-    bodyLarge = defaultTypography.bodyLarge.copy(fontFamily = BDSKorFontFamily),
-    bodyMedium = defaultTypography.bodyMedium.copy(fontFamily = BDSKorFontFamily),
-    bodySmall = defaultTypography.bodySmall.copy(fontFamily = BDSKorFontFamily),
+    bodyLarge = defaultTypography.bodyLarge.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    ),
+    bodyMedium = defaultTypography.bodyMedium.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 22.sp
+    ),
+    bodySmall = defaultTypography.bodySmall.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 22.sp
+    ),
 
-    labelLarge = defaultTypography.labelLarge.copy(fontFamily = BDSKorFontFamily),
-    labelMedium = defaultTypography.labelMedium.copy(fontFamily = BDSKorFontFamily),
-    labelSmall = defaultTypography.labelSmall.copy(fontFamily = BDSKorFontFamily)
+    labelLarge = defaultTypography.labelLarge.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 20.sp
+    ),
+    labelMedium = defaultTypography.labelMedium.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 12.sp,
+        lineHeight = 20.sp
+    ),
+    labelSmall = defaultTypography.labelSmall.copy(
+        fontFamily = BDSKorFontFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 10.sp,
+        lineHeight = 18.sp
+    )
 )

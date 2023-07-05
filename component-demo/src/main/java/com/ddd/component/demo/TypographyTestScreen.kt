@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.ddd.component.BDSDivider
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSFontFamily
+import com.ddd.component.theme.BDSTypography
 
 @Composable
 @Preview
