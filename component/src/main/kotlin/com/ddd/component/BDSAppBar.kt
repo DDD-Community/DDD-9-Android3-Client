@@ -20,7 +20,7 @@ fun BDSAppBar(
     modifier: Modifier = Modifier,
     left: (@Composable () -> Unit)? = null,
     right: (@Composable () -> Unit)? = null,
-    title: String? = null,
+    center: (@Composable () -> Unit)? = null,
 ) {
     TopAppBar(
         modifier = Modifier
@@ -38,15 +38,12 @@ fun BDSAppBar(
                     left?.invoke()
                 }
 
-                BDSText(
-                    text = title ?: "",
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp,
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .fillMaxWidth()
-                )
+                Box(
+                    modifier = Modifier.align(Alignment.Center),
+                    contentAlignment = Alignment.Center
+                ) {
+                    center?.invoke()
+                }
 
                 Box(
                     modifier = Modifier.align(Alignment.CenterEnd),
@@ -56,6 +53,35 @@ fun BDSAppBar(
                 }
             }
         },
+    )
+}
+
+@Composable
+fun BDSAppBar(
+    modifier: Modifier = Modifier,
+    left: (@Composable () -> Unit)? = null,
+    right: (@Composable () -> Unit)? = null,
+    title: String? = null,
+) {
+    BDSAppBar(
+        modifier = modifier,
+        left = left,
+        right = right,
+        center = {
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                BDSText(
+                    text = title ?: "",
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .fillMaxWidth()
+                )
+            }
+        }
     )
 }
 

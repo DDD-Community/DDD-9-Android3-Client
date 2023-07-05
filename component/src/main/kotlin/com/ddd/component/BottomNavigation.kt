@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ddd.component.BottomNavigationItem.Companion.bottomNavigationItems
-import com.ddd.component.theme.Grey500
+import com.ddd.component.theme.Gray500
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +37,7 @@ fun BDSBottomNavigation(
                 modifier = Modifier.fillMaxWidth(),
                 tonalElevation = 8.dp,
                 containerColor = Color.White,
-                contentColor = Grey500,
+                contentColor = Gray500,
             ) {
                 bottomNavigationItems.forEach { item ->
                     NavigationBarItem(
