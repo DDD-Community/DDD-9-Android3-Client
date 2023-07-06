@@ -35,12 +35,14 @@ import com.ddd.component.theme.SlateGray600
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BDSBottomNavigation(
+    modifier: Modifier = Modifier,
     onClickTab: (BottomNavigationItem) -> Unit,
     content: @Composable () -> Unit,
 ) {
     var selectedItem by remember { mutableStateOf(bottomNavigationItems.first()) }
 
     Scaffold(
+        modifier = modifier,
         bottomBar = {
             Surface(
                 modifier = Modifier

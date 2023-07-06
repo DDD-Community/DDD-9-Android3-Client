@@ -34,9 +34,10 @@ fun BDSTabLayout(
 ) {
     TabRow(
         selectedTabIndex = selectedTabIndex,
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .height(49.dp),
+            .height(49.dp)
+            .then(modifier),
         contentColor = Black,
         divider = {
             BDSDivider(color = Gray200)
