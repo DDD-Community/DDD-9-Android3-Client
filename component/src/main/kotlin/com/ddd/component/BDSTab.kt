@@ -13,7 +13,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ddd.component.theme.Black
 import com.ddd.component.theme.Gray200
 import com.ddd.component.theme.Gray600
 import com.ddd.component.theme.Gray900
@@ -38,7 +37,6 @@ fun BDSTab(
             .fillMaxWidth()
             .height(49.dp)
             .then(modifier),
-        contentColor = Black,
         divider = {
             BDSDivider(color = Gray200)
         },
