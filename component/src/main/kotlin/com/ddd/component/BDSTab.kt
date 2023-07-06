@@ -20,13 +20,13 @@ import com.ddd.component.theme.Gray900
 import com.ddd.component.theme.Primary900
 
 /**
- * @param titles: 탭 이름
- * @param selectedTabIndex: 선택된 탭 인덱스
- * @param onTabSelected: 탭 선택 시 호출되는 콜백
+ * @param titles 탭 이름
+ * @param selectedTabIndex 선택된 탭 인덱스
+ * @param onTabSelected 탭 선택 시 호출되는 콜백
  */
 @ExperimentalMaterial3Api
 @Composable
-fun BDSTabLayout(
+fun BDSTab(
     modifier: Modifier = Modifier,
     titles: List<String>,
     selectedTabIndex: Int,

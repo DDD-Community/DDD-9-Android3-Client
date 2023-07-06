@@ -16,10 +16,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,15 +28,19 @@ import com.ddd.component.theme.Primary400
 import com.ddd.component.theme.SlateGray500
 import com.ddd.component.theme.SlateGray600
 
+/**
+ * @param selectedNavigationItem 선택된 탭
+ * @param onClickNavigationItem 탭 클릭 시 호출되는 콜백
+ * @param content 탭 내용
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BDSBottomNavigation(
+fun BDSBottomNavigationLayout(
     modifier: Modifier = Modifier,
-    onClickTab: (BottomNavigationItem) -> Unit,
+    selectedNavigationItem: BottomNavigationItem,
+    onClickNavigationItem: (BottomNavigationItem) -> Unit,
     content: @Composable () -> Unit,
 ) {
-    var selectedItem by remember { mutableStateOf(bottomNavigationItems.first()) }
-
     Scaffold(
         modifier = modifier,
         bottomBar = {
@@ -58,7 +58,7 @@ fun BDSBottomNavigation(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     bottomNavigationItems.forEach { item ->
-                        val isSelected = selectedItem == item
+                        val isSelected = selectedNavigationItem == item
 
                         Column(
                             modifier = Modifier
@@ -66,8 +66,7 @@ fun BDSBottomNavigation(
                                 .padding(vertical = 8.dp)
                                 .weight(1f)
                                 .clickableWithoutRipple {
-                                    selectedItem = item
-                                    onClickTab(item)
+                                    onClickNavigationItem(item)
                                 },
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
