@@ -1,27 +1,39 @@
 package com.ddd.component
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ddd.component.BottomNavigationItem.Companion.bottomNavigationItems
-import com.ddd.component.theme.Gray500
+import com.ddd.component.theme.Gray800
+import com.ddd.component.theme.Primary400
+import com.ddd.component.theme.SlateGray500
+import com.ddd.component.theme.SlateGray600
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,29 +45,58 @@ fun BDSBottomNavigation(
 
     Scaffold(
         bottomBar = {
-            NavigationBar(
-                modifier = Modifier.fillMaxWidth(),
-                tonalElevation = 8.dp,
-                containerColor = Color.White,
-                contentColor = Gray500,
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.White),
+                shadowElevation = 8.dp,
+                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             ) {
-                bottomNavigationItems.forEach { item ->
-                    NavigationBarItem(
-                        selected = selectedItem == item,
-                        icon = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .selectableGroup(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    bottomNavigationItems.forEach { item ->
+                        val isSelected = selectedItem == item
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .weight(1f)
+                                .clickableWithoutRipple {
+                                    selectedItem = item
+                                    onClickTab(item)
+                                },
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                        ) {
                             Icon(
+                                modifier = Modifier
+                                    .padding(bottom = 4.dp)
+                                    .size(
+                                        if (item is BottomNavigationItem.Add) 32.dp else 24.dp
+                                    ),
                                 painter = painterResource(id = item.icon),
-                                contentDescription = item.title
+                                contentDescription = item.title,
+                                tint = when {
+                                    item is BottomNavigationItem.Add -> Gray800
+                                    isSelected -> Primary400
+                                    else -> SlateGray500
+                                },
                             )
-                        },
-                        label = item.title?.let { text ->
-                            { Text(text = text) }
-                        },
-                        onClick = {
-                            selectedItem = item
-                            onClickTab(item)
+                            item.title?.let { text ->
+                                Text(
+                                    text = text,
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (isSelected) Primary400 else SlateGray600,
+                                )
+                            }
                         }
-                    )
+                    }
                 }
             }
         }) { padding ->
@@ -73,9 +114,9 @@ sealed class BottomNavigationItem(
     val route: String
 ) {
 
-    object Home : BottomNavigationItem("홈", android.R.drawable.ic_menu_manage, "home")
-    object Add : BottomNavigationItem(null, android.R.drawable.ic_menu_add, "add")
-    object Archive : BottomNavigationItem("아카이브", android.R.drawable.ic_menu_manage, "archive")
+    object Home : BottomNavigationItem("홈", R.drawable.ic_house, "home")
+    object Add : BottomNavigationItem(null, R.drawable.ic_add_in_circle, "add")
+    object Archive : BottomNavigationItem("아카이브", R.drawable.ic_heart_mono_fill, "archive")
 
     companion object {
         val bottomNavigationItems = listOf(
