@@ -13,10 +13,8 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -73,22 +70,22 @@ fun BDSBottomNavigation(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                         ) {
-                            Icon(
+                            BDSImage(
                                 modifier = Modifier
                                     .padding(bottom = 4.dp)
                                     .size(
                                         if (item is BottomNavigationItem.Add) 32.dp else 24.dp
                                     ),
-                                painter = painterResource(id = item.icon),
+                                resId = item.icon,
                                 contentDescription = item.title,
-                                tint = when {
+                                tintColor = when {
                                     item is BottomNavigationItem.Add -> Gray800
                                     isSelected -> Primary400
                                     else -> SlateGray500
                                 },
                             )
                             item.title?.let { text ->
-                                Text(
+                                BDSText(
                                     text = text,
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
