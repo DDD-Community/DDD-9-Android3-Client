@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W700
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.theme.Primary400
@@ -105,6 +106,7 @@ fun BDSArchiveItemCard(
                 if (archiveItem.discount != null) {
                     BDSText(
                         text = "${archiveItem.discount}% ",
+                        modifier = modifier.offset(0.dp, 2.dp),
                         color = Primary400,
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
