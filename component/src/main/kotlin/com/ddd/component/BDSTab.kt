@@ -13,10 +13,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ddd.component.theme.Gray200
-import com.ddd.component.theme.Gray600
-import com.ddd.component.theme.Gray900
-import com.ddd.component.theme.Primary900
+import com.ddd.component.theme.BDSColor.Gray200
+import com.ddd.component.theme.BDSColor.Gray600
+import com.ddd.component.theme.BDSColor.Gray900
+import com.ddd.component.theme.BDSColor.Primary900
 
 /**
  * @param titles 탭 이름
