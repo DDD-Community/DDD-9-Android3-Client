@@ -34,7 +34,7 @@ fun DemoNavHost(navController: NavHostController) {
             ItemCardTestScreen()
         }
         composable(DemoNavigationRoute.PostCard.route) {
-            ItemCardTestScreen()
+            PostCardTestScreen()
         }
     }
 }

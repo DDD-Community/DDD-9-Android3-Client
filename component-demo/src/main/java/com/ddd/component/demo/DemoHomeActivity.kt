@@ -173,6 +173,28 @@ fun DemoHomeScreen(
                         .fillMaxWidth()
                 )
             }
+            Button(
+                modifier = Modifier.padding(top = 8.dp),
+                onClick = {
+                    navController.navigate(DemoNavigationRoute.ItemCard.route)
+                }) {
+                Text(
+                    text = "ItemCard Test",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
+            Button(
+                modifier = Modifier.padding(top = 8.dp),
+                onClick = {
+                    navController.navigate(DemoNavigationRoute.PostCard.route)
+                }) {
+                Text(
+                    text = "PostCard Test",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
         }
 
         if (openBottomSheet) {
@@ -180,30 +202,7 @@ fun DemoHomeScreen(
                 onDismissRequest = { openBottomSheet = false }
             )
         }
-        Button(
-            modifier = Modifier.padding(top = 8.dp),
-            onClick = {
-                navController.navigate(DemoNavigationRoute.ItemCard.route)
-            }) {
-            Text(
-                text = "ItemCard Test",
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-        }
-        Button(
-            modifier = Modifier.padding(top = 8.dp),
-            onClick = {
-                navController.navigate(DemoNavigationRoute.ItemCard.route)
-            }) {
-            Text(
-                text = "ItemCard Test",
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-        }
     }
-
 }
 
 
