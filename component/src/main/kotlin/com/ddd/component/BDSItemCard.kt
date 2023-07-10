@@ -64,10 +64,11 @@ fun BDSArchiveItemCard(
         Column {
             BDSImage(
                 url = archiveItem.imageUrl, /*?: defaultImage*/
-                modifier = modifier
+                modifier = Modifier
                     .clip(RoundedCornerShape(4.dp))
-                    .background(color = Primary400),
-                size = ImageSize(164.dp, 164.dp),
+                    .background(color = Primary400)
+                    .size(164.dp, 164.dp)
+                    .then(modifier),
                 contentScale = ContentScale.FillBounds,
                 contentDescription = "image description"
             )
@@ -75,7 +76,7 @@ fun BDSArchiveItemCard(
                 Spacer(
                     modifier = modifier
                         .fillMaxWidth()
-                        .height(4.dp)
+                        .height(12.dp)
                 )
                 BDSText(
                     text = archiveItem.brand,
