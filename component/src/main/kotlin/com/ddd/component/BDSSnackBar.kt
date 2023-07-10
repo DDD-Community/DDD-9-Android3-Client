@@ -26,7 +26,7 @@ fun BDSSnackbar(
     actionOnNewLine: Boolean = false,
     shape: Shape = SnackbarDefaults.shape,
     containerColor: Color = Primary400,
-    contentColor: Color = SnackbarDefaults.contentColor,
+    contentColor: Color = White,
     actionContentColor: Color = SnackbarDefaults.actionContentColor,
     dismissActionContentColor: Color = SnackbarDefaults.dismissActionContentColor,
 ) {
@@ -46,8 +46,7 @@ fun BDSSnackbar(
             dismissActionContentColor = dismissActionContentColor
         ) {
             BDSText(
-                text = text,
-                color = White
+                text = text
             )
         }
     }
@@ -62,7 +61,7 @@ fun BDSSingleTextSnackbar(
     actionOnNewLine: Boolean = false,
     shape: Shape = SnackbarDefaults.shape,
     containerColor: Color = Gray800,
-    contentColor: Color = SnackbarDefaults.contentColor,
+    contentColor: Color = White,
     actionContentColor: Color = SnackbarDefaults.actionContentColor,
     dismissActionContentColor: Color = SnackbarDefaults.dismissActionContentColor,
 ) {
@@ -79,7 +78,6 @@ fun BDSSingleTextSnackbar(
             BDSText(
                 text = text,
                 modifier = modifier.fillMaxWidth(),
-                color = White,
                 textAlign = TextAlign.Center,
             )
         }
