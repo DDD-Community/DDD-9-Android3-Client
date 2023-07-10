@@ -115,6 +115,17 @@ fun DemoHomeScreen(
                     .fillMaxWidth()
             )
         }
+        Button(
+            modifier = Modifier.padding(top = 8.dp),
+            onClick = {
+                navController.navigate(DemoNavigationRoute.Layout.route)
+            }) {
+            Text(
+                text = "Layout Test",
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
     }
 
     if (openBottomSheet) {

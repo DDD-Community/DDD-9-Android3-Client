@@ -13,19 +13,12 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,15 +28,21 @@ import com.ddd.component.theme.Primary400
 import com.ddd.component.theme.SlateGray500
 import com.ddd.component.theme.SlateGray600
 
+/**
+ * @param selectedNavigationItem 선택된 탭
+ * @param onClickNavigationItem 탭 클릭 시 호출되는 콜백
+ * @param content 탭 내용
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BDSBottomNavigation(
-    onClickTab: (BottomNavigationItem) -> Unit,
+fun BDSBottomNavigationLayout(
+    modifier: Modifier = Modifier,
+    selectedNavigationItem: BottomNavigationItem,
+    onClickNavigationItem: (BottomNavigationItem) -> Unit,
     content: @Composable () -> Unit,
 ) {
-    var selectedItem by remember { mutableStateOf(bottomNavigationItems.first()) }
-
     Scaffold(
+        modifier = modifier,
         bottomBar = {
             Surface(
                 modifier = Modifier
@@ -59,7 +58,7 @@ fun BDSBottomNavigation(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     bottomNavigationItems.forEach { item ->
-                        val isSelected = selectedItem == item
+                        val isSelected = selectedNavigationItem == item
 
                         Column(
                             modifier = Modifier
@@ -67,28 +66,27 @@ fun BDSBottomNavigation(
                                 .padding(vertical = 8.dp)
                                 .weight(1f)
                                 .clickableWithoutRipple {
-                                    selectedItem = item
-                                    onClickTab(item)
+                                    onClickNavigationItem(item)
                                 },
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                         ) {
-                            Icon(
+                            BDSImage(
                                 modifier = Modifier
                                     .padding(bottom = 4.dp)
                                     .size(
                                         if (item is BottomNavigationItem.Add) 32.dp else 24.dp
                                     ),
-                                painter = painterResource(id = item.icon),
+                                resId = item.icon,
                                 contentDescription = item.title,
-                                tint = when {
+                                tintColor = when {
                                     item is BottomNavigationItem.Add -> Gray800
                                     isSelected -> Primary400
                                     else -> SlateGray500
                                 },
                             )
                             item.title?.let { text ->
-                                Text(
+                                BDSText(
                                     text = text,
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,

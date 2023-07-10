@@ -6,9 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.Modifier
-import com.ddd.component.BDSImage
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.ddd.component.BDSBottomNavigation
+import com.ddd.component.BDSImage
 import com.ddd.component.theme.BuyOrNotTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,14 +25,14 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxWidth(),
                         resId = R.drawable.kakao_login_medium_wide                    )
                 }
-                BDSBottomNavigation(
-                    onClickTab = {
+                /*BDSBottomNavigationLayout(
+                    onClickNavigationItem = {
                         // todo
                     },
                     content = {
                         // todo
                     }
-                )
+                )*/
             }
         }
     }
