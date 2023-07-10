@@ -33,6 +33,9 @@ fun DemoNavHost(navController: NavHostController) {
         composable(DemoNavigationRoute.ItemCard.route) {
             ItemCardTestScreen()
         }
+        composable(DemoNavigationRoute.PostCard.route) {
+            ItemCardTestScreen()
+        }
     }
 }
 
@@ -62,5 +65,8 @@ internal sealed interface DemoNavigationRoute {
 
     object ItemCard : DemoNavigationRoute {
         override val route: String = "itemCard"
+    }
+    object PostCard : DemoNavigationRoute {
+        override val route: String = "postCard"
     }
 }

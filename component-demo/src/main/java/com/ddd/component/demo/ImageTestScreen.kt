@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ddd.component.BDSImage
 import com.ddd.component.ImageSize
-import com.ddd.component.theme.Gray100
+import com.ddd.component.theme.BDSColor.Gray100
 
 @Composable
 @Preview(showBackground = true)

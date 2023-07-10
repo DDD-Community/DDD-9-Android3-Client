@@ -12,9 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ddd.component.theme.Gray800
-import com.ddd.component.theme.Primary400
-import com.ddd.component.theme.White
+import com.ddd.component.theme.BDSColor.Gray800
+import com.ddd.component.theme.BDSColor.Primary400
+import com.ddd.component.theme.BDSColor.White
 
 @Composable
 @ExperimentalMaterial3Api

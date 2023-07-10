@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ddd.component.theme.Gray400
+import com.ddd.component.theme.BDSColor.Gray400
 
 
 @Composable
