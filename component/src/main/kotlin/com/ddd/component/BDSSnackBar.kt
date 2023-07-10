@@ -30,7 +30,11 @@ fun BDSSnackbar(
     actionContentColor: Color = SnackbarDefaults.actionContentColor,
     dismissActionContentColor: Color = SnackbarDefaults.dismissActionContentColor,
 ) {
-    Box(modifier = modifier.padding(8.dp)) {
+    Box(
+        modifier = Modifier
+            .padding(8.dp)
+            .then(modifier)
+    ) {
         Snackbar(
             modifier = modifier,
             action = action,
