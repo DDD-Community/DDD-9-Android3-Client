@@ -30,6 +30,9 @@ fun DemoNavHost(navController: NavHostController) {
         composable(DemoNavigationRoute.Theme.route) {
             ThemeTestScreen()
         }
+        composable(DemoNavigationRoute.ItemCard.route) {
+            ItemCardTestScreen()
+        }
     }
 }
 
@@ -55,5 +58,9 @@ internal sealed interface DemoNavigationRoute {
 
     object Theme : DemoNavigationRoute {
         override val route: String = "theme"
+    }
+
+    object ItemCard : DemoNavigationRoute {
+        override val route: String = "itemCard"
     }
 }
