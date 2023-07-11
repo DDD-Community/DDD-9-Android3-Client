@@ -196,6 +196,17 @@ fun DemoHomeScreen(
                         .fillMaxWidth()
                 )
             }
+            Button(
+                modifier = Modifier.padding(top = 8.dp),
+                onClick = {
+                    navController.navigate(DemoNavigationRoute.ArchiveScreen.route)
+                }) {
+                Text(
+                    text = "ArchiveScreen Test",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
         }
         
         if (openBottomSheet) {
