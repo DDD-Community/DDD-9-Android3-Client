@@ -21,11 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.FontWeight.Companion.W700
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ddd.component.theme.Primary400
+import com.ddd.component.theme.BDSColor.Primary400
 import java.text.DecimalFormat
 
 // TODO: data class 위치 변경

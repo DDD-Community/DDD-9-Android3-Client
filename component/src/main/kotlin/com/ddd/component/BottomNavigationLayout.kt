@@ -23,10 +23,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.BottomNavigationItem.Companion.bottomNavigationItems
-import com.ddd.component.theme.Gray800
-import com.ddd.component.theme.Primary400
-import com.ddd.component.theme.SlateGray500
-import com.ddd.component.theme.SlateGray600
+import com.ddd.component.theme.BDSColor.Gray800
+import com.ddd.component.theme.BDSColor.Primary400
+import com.ddd.component.theme.BDSColor.SlateGray500
+import com.ddd.component.theme.BDSColor.SlateGray600
 
 /**
  * @param selectedNavigationItem 선택된 탭
