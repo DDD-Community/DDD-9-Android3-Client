@@ -15,7 +15,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.ExtraBold
 import androidx.compose.ui.unit.dp
@@ -32,6 +37,7 @@ import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
 import com.ddd.component.BDSBottomNavigationLayout
 import com.ddd.component.BDSDivider
+import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.BottomNavigationItem
 import com.ddd.component.theme.BDSColor.SlateGray300
@@ -72,9 +78,52 @@ fun ArchiveScreen() {
             "SWEATSHIRT FLOWERMARDI_OATME..",
             20f,
             67500
+        ), ArchiveItem(
+            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+            "마르디메르크디",
+            "SWEATSHIRT FLOWERMARDI_OATME..",
+            20f,
+            67500
+        ), ArchiveItem(
+            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+            "마르디메르크디",
+            "SWEATSHIRT FLOWERMARDI_OATME..",
+            20f,
+            67500
+        ), ArchiveItem(
+            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+            "마르디메르크디",
+            "SWEATSHIRT FLOWERMARDI_OATME..",
+            20f,
+            67500
+        ), ArchiveItem(
+            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+            "마르디메르크디",
+            "SWEATSHIRT FLOWERMARDI_OATME..",
+            20f,
+            67500
+        ), ArchiveItem(
+            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+            "마르디메르크디",
+            "SWEATSHIRT FLOWERMARDI_OATME..",
+            20f,
+            67500
+        ), ArchiveItem(
+            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+            "마르디메르크디",
+            "SWEATSHIRT FLOWERMARDI_OATME..",
+            20f,
+            67500
+        ), ArchiveItem(
+            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+            "마르디메르크디",
+            "SWEATSHIRT FLOWERMARDI_OATME..",
+            20f,
+            67500
         )
     )
 
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     var selectedBottomNavigation: BottomNavigationItem by remember { mutableStateOf(BottomNavigationItem.bottomNavigationItems[2]) }
     var isSelectMode: Boolean by remember { mutableStateOf(false) }
     var isEmpty: Boolean by remember { mutableStateOf(false) }
@@ -92,27 +141,26 @@ fun ArchiveScreen() {
                         }
                     )
                 } else {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(215.dp)
-                            .background(color = SlateGray300)
-                    ) {
-                        /*BDSImage(
-                            url =
-                        )*/
-                        BDSText(
-                            text = "아카이브함",
-                            modifier = Modifier.offset(x = 18.dp, y = 151.dp),
-                            color = SlateGray900,
-                            fontSize = 36.sp,
-                            lineHeight = 32.sp,
-                            fontWeight = ExtraBold
-                        )
-                    }
+                    LargeTopAppBar(
+                        title = {
+                            BDSText(
+                                text = "아카이브함",
+                                color = SlateGray900,
+                                fontSize = 36.sp,
+                                lineHeight = 32.sp,
+                                fontWeight = ExtraBold
+                            )
+                            // BDSImage(url = "")
+                        },
+                        colors = TopAppBarDefaults.largeTopAppBarColors(
+                            containerColor = SlateGray300
+                        ),
+                        scrollBehavior = scrollBehavior
+                    )
                 }
-            }
+            },
 
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
         ) { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {
                 Row(
