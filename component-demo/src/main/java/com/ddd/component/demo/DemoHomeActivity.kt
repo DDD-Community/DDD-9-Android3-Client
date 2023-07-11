@@ -38,6 +38,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.component.BDSBottomSheetLayout
 import com.ddd.component.BDSSnackbar
+import com.ddd.component.BDSSuggestBottomSheet
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSFontFamily
 import com.ddd.component.theme.BuyOrNotTheme
@@ -196,7 +197,7 @@ fun DemoHomeScreen(
                 )
             }
         }
-
+        
         if (openBottomSheet) {
             DemoBottomSheet(
                 onDismissRequest = { openBottomSheet = false }
@@ -211,46 +212,13 @@ fun DemoHomeScreen(
 fun DemoBottomSheet(
     onDismissRequest: () -> Unit
 ) {
-    BDSBottomSheetLayout(
+    BDSSuggestBottomSheet(
         onDismissRequest = onDismissRequest,
-        dragHandle = null
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(224.dp)
-        ) {
-            BDSText(
-                text = "상품을 삭제할까요?",
-                style = MaterialTheme.typography.titleLarge,
-                fontFamily = BDSFontFamily.English,
-                modifier = Modifier
-                    .offset(y = 52.dp)
-                    .align(Alignment.TopCenter)
-            )
-            BDSText(
-                text = "선택하신 상품을 정말 삭제하시겠어요?",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .offset(y = 86.dp)
-                    .align(Alignment.TopCenter)
-            )
-            Row(
-                modifier = Modifier
-                    .offset(y = 144.dp)
-                    .align(Alignment.TopCenter)
-            ) {
-                Button(onClick = { /*TODO*/ }) {
-                    BDSText(
-                        text = "취소"
-                    )
-                }
-                Button(onClick = { /*TODO*/ }) {
-                    BDSText(
-                        text = "삭제"
-                    )
-                }
-            }
-        }
-    }
+        title = "상품을 삭제할까요?",
+        subTitle = "선택하신 상품을 정말 삭제하시겠어요?",
+        cancel = "취소",
+        accept = "삭제",
+        onClickCancel = {},
+        onClickAccept = {}
+    )
 }
