@@ -25,9 +25,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ddd.component.theme.BDSAlpha.Alpha00
-import com.ddd.component.theme.BDSAlpha.Alpha66
-import com.ddd.component.theme.BDSAlpha.AlphaFC
 import com.ddd.component.theme.BDSColor.Primary400
 import java.text.DecimalFormat
 
