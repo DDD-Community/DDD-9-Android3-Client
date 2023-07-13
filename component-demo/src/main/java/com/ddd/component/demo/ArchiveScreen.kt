@@ -1,23 +1,22 @@
 package com.ddd.component.demo
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -27,7 +26,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.ExtraBold
 import androidx.compose.ui.unit.dp
@@ -43,8 +43,12 @@ import com.ddd.component.BottomNavigationItem
 import com.ddd.component.theme.BDSColor.SlateGray300
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray900
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
+@ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 fun ArchiveScreen() {
     val archiveItems = listOf(
@@ -128,11 +132,19 @@ fun ArchiveScreen() {
     var isSelectMode: Boolean by remember { mutableStateOf(false) }
     var isEmpty: Boolean by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier.fillMaxSize()
+    val state = rememberCollapsingToolbarScaffoldState()
+
+    BDSBottomNavigationLayout(
+        selectedNavigationItem = selectedBottomNavigation,
+        onClickNavigationItem = {
+            selectedBottomNavigation = it
+        }
     ) {
-        Scaffold(
-            topBar = {
+        CollapsingToolbarScaffold(
+            modifier = Modifier.fillMaxSize(),
+            state = state,
+            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+            toolbar = {
                 if (isSelectMode) {
                     BDSAppBar(
                         title = "상품 선택",
@@ -141,28 +153,40 @@ fun ArchiveScreen() {
                         }
                     )
                 } else {
-                    LargeTopAppBar(
-                        title = {
-                            BDSText(
-                                text = "아카이브함",
-                                color = SlateGray900,
-                                fontSize = 36.sp,
-                                lineHeight = 32.sp,
-                                fontWeight = ExtraBold
-                            )
-                            // BDSImage(url = "")
-                        },
-                        colors = TopAppBarDefaults.largeTopAppBarColors(
-                            containerColor = SlateGray300
-                        ),
-                        scrollBehavior = scrollBehavior
+                    val textSize = (18 + (30 - 18) * state.toolbarState.progress).sp
+                    val verticalPadding = (20 + (32 - 20) * state.toolbarState.progress).dp
+                    val imageAlpha = (1 * state.toolbarState.progress)
+
+                    Box(
+                        modifier = Modifier
+                            .background(color = SlateGray500)
+                            .fillMaxWidth()
+                            .height(183.dp)
+                            .pin()
+                    )
+                    BDSImage(
+                        url = "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+                        modifier = Modifier
+                            .height(183.dp)
+                            .parallax(0.8f)
+                            .alpha(imageAlpha),
+                        contentScale = ContentScale.Crop
+                    )
+                    BDSText(
+                        text = "아카이브함",
+                        modifier = Modifier
+                            .padding(horizontal = 18.dp)
+                            .padding(vertical = verticalPadding)
+                            .road(Alignment.Center, Alignment.BottomStart),
+                        color = SlateGray900,
+                        fontSize = textSize,
+                        lineHeight = 32.sp,
+                        fontWeight = ExtraBold
                     )
                 }
-            },
-
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-        ) { paddingValues ->
-            Column(modifier = Modifier.padding(paddingValues)) {
+            }
+        ) {
+            Column() {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -190,25 +214,29 @@ fun ArchiveScreen() {
                     modifier = Modifier.padding(horizontal = 16.dp),
                     color = SlateGray300
                 )
-                BDSBottomNavigationLayout(
-                    selectedNavigationItem = selectedBottomNavigation,
-                    onClickNavigationItem = {
-                        selectedBottomNavigation = it
-                    }
+                Spacer(modifier = Modifier.height(16.dp))
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(15.dp),
+                    verticalArrangement = Arrangement.spacedBy(18.dp)
                 ) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp),
-                        verticalArrangement = Arrangement.spacedBy(18.dp)
-                    ) {
-                        items(archiveItems) { archiveItem ->
-                            BDSArchiveItemCard(archiveItem = archiveItem)
-                        }
+                    items(archiveItems) { archiveItem ->
+                        BDSArchiveItemCard(
+                            archiveItem = archiveItem,
+                            modifier = Modifier.combinedClickable(
+                                onClick = {
+                                    /* VIP 이동 */
+                                },
+                                onLongClick = {
+                                    isSelectMode = !isSelectMode
+                                }
+                            ),
+                            isSelectMode = isSelectMode
+                        )
                     }
                 }
             }
         }
     }
-
 }
