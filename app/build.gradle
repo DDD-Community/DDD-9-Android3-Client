@@ -146,4 +146,6 @@ dependencies {
 
     // Lottie
     implementation rootProject.ext.lottie
+
+    implementation rootProject.ext.collapsingToolbar
 }
