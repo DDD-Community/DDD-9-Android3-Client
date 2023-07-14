@@ -209,6 +209,17 @@ fun DemoHomeScreen(
                         .fillMaxWidth()
                 )
             }
+            Button(
+                modifier = Modifier.padding(top = 8.dp),
+                onClick = {
+                    navController.navigate(DemoNavigationRoute.ProfileScreen.route)
+                }) {
+                Text(
+                    text = "ProfileScreen Test",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
         }
         
         if (openBottomSheet) {
