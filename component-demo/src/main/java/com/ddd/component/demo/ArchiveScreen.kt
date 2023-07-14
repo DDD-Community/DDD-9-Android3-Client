@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,12 +39,11 @@ import com.ddd.component.ArchiveItem
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
 import com.ddd.component.BDSBottomNavigationLayout
-import com.ddd.component.BDSDivider
+import com.ddd.component.BDSHeader
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.BottomNavigationItem
 import com.ddd.component.R
-import com.ddd.component.theme.BDSColor.SlateGray300
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray600
 import com.ddd.component.theme.BDSColor.SlateGray900
@@ -193,41 +191,38 @@ fun ArchiveScreen() {
             }
         ) {
             Column {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .padding(top = 19.dp, bottom = 12.dp)
-                        .align(alignment = Alignment.CenterHorizontally),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    BDSText(
-                        text = "담은 상품 ${archiveItems.size}",
-                        color = SlateGray500,
-                        fontSize = 12.sp,
-                        lineHeight = 14.sp,
-                        fontWeight = Bold,
-                    )
-                    BDSText(
-                        text = "편집",
-                        color = SlateGray900,
-                        fontSize = 12.sp,
-                        lineHeight = 18.sp,
-                        fontWeight = SemiBold
-                    )
-                }
-                BDSDivider(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    color = SlateGray300
+                BDSHeader(
+                    left = {
+                        BDSText(
+                            text = "담은 상품 ${archiveItems.size}",
+                            modifier = Modifier.padding(start = 4.dp, top = 19.dp),
+                            color = SlateGray500,
+                            fontSize = 12.sp,
+                            lineHeight = 14.sp,
+                            fontWeight = Bold,
+                        )
+                    },
+                    right = {
+                        BDSText(
+                            text = "편집",
+                            modifier = Modifier.padding(end = 4.dp, top = 19.dp),
+                            color = SlateGray900,
+                            fontSize = 12.sp,
+                            lineHeight = 18.sp,
+                            fontWeight = SemiBold
+                        )
+                    }
                 )
                 if (archiveItems.isEmpty()) {
-                    Spacer(modifier = Modifier.height(145.dp))
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
+                    Spacer(modifier = Modifier.height(132.dp))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
                     ) {
                         BDSImage(
                             resId = R.drawable.ic_archive,
-                            modifier = Modifier.size(77.dp)
+                            modifier = Modifier
+                                .size(77.dp)
                                 .align(Alignment.Center)
                         )
                     }
@@ -252,7 +247,7 @@ fun ArchiveScreen() {
                         textAlign = TextAlign.Center
                     )
                 } else {
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         contentPadding = PaddingValues(start = 16.dp, end = 16.dp),

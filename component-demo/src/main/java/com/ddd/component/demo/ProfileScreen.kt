@@ -1,6 +1,5 @@
 package com.ddd.component.demo
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,8 +21,10 @@ import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.BDSDivider
+import com.ddd.component.BDSHeader
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
+import com.ddd.component.BodyView
 import com.ddd.component.theme.BDSColor.Red
 import com.ddd.component.theme.BDSColor.SlateGray300
 import com.ddd.component.theme.BDSColor.SlateGray700
@@ -53,7 +54,18 @@ fun ProfileScreen() {
             fontWeight = SemiBold,
             color = SlateGray900
         )
-        HeaderView("내 글 관리")
+        BDSHeader(
+            left = {
+                BDSText(
+                    text = "내 글 관리",
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontSize = 12.sp,
+                    lineHeight = 14.sp,
+                    fontWeight = Bold,
+                    color = SlateGray700
+                )
+            }
+        )
         BodyView(
             left = {
                 BDSText(
@@ -72,7 +84,18 @@ fun ProfileScreen() {
             }
         )
         Spacer(modifier = Modifier.height(42.dp))
-        HeaderView(text = "내 정보 관리")
+        BDSHeader(
+            left = {
+                BDSText(
+                    text = "내 정보 관리",
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontSize = 12.sp,
+                    lineHeight = 14.sp,
+                    fontWeight = Bold,
+                    color = SlateGray700
+                )
+            }
+        )
         BodyView(
             left = {
                 BDSText(
@@ -106,38 +129,3 @@ fun ProfileScreen() {
     )
 }
 
-@Composable
-fun HeaderView(text: String) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-    ) {
-        BDSText(
-            text = text,
-            fontSize = 12.sp,
-            lineHeight = 14.sp,
-            fontWeight = Bold,
-            color = SlateGray700
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        BDSDivider(color = SlateGray300)
-        Spacer(modifier = Modifier.height(12.dp))
-    }
-}
-
-@Composable
-fun BodyView(
-    left: @Composable (() -> Unit)? = null,
-    right: @Composable (() -> Unit)? = null
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 13.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        left?.invoke()
-        right?.invoke()
-    }
-}
