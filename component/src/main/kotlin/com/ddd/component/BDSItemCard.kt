@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -18,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -38,38 +40,47 @@ data class ArchiveItem(
 @Composable
 fun BDSArchiveItemCard(
     archiveItem: ArchiveItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isSelectMode: Boolean = false
 ) {
-    var isSelectMode by remember { mutableStateOf(false) }
     var isSelect by remember { mutableStateOf(false) }
 
     Box(
         modifier
             .size(164.dp, 260.dp)
-            .clickable {
-                isSelectMode = true
-            }
     ) {
         // TODO: BDSButton 추가되면 수정
-        if (isSelectMode) {
+        /*if (isSelectMode) {
             BDSButton(
                 onClick = {
                     isSelect = !isSelect
                 }
             )
-        }
+        }*/
 
         Column {
-            BDSImage(
-                url = archiveItem.imageUrl, /*?: defaultImage*/
+            Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(4.dp))
-                    .background(color = Primary400)
                     .size(164.dp, 164.dp)
-                    .then(modifier),
-                contentScale = ContentScale.FillBounds,
-                contentDescription = "image description"
-            )
+            ) {
+                BDSImage(
+                    resId = R.drawable.ic_app_logo_sample, /*?: defaultImage*/
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .then(modifier),
+                    contentScale = ContentScale.FillBounds,
+                    contentDescription = "image description"
+                )
+                if (isSelect) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .alpha(0.4f)
+                            .background(color = Primary400)
+                    )
+                }
+            }
             if (archiveItem.brand != null) {
                 Spacer(
                     modifier = modifier

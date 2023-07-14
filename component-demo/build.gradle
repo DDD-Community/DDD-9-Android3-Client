@@ -72,4 +72,5 @@ dependencies {
     implementation rootProject.ext.lifecycleRuntime
 
     implementation rootProject.ext.coil
+    implementation rootProject.ext.collapsingToolbar
 }
