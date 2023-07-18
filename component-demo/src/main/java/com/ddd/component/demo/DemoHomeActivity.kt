@@ -5,13 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -32,16 +28,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.ddd.component.BDSBottomSheetLayout
-import com.ddd.component.BDSSnackbar
+import com.ddd.component.BDSIconSnackbar
 import com.ddd.component.BDSSuggestBottomSheet
-import com.ddd.component.BDSText
-import com.ddd.component.theme.BDSFontFamily
 import com.ddd.component.theme.BuyOrNotTheme
 import kotlinx.coroutines.launch
 
@@ -84,7 +77,7 @@ fun DemoHomeScreen(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = {
             SnackbarHost(snackbarHostState) {
-                BDSSnackbar(
+                /*BDSSnackbar(
                     text = "내 글에 43명이 투표했어요!",
                     action = {
                         Button(
@@ -93,10 +86,14 @@ fun DemoHomeScreen(
                             BDSText("바로가기")
                         }
                     }
-                )
+                )*/
                 /*BDSSingleTextSnackbar(
                     text = "아카이브함에서 상품을 삭제했어요"
                 )*/
+                BDSIconSnackbar(
+                    text = "클립보드의 상품 링크를 탐지했어요.",
+                    icon = painterResource(id = com.ddd.component.R.drawable.ic_noti)
+                )
             }
         }
     ) {
