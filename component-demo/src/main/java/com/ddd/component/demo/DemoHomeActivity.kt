@@ -33,8 +33,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.ddd.component.BDSAlertDialog
 import com.ddd.component.BDSIconSnackbar
-import com.ddd.component.BDSSuggestBottomSheet
+import com.ddd.component.BDSConfirmDialog
 import com.ddd.component.theme.BuyOrNotTheme
 import kotlinx.coroutines.launch
 
@@ -218,7 +219,7 @@ fun DemoHomeScreen(
                 )
             }
         }
-        
+
         if (openBottomSheet) {
             DemoBottomSheet(
                 onDismissRequest = { openBottomSheet = false }
@@ -233,7 +234,7 @@ fun DemoHomeScreen(
 fun DemoBottomSheet(
     onDismissRequest: () -> Unit
 ) {
-    BDSSuggestBottomSheet(
+    /*BDSConfirmDialog(
         onDismissRequest = onDismissRequest,
         title = "상품을 삭제할까요?",
         subTitle = "선택하신 상품을 정말 삭제하시겠어요?",
@@ -241,5 +242,12 @@ fun DemoBottomSheet(
         accept = "삭제",
         onClickCancel = {},
         onClickAccept = {}
+    )*/
+    BDSAlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = "text",
+        subTitle = "text",
+        alert = "text",
+        onClickAlert = {}
     )
 }
