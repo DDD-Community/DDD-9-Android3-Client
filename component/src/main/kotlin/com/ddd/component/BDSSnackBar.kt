@@ -15,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ddd.component.theme.BDSColor.Gray800
 import com.ddd.component.theme.BDSColor.Primary400
 import com.ddd.component.theme.BDSColor.White
@@ -51,7 +53,10 @@ fun BDSSnackbar(
             dismissActionContentColor = dismissActionContentColor
         ) {
             BDSText(
-                text = text
+                text = text,
+                fontSize = 12.sp,
+                lineHeight = 18.sp,
+                fontWeight = SemiBold
             )
         }
     }
@@ -83,6 +88,9 @@ fun BDSSingleTextSnackbar(
             BDSText(
                 text = text,
                 modifier = modifier.fillMaxWidth(),
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                fontWeight = SemiBold,
                 textAlign = TextAlign.Center,
             )
         }
@@ -113,11 +121,18 @@ fun BDSIconSnackbar(
             dismissActionContentColor = dismissActionContentColor,
         ) {
             Row() {
-                Icon(icon, "")
+                Icon(
+                    painter = icon,
+                    contentDescription = "",
+                    modifier = Modifier.padding(1.dp)
+                )
                 Spacer(modifier = Modifier.width(8.dp))
                 BDSText(
+                    modifier = modifier.fillMaxWidth(),
                     text = text,
-                    modifier = modifier.fillMaxWidth()
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    fontWeight = SemiBold
                 )
             }
         }
