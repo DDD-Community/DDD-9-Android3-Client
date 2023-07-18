@@ -27,8 +27,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SubActivity"
-            android:exported="true" >
+        <activity
+            android:name=".add_vote.AddNewVoteActivity"
+            android:exported="true"
+            android:theme="@style/Theme.BuyOrNot" />
+
+        <activity
+            android:name=".SubActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -45,13 +51,17 @@
         </service>
 
         <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth"-->
-        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="oauth"
+
+                <data
+                    android:host="oauth"
                     android:scheme="${KAKAO_OAUTH_HOST_SCHEME}" />
             </intent-filter>
         </activity>

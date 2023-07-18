@@ -114,6 +114,7 @@ dependencies {
     implementation rootProject.ext.viewModel
     // ViewModel utilities for Compose
     implementation rootProject.ext.viewModelCompose
+    implementation rootProject.ext.navigationCompose
     // LiveData
     implementation rootProject.ext.liveData
     // Lifecycles only (without ViewModel or LiveData)
