@@ -104,4 +104,5 @@ ext {
     coil = "io.coil-kt:coil-compose:2.4.0"
 
     collapsingToolbar = "me.onebone:toolbar-compose:2.3.5"
+    bottomSheetDialog = "com.holix.android:bottomsheetdialog-compose:1.2.1"
 }
