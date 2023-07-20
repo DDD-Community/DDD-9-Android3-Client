@@ -85,6 +85,41 @@ fun BDSBottomSheetLayout(
 }*/
 
 @Composable
+fun BDSBottomSheet(
+    onDismissRequest: () -> Unit = { },
+    properties: BottomSheetDialogProperties = BottomSheetDialogProperties(
+        behaviorProperties = BottomSheetBehaviorProperties(
+            state = BottomSheetBehaviorProperties.State.Expanded,
+            isDraggable = false
+        )
+    ),
+    headerContent: (() -> Unit)? = null,
+    bodyContent: (() -> Unit)? = null,
+    bottomContent: (() -> Unit)? = null
+) {
+    BottomSheetDialog(
+        onDismissRequest = onDismissRequest,
+        properties = properties,
+    ) {
+        Column(
+            modifier = Modifier
+                .wrapContentHeight()
+                .background(
+                color = Color.White,
+                shape = RoundedCornerShape(
+                    topStart = 16.dp,
+                    topEnd = 16.dp
+                )
+            )
+        ) {
+            headerContent?.invoke()
+            bodyContent?.invoke()
+            bottomContent?.invoke()
+        }
+    }
+}
+
+@Composable
 fun BDSBottomSheetPostList(
     onDismissRequest: () -> Unit = { },
     properties: BottomSheetDialogProperties = BottomSheetDialogProperties(
