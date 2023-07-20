@@ -5,9 +5,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
@@ -31,9 +35,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.component.BDSAlertDialog
@@ -45,6 +52,7 @@ import com.ddd.component.BDSIconSnackbar
 import com.ddd.component.BDSPostCard
 import com.ddd.component.BDSText
 import com.ddd.component.PostItem
+import com.ddd.component.theme.BDSColor.SlateGray900
 import com.ddd.component.theme.BuyOrNotTheme
 import kotlinx.coroutines.launch
 
@@ -272,7 +280,7 @@ fun DemoDialog(
 fun DemoBottomSheet(
     onDismissRequest: () -> Unit
 ) {
-    val postItemList = listOf(
+    /*val postItemList = listOf(
         PostItem(
             imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
             title = "이제 레인부츠 사려는데 어떤걸 ...",
@@ -328,7 +336,9 @@ fun DemoBottomSheet(
             title = "이제 레인부츠 사려는데 어떤걸 ...",
             isPublic = false
         )
-    )
+    )*/
+
+    val postItemList: List<PostItem>? = null
 
     BDSBottomSheet(
         onDismissRequest = onDismissRequest,
@@ -350,8 +360,23 @@ fun DemoBottomSheet(
             )
         },
         bodyContent = {
-            if (postItemList.isEmpty()) {
-
+            if (postItemList.isNullOrEmpty()) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(23.5.dp))
+                    Icon(painter = painterResource(id = com.ddd.component.R.drawable.ic_content_empty), contentDescription = "")
+                    Spacer(modifier = Modifier.height(23.5.dp))
+                    BDSText(
+                        text = "앗, 만들어진 투표가 없어요!",
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = SemiBold,
+                        color = SlateGray900
+                    )
+                    Spacer(modifier = Modifier.height(23.5.dp))
+                }
             } else {
                 LazyColumn() {
                     items(postItemList) { postItem ->
