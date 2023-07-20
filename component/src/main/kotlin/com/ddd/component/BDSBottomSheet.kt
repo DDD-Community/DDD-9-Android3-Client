@@ -4,9 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -50,28 +54,50 @@ fun BDSBottomSheet(
             isDraggable = false
         )
     ),
-    headerContent: (() -> Unit)? = null,
-    bodyContent: (() -> Unit)? = null,
-    bottomContent: (() -> Unit)? = null
+    headerContent: @Composable (() -> Unit)? = null,
+    bodyContent: @Composable (() -> Unit)? = null,
+    bottomContent: @Composable (() -> Unit)? = null
 ) {
+    /*
+        이유는 모르겠으나 얘는 wrapContentHeight와 최대 높이 지정이 안됨. 매우 유감
+     */
     BottomSheetDialog(
         onDismissRequest = onDismissRequest,
         properties = properties,
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .wrapContentHeight()
+                .fillMaxHeight(0.9f)
                 .background(
-                color = Color.White,
-                shape = RoundedCornerShape(
-                    topStart = 16.dp,
-                    topEnd = 16.dp
+                    color = Color.White,
+                    shape = RoundedCornerShape(
+                        topStart = 16.dp,
+                        topEnd = 16.dp
+                    )
                 )
-            )
         ) {
-            headerContent?.invoke()
-            bodyContent?.invoke()
-            bottomContent?.invoke()
+            val context = LocalContext.current
+            var bottomHeight by remember { mutableStateOf(0) }
+
+            Column {
+                headerContent?.invoke()
+                Box(
+                    modifier = Modifier
+                        .padding(bottom = bottomHeight.pxToDp())
+                ) {
+                    bodyContent?.invoke()
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .onGloballyPositioned { layoutCoordinates ->
+                        bottomHeight = layoutCoordinates.size.height
+                    }
+                    .align(Alignment.BottomStart)
+            ) {
+                bottomContent?.invoke()
+            }
         }
     }
 }

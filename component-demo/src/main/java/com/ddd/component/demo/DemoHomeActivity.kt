@@ -8,7 +8,11 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -35,13 +39,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.component.BDSAlertDialog
+import com.ddd.component.BDSBottomSheet
 import com.ddd.component.BDSBottomSheetHeader
 import com.ddd.component.BDSBottomSheetHorizontalDualButton
 import com.ddd.component.BDSBottomSheetPostList
 import com.ddd.component.BDSButton
 import com.ddd.component.BDSIconSnackbar
+import com.ddd.component.BDSPostCard
 import com.ddd.component.BDSText
 import com.ddd.component.PostItem
+import com.ddd.component.pxToDp
 import com.ddd.component.theme.BuyOrNotTheme
 import kotlinx.coroutines.launch
 
@@ -269,6 +276,106 @@ fun DemoDialog(
 fun DemoBottomSheet(
     onDismissRequest: () -> Unit
 ) {
+    val postItemList = listOf(
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        ),
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        ),
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        ),
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        ),
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        ),
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        ),
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        ),
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        ),
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        ),
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        ),
+        PostItem(
+            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            title = "이제 레인부츠 사려는데 어떤걸 ...",
+            isPublic = false
+        )
+    )
+
+    /*BDSBottomSheet(
+        onDismissRequest = onDismissRequest,
+        headerContent = {
+            BDSBottomSheetHeader(
+                left = {
+                    BDSButton {
+
+                    }
+                },
+                center = {
+                    BDSText(text = "투표 올리기")
+                },
+                right = {
+                    BDSButton {
+
+                    }
+                }
+            )
+        },
+        bodyContent = {
+            LazyColumn() {
+                items(postItemList) { postItem ->
+                    BDSPostCard(postItem = postItem)
+                }
+            }
+        },
+        bottomContent = {
+            BDSBottomSheetHorizontalDualButton(
+                confirmButton = {
+                    BDSButton {
+
+                    }
+                },
+                cancelButton = {
+                    BDSButton {
+
+                    }
+                }
+            )
+        }
+    )*/
+
     BDSBottomSheetPostList(
         onDismissRequest = onDismissRequest,
         headerContent = {
@@ -302,62 +409,6 @@ fun DemoBottomSheet(
                 }
             )
         },
-        postItemList = listOf(
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            ),
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            ),
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            ),
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            ),
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            ),
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            ),
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            ),
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            ),
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            ),
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            ),
-            PostItem(
-                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                title = "이제 레인부츠 사려는데 어떤걸 ...",
-                isPublic = false
-            )
-        )
+        postItemList = postItemList
     )
 }
