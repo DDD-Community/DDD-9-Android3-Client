@@ -8,9 +8,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -42,13 +40,11 @@ import com.ddd.component.BDSAlertDialog
 import com.ddd.component.BDSBottomSheet
 import com.ddd.component.BDSBottomSheetHeader
 import com.ddd.component.BDSBottomSheetHorizontalDualButton
-import com.ddd.component.BDSBottomSheetPostList
 import com.ddd.component.BDSButton
 import com.ddd.component.BDSIconSnackbar
 import com.ddd.component.BDSPostCard
 import com.ddd.component.BDSText
 import com.ddd.component.PostItem
-import com.ddd.component.pxToDp
 import com.ddd.component.theme.BuyOrNotTheme
 import kotlinx.coroutines.launch
 
@@ -334,7 +330,7 @@ fun DemoBottomSheet(
         )
     )
 
-    /*BDSBottomSheet(
+    BDSBottomSheet(
         onDismissRequest = onDismissRequest,
         headerContent = {
             BDSBottomSheetHeader(
@@ -354,9 +350,13 @@ fun DemoBottomSheet(
             )
         },
         bodyContent = {
-            LazyColumn() {
-                items(postItemList) { postItem ->
-                    BDSPostCard(postItem = postItem)
+            if (postItemList.isEmpty()) {
+
+            } else {
+                LazyColumn() {
+                    items(postItemList) { postItem ->
+                        BDSPostCard(postItem = postItem)
+                    }
                 }
             }
         },
@@ -374,41 +374,5 @@ fun DemoBottomSheet(
                 }
             )
         }
-    )*/
-
-    BDSBottomSheetPostList(
-        onDismissRequest = onDismissRequest,
-        headerContent = {
-            BDSBottomSheetHeader(
-                left = {
-                    BDSButton {
-
-                    }
-                },
-                center = {
-                    BDSText(text = "투표 올리기")
-                },
-                right = {
-                    BDSButton {
-
-                    }
-                }
-            )
-        },
-        buttonContent = {
-            BDSBottomSheetHorizontalDualButton(
-                confirmButton = {
-                    BDSButton {
-
-                    }
-                },
-                cancelButton = {
-                    BDSButton {
-
-                    }
-                }
-            )
-        },
-        postItemList = postItemList
     )
 }
