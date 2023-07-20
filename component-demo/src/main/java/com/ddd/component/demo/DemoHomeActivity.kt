@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -34,8 +35,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.component.BDSAlertDialog
+import com.ddd.component.BDSBottomSheetHeader
+import com.ddd.component.BDSBottomSheetHorizontalDualButton
+import com.ddd.component.BDSBottomSheetPostList
+import com.ddd.component.BDSButton
 import com.ddd.component.BDSIconSnackbar
-import com.ddd.component.BDSConfirmDialog
+import com.ddd.component.BDSText
+import com.ddd.component.PostItem
 import com.ddd.component.theme.BuyOrNotTheme
 import kotlinx.coroutines.launch
 
@@ -66,10 +72,10 @@ fun DemoHomeScreen(
     navController: NavHostController
 ) {
     val scrollState = rememberScrollState()
-    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-    var skipPartiallyExpanded by remember { mutableStateOf(false) }
+    var openDialog by rememberSaveable { mutableStateOf(false) }
+    var skipPartiallyExpanded by remember { mutableStateOf(true) }
     val bottomSheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = skipPartiallyExpanded
+        skipPartiallyExpanded = true
     )
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -128,10 +134,10 @@ fun DemoHomeScreen(
             Button(
                 modifier = Modifier.padding(top = 8.dp),
                 onClick = {
-                    openBottomSheet = !openBottomSheet
+                    openDialog = !openDialog
                 }) {
                 Text(
-                    text = "BottomSheet Test",
+                    text = "Dialog Test",
                     modifier = Modifier
                         .fillMaxWidth()
                 )
@@ -220,9 +226,13 @@ fun DemoHomeScreen(
             }
         }
 
-        if (openBottomSheet) {
+        if (openDialog) {
+            /*DemoDialog(
+                onDismissRequest = { openDialog = false },
+                sheetState = bottomSheetState
+            )*/
             DemoBottomSheet(
-                onDismissRequest = { openBottomSheet = false }
+                onDismissRequest = { openDialog = false }
             )
         }
     }
@@ -231,8 +241,9 @@ fun DemoHomeScreen(
 
 @Composable
 @ExperimentalMaterial3Api
-fun DemoBottomSheet(
-    onDismissRequest: () -> Unit
+fun DemoDialog(
+    onDismissRequest: () -> Unit,
+    sheetState: SheetState
 ) {
     /*BDSConfirmDialog(
         onDismissRequest = onDismissRequest,
@@ -245,9 +256,108 @@ fun DemoBottomSheet(
     )*/
     BDSAlertDialog(
         onDismissRequest = onDismissRequest,
+        sheetState = sheetState,
         title = "text",
         subTitle = "text",
         alert = "text",
         onClickAlert = {}
+    )
+}
+
+@Composable
+@ExperimentalMaterial3Api
+fun DemoBottomSheet(
+    onDismissRequest: () -> Unit
+) {
+    BDSBottomSheetPostList(
+        onDismissRequest = onDismissRequest,
+        headerContent = {
+            BDSBottomSheetHeader(
+                left = {
+                    BDSButton {
+
+                    }
+                },
+                center = {
+                    BDSText(text = "투표 올리기")
+                },
+                right = {
+                    BDSButton {
+
+                    }
+                }
+            )
+        },
+        buttonContent = {
+            BDSBottomSheetHorizontalDualButton(
+                confirmButton = {
+                    BDSButton {
+
+                    }
+                },
+                cancelButton = {
+                    BDSButton {
+
+                    }
+                }
+            )
+        },
+        postItemList = listOf(
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            ),
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            ),
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            ),
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            ),
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            ),
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            ),
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            ),
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            ),
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            ),
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            ),
+            PostItem(
+                imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                title = "이제 레인부츠 사려는데 어떤걸 ...",
+                isPublic = false
+            )
+        )
     )
 }
