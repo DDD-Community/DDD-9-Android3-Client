@@ -39,8 +39,8 @@ fun DemoNavHost(navController: NavHostController) {
             PostCardTestScreen()
         }
         composable(DemoNavigationRoute.ArchiveScreen.route) {
-            ArchiveScreen()
-            // ArchiveEditScreen()
+            // ArchiveScreen()
+            ArchiveEditScreen()
         }
         composable(DemoNavigationRoute.ProfileScreen.route) {
             ProfileScreen()

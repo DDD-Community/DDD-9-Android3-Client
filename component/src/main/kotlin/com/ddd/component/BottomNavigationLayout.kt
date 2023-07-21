@@ -151,7 +151,7 @@ fun BDSEditBottomNavigationLayout(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp)
+                                .padding(top = 8.dp, bottom = 30.dp)
                                 .weight(1f)
                                 .clickableWithoutRipple(
                                     enabled = clickEnabled,
