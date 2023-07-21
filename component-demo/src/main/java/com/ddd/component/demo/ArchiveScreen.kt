@@ -1,5 +1,6 @@
 package com.ddd.component.demo
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.font.FontWeight.Companion.ExtraBold
@@ -43,9 +45,12 @@ import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.BottomNavigationItem
 import com.ddd.component.R
+import com.ddd.component.theme.BDSColor.Gray900
+import com.ddd.component.theme.BDSColor.SlateGray100
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray600
 import com.ddd.component.theme.BDSColor.SlateGray900
+import com.ddd.component.theme.BDSColor.White
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -147,24 +152,30 @@ fun ArchiveScreen() {
             state = state,
             scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
             toolbar = {
-                val textSize = (18 + (30 - 18) * state.toolbarState.progress).sp
+                val textSize = (18 + (36 - 18) * state.toolbarState.progress).sp
                 val verticalPadding = (20 + (32 - 20) * state.toolbarState.progress).dp
                 val imageAlpha = (1 * state.toolbarState.progress)
+                val color: Color by animateColorAsState(
+                    if (state.toolbarState.progress > 0.5f) {
+                        SlateGray100
+                    } else {
+                        Gray900
+                    }
+                )
 
                 Box(
                     modifier = Modifier
-                        .background(color = SlateGray500)
+                        .background(color = White)
                         .fillMaxWidth()
                         .height(183.dp)
                         .pin()
                 )
                 BDSImage(
-                    url = "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+                    resId = com.ddd.component.demo.R.drawable.bg_archive,
                     modifier = Modifier
-                        .height(183.dp)
                         .parallax(0.8f)
-                        .alpha(imageAlpha),
-                    contentScale = ContentScale.Crop
+                        .height(183.dp)
+                        .alpha(imageAlpha)
                 )
                 BDSText(
                     text = "아카이브함",
@@ -172,7 +183,7 @@ fun ArchiveScreen() {
                         .padding(horizontal = 18.dp)
                         .padding(vertical = verticalPadding)
                         .road(Alignment.Center, Alignment.BottomStart),
-                    color = SlateGray900,
+                    color = color,
                     fontSize = textSize,
                     lineHeight = 32.sp,
                     fontWeight = ExtraBold
