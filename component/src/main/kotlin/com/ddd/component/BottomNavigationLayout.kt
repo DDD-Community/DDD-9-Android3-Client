@@ -127,7 +127,7 @@ sealed class BottomNavigationItem(
 }
 
 @Composable
-fun BDSPostBottomNavigationLayout(
+fun BDSEditBottomNavigationLayout(
     modifier: Modifier = Modifier,
     selectedNavigationItem: BottomNavigationItem,
     onClickNavigationItem: (BottomNavigationItem) -> Unit,
@@ -148,7 +148,7 @@ fun BDSPostBottomNavigationLayout(
                         .selectableGroup(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    PostBottomNavigationItem.bottomNavigationItems.forEach { item ->
+                    EditBottomNavigationItem.bottomNavigationItems.forEach { item ->
                         val enable = true
 
                         Column(
@@ -192,7 +192,7 @@ fun BDSPostBottomNavigationLayout(
     }
 }
 
-sealed class PostBottomNavigationItem(
+sealed class EditBottomNavigationItem(
     val title: String? = null,
     @DrawableRes val icon: Int,
     val route: String
