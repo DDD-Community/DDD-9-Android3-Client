@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.BottomNavigationItem.Companion.bottomNavigationItems
+import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.Gray800
 import com.ddd.component.theme.BDSColor.Primary400
 import com.ddd.component.theme.BDSColor.SlateGray500
@@ -121,6 +122,88 @@ sealed class BottomNavigationItem(
             Home,
             Add,
             Archive
+        )
+    }
+}
+
+@Composable
+fun BDSPostBottomNavigationLayout(
+    modifier: Modifier = Modifier,
+    selectedNavigationItem: BottomNavigationItem,
+    onClickNavigationItem: (BottomNavigationItem) -> Unit,
+    content: @Composable () -> Unit,
+) {
+    Scaffold(
+        modifier = modifier,
+        bottomBar = {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Primary400),
+                shadowElevation = 8.dp,
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .selectableGroup(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    PostBottomNavigationItem.bottomNavigationItems.forEach { item ->
+                        val enable = true
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .weight(1f)
+                                .clickableWithoutRipple(
+                                    enabled = enable,
+                                    onClick = { onClickNavigationItem(item) }
+                                ),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                        ) {
+                            BDSImage(
+                                modifier = Modifier
+                                    .padding(bottom = 4.dp)
+                                    .size(24.dp),
+                                resId = item.icon,
+                                contentDescription = item.title,
+                                tintColor = BDSColor.White,
+                            )
+                            item.title?.let { text ->
+                                BDSText(
+                                    text = text,
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = BDSColor.White,
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }) { padding ->
+        Box(
+            modifier = Modifier.padding(padding)
+        ) {
+            content()
+        }
+    }
+}
+
+sealed class PostBottomNavigationItem(
+    val title: String? = null,
+    @DrawableRes val icon: Int,
+    val route: String
+) {
+    object Write : BottomNavigationItem("글쓰기", R.drawable.ic_edit, "Write")
+    object Delete : BottomNavigationItem("삭제", R.drawable.ic_delete,"Delete")
+
+    companion object {
+        val bottomNavigationItems = listOf(
+            Write,
+            Delete
         )
     }
 }
