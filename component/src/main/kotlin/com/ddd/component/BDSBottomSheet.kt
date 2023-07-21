@@ -154,16 +154,42 @@ fun BDSBottomSheetHeader(
     right: @Composable (() -> Unit)? = null,
     center: @Composable (() -> Unit)? = null
 ) {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 14.dp, bottom = 12.dp, start = 16.dp, end = 16.dp),
+            .padding(top = 14.dp, bottom = 12.dp, start = 16.dp, end = 16.dp)
+    ) {
+        Box(
+            modifier = Modifier.align(Alignment.CenterStart),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            left?.invoke()
+        }
+
+        Box(
+            modifier = Modifier.align(Alignment.Center),
+            contentAlignment = Alignment.Center
+        ) {
+            center?.invoke()
+        }
+
+        Box(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            contentAlignment = Alignment.CenterEnd
+        ) {
+            right?.invoke()
+        }
+    }
+    /*Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            ,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         left?.invoke()
         center?.invoke()
         right?.invoke()
-    }
+    }*/
 }
 
 @Composable
