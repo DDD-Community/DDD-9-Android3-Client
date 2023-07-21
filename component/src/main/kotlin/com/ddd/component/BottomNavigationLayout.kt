@@ -137,14 +137,14 @@ fun BDSEditBottomNavigationLayout(
         bottomBar = {
             Surface(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = Primary400),
+                    .fillMaxWidth(),
                 shadowElevation = 8.dp,
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .selectableGroup(),
+                        .selectableGroup()
+                        .background(color = Primary400),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     EditBottomNavigationItem.bottomNavigationItems.forEach { item ->
