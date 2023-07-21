@@ -129,8 +129,7 @@ sealed class BottomNavigationItem(
 @Composable
 fun BDSEditBottomNavigationLayout(
     modifier: Modifier = Modifier,
-    selectedNavigationItem: BottomNavigationItem,
-    onClickNavigationItem: (BottomNavigationItem) -> Unit,
+    clickEnabled: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     Scaffold(
@@ -149,16 +148,14 @@ fun BDSEditBottomNavigationLayout(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     EditBottomNavigationItem.bottomNavigationItems.forEach { item ->
-                        val enable = true
-
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 8.dp)
                                 .weight(1f)
                                 .clickableWithoutRipple(
-                                    enabled = enable,
-                                    onClick = { onClickNavigationItem(item) }
+                                    enabled = clickEnabled,
+                                    onClick = { item.onClickNavigationEvent }
                                 ),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
@@ -171,14 +168,12 @@ fun BDSEditBottomNavigationLayout(
                                 contentDescription = item.title,
                                 tintColor = BDSColor.White,
                             )
-                            item.title?.let { text ->
-                                BDSText(
-                                    text = text,
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = BDSColor.White,
-                                )
-                            }
+                            BDSText(
+                                text = item.title,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = BDSColor.White,
+                            )
                         }
                     }
                 }
@@ -193,12 +188,13 @@ fun BDSEditBottomNavigationLayout(
 }
 
 sealed class EditBottomNavigationItem(
-    val title: String? = null,
+    val title: String,
     @DrawableRes val icon: Int,
-    val route: String
+    val route: String,
+    val onClickNavigationEvent: () -> Unit
 ) {
-    object Write : BottomNavigationItem("글쓰기", R.drawable.ic_edit, "Write")
-    object Delete : BottomNavigationItem("삭제", R.drawable.ic_delete,"Delete")
+    object Write : EditBottomNavigationItem("글쓰기", R.drawable.ic_edit, "Write", { /* 글쓰기 화면 이동 */})
+    object Delete : EditBottomNavigationItem("삭제", R.drawable.ic_delete,"Delete", { /* 삭제 Dialog 노출 */ })
 
     companion object {
         val bottomNavigationItems = listOf(
