@@ -64,7 +64,7 @@ fun BDSBottomNavigationLayout(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp)
+                                .padding(top = 14.dp, bottom = 24.dp, start = 16.dp, end = 16.dp)
                                 .weight(1f)
                                 .clickableWithoutRipple {
                                     onClickNavigationItem(item)
@@ -76,7 +76,7 @@ fun BDSBottomNavigationLayout(
                                 modifier = Modifier
                                     .padding(bottom = 4.dp)
                                     .size(
-                                        if (item is BottomNavigationItem.Add) 32.dp else 24.dp
+                                        if (item is BottomNavigationItem.Add) 36.dp else 24.dp
                                     ),
                                 resId = item.icon,
                                 contentDescription = item.title,
@@ -115,7 +115,7 @@ sealed class BottomNavigationItem(
 
     object Home : BottomNavigationItem("홈", R.drawable.ic_house, "home")
     object Add : BottomNavigationItem(null, R.drawable.ic_add_in_circle, "add")
-    object Archive : BottomNavigationItem("아카이브", R.drawable.ic_heart_mono_fill, "archive")
+    object Archive : BottomNavigationItem("아카이브", R.drawable.ic_archive_navigation, "archive")
 
     companion object {
         val bottomNavigationItems = listOf(
@@ -151,7 +151,7 @@ fun BDSEditBottomNavigationLayout(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 8.dp, bottom = 30.dp)
+                                .padding(top = 14.dp, bottom = 24.dp, start = 16.dp, end = 16.dp)
                                 .weight(1f)
                                 .clickableWithoutRipple(
                                     enabled = clickEnabled,

@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.font.FontWeight.Companion.ExtraBold
 import androidx.compose.ui.text.font.FontWeight.Companion.Medium
@@ -222,7 +221,7 @@ fun ArchiveScreen() {
                             .fillMaxWidth()
                     ) {
                         BDSImage(
-                            resId = R.drawable.ic_archive,
+                            resId = R.drawable.ic_archive_empty,
                             modifier = Modifier
                                 .size(77.dp)
                                 .align(Alignment.Center)
