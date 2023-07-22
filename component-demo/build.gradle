@@ -73,4 +73,5 @@ dependencies {
 
     implementation rootProject.ext.coil
     implementation rootProject.ext.collapsingToolbar
+    implementation rootProject.ext.bottomSheetDialog
 }

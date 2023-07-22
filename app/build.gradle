@@ -149,4 +149,5 @@ dependencies {
     implementation rootProject.ext.lottie
 
     implementation rootProject.ext.collapsingToolbar
+    implementation rootProject.ext.bottomSheetDialog
 }
