@@ -44,6 +44,9 @@ fun DemoNavHost(navController: NavHostController) {
         composable(DemoNavigationRoute.ProfileScreen.route) {
             ProfileScreen()
         }
+        composable(DemoNavigationRoute.Button.route) {
+            ButtonTestScreen()
+        }
     }
 }
 
@@ -82,5 +85,8 @@ internal sealed interface DemoNavigationRoute {
     }
     object ProfileScreen : DemoNavigationRoute {
         override val route: String = "profileScreen"
+    }
+    object Button : DemoNavigationRoute {
+        override val route: String = "button"
     }
 }
