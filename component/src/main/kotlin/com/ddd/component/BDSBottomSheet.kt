@@ -230,15 +230,17 @@ fun BDSBottomSheetHorizontalDualButton(
     confirmButton: @Composable (() -> Unit)? = null,
     cancelButton: @Composable (() -> Unit)? = null
 ) {
-    Column() {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 36.dp),
-            horizontalArrangement = Arrangement.spacedBy(7.dp, Alignment.CenterHorizontally)
-        ) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .padding(top = 10.dp, bottom = 36.dp),
+        horizontalArrangement = Arrangement.spacedBy(7.dp, Alignment.CenterHorizontally)
+    ) {
+        Box(modifier = Modifier.weight(1f)) {
             confirmButton?.invoke()
+        }
+        Box(modifier = Modifier.weight(1f)) {
             cancelButton?.invoke()
         }
     }

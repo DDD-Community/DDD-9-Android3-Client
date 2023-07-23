@@ -6,14 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -54,6 +52,7 @@ import com.ddd.component.BDSBorderlessButton
 import com.ddd.component.BDSBottomSheet
 import com.ddd.component.BDSBottomSheetHeader
 import com.ddd.component.BDSBottomSheetHorizontalDualButton
+import com.ddd.component.BDSBottomSheetSingleButton
 import com.ddd.component.BDSBottomSheetVerticalDualButton
 import com.ddd.component.BDSButton
 import com.ddd.component.BDSButtonInnerPadding
@@ -266,12 +265,12 @@ fun DemoHomeScreen(
                 onDismissRequest = { openDialog = false },
                 sheetState = bottomSheetState
             )*/
-            /*DemoBottomSheet(
-                onDismissRequest = { openDialog = false }
-            )*/
-            BottomSheetPostDone(
+            DemoBottomSheet(
                 onDismissRequest = { openDialog = false }
             )
+            /*BottomSheetPostDone(
+                onDismissRequest = { openDialog = false }
+            )*/
         }
     }
 }
@@ -306,7 +305,7 @@ fun DemoDialog(
 fun DemoBottomSheet(
     onDismissRequest: () -> Unit
 ) {
-    /*val postItemList = listOf(
+    val postItemList = listOf(
         PostItem(
             imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
             title = "이제 레인부츠 사려는데 어떤걸 ...",
@@ -362,21 +361,22 @@ fun DemoBottomSheet(
             title = "이제 레인부츠 사려는데 어떤걸 ...",
             isPublic = false
         )
-    )*/
+    )
 
-    val postItemList: List<PostItem>? = null
+    // val postItemList: List<PostItem> = emptyList()
 
     BDSBottomSheet(
         onDismissRequest = onDismissRequest,
         headerContent = {
             BDSBottomSheetHeader(
-                left = {
-                    BDSButton {
-
-                    }
-                },
                 center = {
-                    BDSText(text = "투표 올리기")
+                    BDSText(
+                        text = "투표 올리기",
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = SemiBold,
+                        color = SlateGray900
+                    )
                 },
                 right = {
                     BDSButton {
@@ -412,18 +412,47 @@ fun DemoBottomSheet(
             }
         },
         bottomContent = {
-            BDSBottomSheetHorizontalDualButton(
-                confirmButton = {
-                    BDSButton {
-
+            if (postItemList.isNotEmpty()) {
+                BDSBottomSheetHorizontalDualButton(
+                    confirmButton = {
+                        BDSOutlinedButton(
+                            onClick = { /*TODO*/ }, text = "새 투표 만들기",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
+                            contentPadding = BDSButtonInnerPadding.MEDIUM,
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                        )
+                    },
+                    cancelButton = {
+                        BDSFilledButton(
+                            onClick = { /*TODO*/ }, text = "상품 추가하기",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
+                            contentPadding = BDSButtonInnerPadding.MEDIUM,
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            // enabled = 상품이 선택됐을 때 true
+                        )
                     }
-                },
-                cancelButton = {
-                    BDSButton {
-
+                )
+            } else {
+                BDSBottomSheetSingleButton(
+                    button = {
+                        BDSFilledButton(
+                            onClick = { /*TODO*/ }, text = "새 투표 만들기",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
+                            contentPadding = BDSButtonInnerPadding.MEDIUM,
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                        )
                     }
-                }
-            )
+                )
+            }
         }
     )
 }
