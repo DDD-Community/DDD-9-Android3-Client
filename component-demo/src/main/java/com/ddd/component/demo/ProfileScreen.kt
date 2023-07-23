@@ -38,7 +38,7 @@ fun ProfileScreen() {
         modifier = Modifier.fillMaxSize()
     ) {
         BDSImage(
-            url = "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+            resId = R.drawable.bg_profile,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(183.dp),

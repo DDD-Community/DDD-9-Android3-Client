@@ -40,6 +40,7 @@ fun DemoNavHost(navController: NavHostController) {
         }
         composable(DemoNavigationRoute.ArchiveScreen.route) {
             ArchiveScreen()
+            // ArchiveEditScreen()
         }
         composable(DemoNavigationRoute.ProfileScreen.route) {
             ProfileScreen()

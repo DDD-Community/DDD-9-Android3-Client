@@ -1,8 +1,9 @@
 package com.ddd.component.demo
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.font.FontWeight.Companion.ExtraBold
 import androidx.compose.ui.text.font.FontWeight.Companion.Medium
@@ -36,7 +37,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.ArchiveItem
-import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
 import com.ddd.component.BDSBottomNavigationLayout
 import com.ddd.component.BDSHeader
@@ -44,9 +44,12 @@ import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.BottomNavigationItem
 import com.ddd.component.R
+import com.ddd.component.theme.BDSColor.Gray900
+import com.ddd.component.theme.BDSColor.SlateGray100
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray600
 import com.ddd.component.theme.BDSColor.SlateGray900
+import com.ddd.component.theme.BDSColor.White
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -133,7 +136,6 @@ fun ArchiveScreen() {
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     var selectedBottomNavigation: BottomNavigationItem by remember { mutableStateOf(BottomNavigationItem.bottomNavigationItems[2]) }
-    var isSelectMode: Boolean by remember { mutableStateOf(false) }
     var isEmpty: Boolean by remember { mutableStateOf(false) }
 
     val state = rememberCollapsingToolbarScaffoldState()
@@ -149,45 +151,42 @@ fun ArchiveScreen() {
             state = state,
             scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
             toolbar = {
-                if (isSelectMode) {
-                    BDSAppBar(
-                        title = "상품 선택",
-                        right = {
-                            /* 완료 버튼 */
-                        }
-                    )
-                } else {
-                    val textSize = (18 + (30 - 18) * state.toolbarState.progress).sp
-                    val verticalPadding = (20 + (32 - 20) * state.toolbarState.progress).dp
-                    val imageAlpha = (1 * state.toolbarState.progress)
+                val textSize = (18 + (36 - 18) * state.toolbarState.progress).sp
+                val verticalPadding = (20 + (32 - 20) * state.toolbarState.progress).dp
+                val imageAlpha = (1 * state.toolbarState.progress)
+                val color: Color by animateColorAsState(
+                    if (state.toolbarState.progress > 0.5f) {
+                        SlateGray100
+                    } else {
+                        Gray900
+                    }
+                )
 
-                    Box(
-                        modifier = Modifier
-                            .background(color = SlateGray500)
-                            .fillMaxWidth()
-                            .height(183.dp)
-                            .pin()
-                    )
-                    BDSImage(
-                        url = "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                        modifier = Modifier
-                            .height(183.dp)
-                            .parallax(0.8f)
-                            .alpha(imageAlpha),
-                        contentScale = ContentScale.Crop
-                    )
-                    BDSText(
-                        text = "아카이브함",
-                        modifier = Modifier
-                            .padding(horizontal = 18.dp)
-                            .padding(vertical = verticalPadding)
-                            .road(Alignment.Center, Alignment.BottomStart),
-                        color = SlateGray900,
-                        fontSize = textSize,
-                        lineHeight = 32.sp,
-                        fontWeight = ExtraBold
-                    )
-                }
+                Box(
+                    modifier = Modifier
+                        .background(color = White)
+                        .fillMaxWidth()
+                        .height(183.dp)
+                        .pin()
+                )
+                BDSImage(
+                    resId = com.ddd.component.demo.R.drawable.bg_archive,
+                    modifier = Modifier
+                        .parallax(0.8f)
+                        .height(183.dp)
+                        .alpha(imageAlpha)
+                )
+                BDSText(
+                    text = "아카이브함",
+                    modifier = Modifier
+                        .padding(horizontal = 18.dp)
+                        .padding(vertical = verticalPadding)
+                        .road(Alignment.Center, Alignment.BottomStart),
+                    color = color,
+                    fontSize = textSize,
+                    lineHeight = 32.sp,
+                    fontWeight = ExtraBold
+                )
             }
         ) {
             Column {
@@ -205,7 +204,9 @@ fun ArchiveScreen() {
                     right = {
                         BDSText(
                             text = "편집",
-                            modifier = Modifier.padding(end = 4.dp, top = 19.dp),
+                            modifier = Modifier
+                                .padding(end = 4.dp, top = 19.dp)
+                                .clickable(enabled = !archiveItems.isNullOrEmpty(), onClick = { /* Edit 화면으로 이동 */ }),
                             color = SlateGray900,
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -220,7 +221,7 @@ fun ArchiveScreen() {
                             .fillMaxWidth()
                     ) {
                         BDSImage(
-                            resId = R.drawable.ic_archive,
+                            resId = R.drawable.ic_archive_empty,
                             modifier = Modifier
                                 .size(77.dp)
                                 .align(Alignment.Center)
@@ -257,15 +258,9 @@ fun ArchiveScreen() {
                         items(archiveItems) { archiveItem ->
                             BDSArchiveItemCard(
                                 archiveItem = archiveItem,
-                                modifier = Modifier.combinedClickable(
-                                    onClick = {
-                                        /* VIP 이동 */
-                                    },
-                                    onLongClick = {
-                                        isSelectMode = !isSelectMode
-                                    }
-                                ),
-                                isSelectMode = isSelectMode
+                                modifier = Modifier.clickable {
+                                    /* VIP 이동 */
+                                }
                             )
                         }
                     }
