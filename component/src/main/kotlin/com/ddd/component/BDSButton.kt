@@ -146,7 +146,6 @@ fun BDSOutlinedButton(
 fun BDSBorderlessButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    height: Dp = 54.dp,
     shape: Shape = RectangleShape,
     containerColor: Color = Color.Transparent,
     contentColor: Color = Black,
