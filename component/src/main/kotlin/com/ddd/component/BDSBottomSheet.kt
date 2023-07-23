@@ -215,7 +215,9 @@ fun BDSBottomSheetVerticalDualButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .padding(bottom = 36.dp)
+            .padding(vertical = 22.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
         confirmButton?.invoke()
         cancelButton?.invoke()

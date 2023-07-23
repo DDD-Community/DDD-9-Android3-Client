@@ -50,16 +50,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.component.BDSAlertDialog
+import com.ddd.component.BDSBorderlessButton
 import com.ddd.component.BDSBottomSheet
 import com.ddd.component.BDSBottomSheetHeader
 import com.ddd.component.BDSBottomSheetHorizontalDualButton
 import com.ddd.component.BDSBottomSheetVerticalDualButton
 import com.ddd.component.BDSButton
+import com.ddd.component.BDSButtonInnerPadding
+import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSIconSnackbar
 import com.ddd.component.BDSImage
+import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSPostCard
 import com.ddd.component.BDSText
 import com.ddd.component.PostItem
+import com.ddd.component.theme.BDSColor.Primary700
 import com.ddd.component.theme.BDSColor.SlateGray900
 import com.ddd.component.theme.BuyOrNotTheme
 import kotlinx.coroutines.launch
@@ -432,14 +437,25 @@ fun BottomSheetPostDone(
         headerContent = {
             BDSBottomSheetHeader(
                 center = {
-                    BDSText(text = "투표를 완성했어요!")
+                    BDSText(
+                        text = "투표를 완성했어요!",
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = SemiBold,
+                        color = SlateGray900
+                    )
                 }
             )
         },
         bodyContent = {
-            Box(modifier = Modifier.fillMaxWidth()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+            ) {
                 Box(
-                    modifier = Modifier.size(width = 138.dp, height = 125.dp)
+                    modifier = Modifier
+                        .size(width = 138.dp, height = 125.dp)
                         .align(Alignment.Center),
                     contentAlignment = Alignment.Center
                 ) {
@@ -465,14 +481,25 @@ fun BottomSheetPostDone(
         bottomContent = {
             BDSBottomSheetVerticalDualButton(
                 confirmButton = {
-                    BDSButton {
-
-                    }
+                    BDSFilledButton(
+                        onClick = { /*TODO*/ }, text = "앱에서 투표 완성하기",
+                        modifier = Modifier
+                            .height(50.dp)
+                            .fillMaxWidth(),
+                        contentPadding = BDSButtonInnerPadding.MEDIUM,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp
+                    )
                 },
                 cancelButton = {
-                    BDSButton {
-
-                    }
+                    BDSBorderlessButton(
+                        onClick = { /*TODO*/ }, text = "닫기",
+                        modifier = Modifier.size(width = 74.dp, height = 34.dp),
+                        contentPadding = BDSButtonInnerPadding.SMALL,
+                        contentColor = Primary700,
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp,
+                    )
                 }
             )
         }
