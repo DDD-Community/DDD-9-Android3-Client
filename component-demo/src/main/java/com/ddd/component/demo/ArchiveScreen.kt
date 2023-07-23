@@ -184,7 +184,6 @@ fun ArchiveScreen() {
                     contentPadding = BDSButtonInnerPadding.XSMALL,
                     text = "편집",
                     fontSize = 12.sp,
-                    fontWeight = SemiBold,
                     enabled = archiveItems.isNotEmpty()
                 )
                 BDSText(

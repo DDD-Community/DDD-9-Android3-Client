@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -26,10 +27,13 @@ import com.ddd.component.ArchiveItem
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
 import com.ddd.component.BDSButton
+import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSEditBottomNavigationLayout
+import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSHeader
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
+import com.ddd.component.theme.BDSColor.Gray900
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,11 +122,25 @@ fun ArchiveEditScreen() {
         Scaffold(
             topBar = {
                 BDSAppBar(
-                    title = "상품 선택",
+                    modifier = Modifier.padding(horizontal = 10.dp),
                     right = {
-                        BDSButton {
-                            // 완료 버튼
-                        }
+                        BDSFilledButton(
+                            onClick = { /*TODO*/ },
+                            text = "완료",
+                            modifier = Modifier.size(width = 64.dp, height = 34.dp),
+                            contentPadding = BDSButtonInnerPadding.SMALL,
+                            fontSize = 14.sp,
+                            lineHeight = 20.sp,
+                            // enabled = 선택된 아이템이 하나 이상일 때 true
+                        )
+                    },
+                    center = {
+                        BDSText(text = "상품 선택",
+                            fontSize = 18.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Gray900
+                        )
                     }
                 )
             }
