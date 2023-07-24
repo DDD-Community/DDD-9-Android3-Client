@@ -2,7 +2,6 @@ package com.ddd.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,38 +20,35 @@ fun BDSAppBar(
     right: (@Composable () -> Unit)? = null,
     center: (@Composable () -> Unit)? = null,
 ) {
-    TopAppBar(
-        modifier = Modifier
-            .height(46.dp)
-            .then(modifier),
-        title = {
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Box(
-                    modifier = Modifier.align(Alignment.CenterStart),
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    left?.invoke()
-                }
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(46.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier.align(Alignment.CenterStart)
+                .padding(start = 16.dp),
+            contentAlignment = Alignment.CenterStart,
+        ) {
+            left?.invoke()
+        }
 
-                Box(
-                    modifier = Modifier.align(Alignment.Center),
-                    contentAlignment = Alignment.Center
-                ) {
-                    center?.invoke()
-                }
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center),
+            contentAlignment = Alignment.Center
+        ) {
+            center?.invoke()
+        }
 
-                Box(
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    contentAlignment = Alignment.CenterEnd
-                ) {
-                    right?.invoke()
-                }
-            }
-        },
-    )
+        Box(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            contentAlignment = Alignment.CenterEnd
+        ) {
+            right?.invoke()
+        }
+    }
 }
 
 @Composable
@@ -90,7 +86,6 @@ fun AppBarUpButton(onUpButtonClick: () -> Unit) {
         BDSImage(
             modifier = Modifier
                 .size(24.dp)
-                .padding(2.dp)
                 .clickableWithRoundedRipple {
                     onUpButtonClick()
                 },
