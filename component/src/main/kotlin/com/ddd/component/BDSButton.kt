@@ -2,12 +2,17 @@ package com.ddd.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -23,6 +28,8 @@ import com.ddd.component.theme.BDSColor.Gray950
 import com.ddd.component.theme.BDSColor.Primary400
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.White
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun BDSButton(onClick: () -> Unit) {
@@ -49,21 +56,24 @@ fun BDSButton(
     fontSize: TextUnit,
     lineHeight: TextUnit,
     fontWeight: FontWeight,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    withoutRipple: Boolean = false
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Button(
         onClick = onClick,
         modifier = modifier,
         contentPadding = contentPadding,
         shape = shape,
-        enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
             contentColor = contentColor,
             disabledContainerColor = disabledContainerColor,
             disabledContentColor = disabledContentColor
         ),
-        border = border
+        border = border,
+        enabled = enabled,
+        interactionSource = if (withoutRipple) NoRippleInteractionSource() else interactionSource
     ) {
         BDSText(
             text = text,
@@ -88,7 +98,8 @@ fun BDSFilledButton(
     fontSize: TextUnit = 18.sp,
     lineHeight: TextUnit = 24.sp,
     fontWeight: FontWeight = SemiBold,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    withoutRipple: Boolean = false
 ) {
     BDSButton(
         onClick = onClick,
@@ -104,7 +115,8 @@ fun BDSFilledButton(
         fontSize = fontSize,
         lineHeight = lineHeight,
         fontWeight = fontWeight,
-        enabled = enabled
+        enabled = enabled,
+        withoutRipple = withoutRipple
     )
 }
 
@@ -122,7 +134,8 @@ fun BDSOutlinedButton(
     fontSize: TextUnit = 18.sp,
     lineHeight: TextUnit = 24.sp,
     fontWeight: FontWeight = SemiBold,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    withoutRipple: Boolean = false
 ) {
     BDSButton(
         onClick = onClick,
@@ -138,7 +151,8 @@ fun BDSOutlinedButton(
         fontSize = fontSize,
         lineHeight = lineHeight,
         fontWeight = fontWeight,
-        enabled = enabled
+        enabled = enabled,
+        withoutRipple = withoutRipple
     )
 }
 
@@ -156,7 +170,8 @@ fun BDSBorderlessButton(
     fontSize: TextUnit = 18.sp,
     lineHeight: TextUnit = 24.sp,
     fontWeight: FontWeight = SemiBold,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    withoutRipple: Boolean = true
 ) {
     BDSButton(
         onClick = onClick,
@@ -172,7 +187,8 @@ fun BDSBorderlessButton(
         fontSize = fontSize,
         lineHeight = lineHeight,
         fontWeight = fontWeight,
-        enabled = enabled
+        enabled = enabled,
+        withoutRipple = withoutRipple
     )
 }
 
@@ -181,4 +197,10 @@ object BDSButtonInnerPadding {
     val MEDIUM: PaddingValues = PaddingValues(horizontal = 24.dp, vertical = 13.dp)
     val SMALL: PaddingValues = PaddingValues(horizontal = 20.dp, vertical = 7.dp)
     val XSMALL: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 3.dp)
+}
+
+class NoRippleInteractionSource : MutableInteractionSource {
+    override val interactions: Flow<Interaction> = emptyFlow()
+    override suspend fun emit(interaction: Interaction) {}
+    override fun tryEmit(interaction: Interaction) = true
 }
