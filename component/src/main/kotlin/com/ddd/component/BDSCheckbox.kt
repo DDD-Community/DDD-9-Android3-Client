@@ -81,7 +81,7 @@ fun BDSCheckbox(
 
 @Preview
 @Composable
-fun PreviewBDSCheckbox() {가
+fun PreviewBDSCheckbox() {
     BDSCheckbox(
         checkedImage = R.drawable.ic_check,
         uncheckedImage = R.drawable.ic_uncheck,
