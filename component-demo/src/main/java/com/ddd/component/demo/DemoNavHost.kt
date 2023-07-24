@@ -40,7 +40,9 @@ fun DemoNavHost(navController: NavHostController) {
         }
         composable(DemoNavigationRoute.ArchiveScreen.route) {
             ArchiveScreen()
-            // ArchiveEditScreen()
+        }
+        composable(DemoNavigationRoute.ArchiveEditScreen.route) {
+            ArchiveEditScreen()
         }
         composable(DemoNavigationRoute.ProfileScreen.route) {
             ProfileScreen()
@@ -83,6 +85,9 @@ internal sealed interface DemoNavigationRoute {
     }
     object ArchiveScreen : DemoNavigationRoute {
         override val route: String = "archiveScreen"
+    }
+    object ArchiveEditScreen : DemoNavigationRoute {
+        override val route: String = "archiveEditScreen"
     }
     object ProfileScreen : DemoNavigationRoute {
         override val route: String = "profileScreen"

@@ -235,6 +235,17 @@ fun DemoHomeScreen(
             Button(
                 modifier = Modifier.padding(top = 8.dp),
                 onClick = {
+                    navController.navigate(DemoNavigationRoute.ArchiveEditScreen.route)
+                }) {
+                Text(
+                    text = "ArchiveEditScreen Test",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
+            Button(
+                modifier = Modifier.padding(top = 8.dp),
+                onClick = {
                     navController.navigate(DemoNavigationRoute.ProfileScreen.route)
                 }) {
                 Text(

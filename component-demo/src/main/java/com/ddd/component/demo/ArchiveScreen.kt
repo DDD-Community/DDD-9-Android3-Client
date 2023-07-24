@@ -38,7 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.ArchiveItem
 import com.ddd.component.BDSArchiveItemCard
+import com.ddd.component.BDSBorderlessButton
 import com.ddd.component.BDSBottomNavigationLayout
+import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSHeader
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
@@ -175,6 +177,14 @@ fun ArchiveScreen() {
                         .parallax(0.8f)
                         .height(183.dp)
                         .alpha(imageAlpha)
+                )
+                BDSBorderlessButton(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.size(width = 45.dp, height = 24.dp),
+                    contentPadding = BDSButtonInnerPadding.XSMALL,
+                    text = "편집",
+                    fontSize = 12.sp,
+                    enabled = archiveItems.isNotEmpty()
                 )
                 BDSText(
                     text = "아카이브함",
