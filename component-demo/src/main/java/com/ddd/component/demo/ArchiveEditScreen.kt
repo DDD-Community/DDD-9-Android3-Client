@@ -168,9 +168,9 @@ fun ArchiveEditScreen() {
                     items(archiveItems) { archiveItem ->
                         BDSArchiveItemCard(
                             archiveItem = archiveItem,
-                            modifier = Modifier.clickable {
-                                /* 아이템 check */
-                            }
+                            onClick = { },
+                            isEditMode = true,
+                            isSelected = false,
                         )
                     }
                 }
