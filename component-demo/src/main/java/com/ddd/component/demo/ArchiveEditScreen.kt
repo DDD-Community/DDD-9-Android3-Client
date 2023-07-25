@@ -170,7 +170,7 @@ fun ArchiveEditScreen() {
                             archiveItem = archiveItem,
                             onClick = { },
                             isEditMode = true,
-                            isSelected = false,
+                            isSelected = true,
                         )
                     }
                 }

@@ -1,5 +1,6 @@
 package com.ddd.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -60,9 +62,16 @@ fun BDSArchiveItemCard(
                         .fillMaxSize()
                         .then(modifier),
                     contentScale = ContentScale.FillBounds,
-                    contentDescription = "image description",
-                    tintColor = if (isEditMode && isSelected) Primary400.copy(alpha = ContentAlpha.disabled) else null
+                    contentDescription = "image description"
                 )
+
+                if (isEditMode && isSelected) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = Primary400.copy(0.4f))
+                    )
+                }
 
                 if (isEditMode) {
                     Box(
