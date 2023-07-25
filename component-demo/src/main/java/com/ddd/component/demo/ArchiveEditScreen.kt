@@ -117,7 +117,8 @@ fun ArchiveEditScreen() {
     val clickEnabled by remember { mutableStateOf(false) }
 
     BDSEditBottomNavigationLayout(
-        clickEnabled = clickEnabled,
+        // TODO: 추후 수정
+        selectCount = 3,
     ) {
         Scaffold(
             topBar = {

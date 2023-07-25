@@ -129,7 +129,7 @@ sealed class BottomNavigationItem(
 @Composable
 fun BDSEditBottomNavigationLayout(
     modifier: Modifier = Modifier,
-    clickEnabled: Boolean = false,
+    selectCount: Int = 0,
     content: @Composable () -> Unit,
 ) {
     Scaffold(
@@ -148,13 +148,17 @@ fun BDSEditBottomNavigationLayout(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     EditBottomNavigationItem.bottomNavigationItems.forEach { item ->
+                        val isClickable = when (item) {
+                            EditBottomNavigationItem.Write -> selectCount == 2
+                            EditBottomNavigationItem.Delete -> selectCount > 0
+                        }
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 14.dp, bottom = 24.dp, start = 16.dp, end = 16.dp)
                                 .weight(1f)
                                 .clickableWithoutRipple(
-                                    enabled = clickEnabled,
+                                    enabled = isClickable,
                                     onClick = { item.onClickNavigationEvent }
                                 ),
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -166,13 +170,13 @@ fun BDSEditBottomNavigationLayout(
                                     .size(24.dp),
                                 resId = item.icon,
                                 contentDescription = item.title,
-                                tintColor = BDSColor.White,
+                                tintColor = if (isClickable) BDSColor.White else BDSColor.White.copy(alpha = ContentAlpha.disabled),
                             )
                             BDSText(
                                 text = item.title,
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = BDSColor.White,
+                                color = if (isClickable) BDSColor.White else BDSColor.White.copy(alpha = ContentAlpha.disabled),
                             )
                         }
                     }
@@ -193,8 +197,8 @@ sealed class EditBottomNavigationItem(
     val route: String,
     val onClickNavigationEvent: () -> Unit
 ) {
-    object Write : EditBottomNavigationItem("글쓰기", R.drawable.ic_edit, "Write", { /* 글쓰기 화면 이동 */})
-    object Delete : EditBottomNavigationItem("삭제", R.drawable.ic_delete,"Delete", { /* 삭제 Dialog 노출 */ })
+    object Write : EditBottomNavigationItem("글쓰기", R.drawable.ic_edit, "Write", { /* 글쓰기 화면 이동 */ })
+    object Delete : EditBottomNavigationItem("삭제", R.drawable.ic_delete, "Delete", { /* 삭제 Dialog 노출 */ })
 
     companion object {
         val bottomNavigationItems = listOf(
