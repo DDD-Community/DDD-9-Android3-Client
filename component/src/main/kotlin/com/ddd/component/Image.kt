@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -36,6 +37,7 @@ fun BDSImage(
     tintColor: Color? = null,
     crossfade: Boolean = true,
     contentScale: ContentScale? = null,
+    blendMode: BlendMode? = null,
 ) {
     BDSImage(
         any = url,
@@ -45,6 +47,7 @@ fun BDSImage(
         tintColor = tintColor,
         crossfade = crossfade,
         contentScale = contentScale,
+        blendMode = blendMode,
     )
 }
 
@@ -57,6 +60,7 @@ fun BDSImage(
     tintColor: Color? = null,
     crossfade: Boolean = true,
     contentScale: ContentScale? = null,
+    blendMode: BlendMode? = null,
 ) {
     BDSImage(
         any = drawable,
@@ -66,6 +70,7 @@ fun BDSImage(
         tintColor = tintColor,
         crossfade = crossfade,
         contentScale = contentScale,
+        blendMode = blendMode,
     )
 }
 
@@ -78,6 +83,7 @@ fun BDSImage(
     tintColor: Color? = null,
     crossfade: Boolean = true,
     contentScale: ContentScale? = null,
+    blendMode: BlendMode? = null,
 ) {
     BDSImage(
         any = resId,
@@ -87,6 +93,7 @@ fun BDSImage(
         tintColor = tintColor,
         crossfade = crossfade,
         contentScale = contentScale,
+        blendMode = blendMode,
     )
 }
 
@@ -99,6 +106,7 @@ private fun BDSImage(
     tintColor: Color? = null,
     crossfade: Boolean = true,
     contentScale: ContentScale? = null,
+    blendMode: BlendMode? = null
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
@@ -111,6 +119,6 @@ private fun BDSImage(
         contentDescription = contentDescription,
         contentScale = contentScale ?: ContentScale.Crop,
         modifier = modifier,
-        colorFilter = tintColor?.let { ColorFilter.tint(it) },
+        colorFilter = tintColor?.let { ColorFilter.tint(it, blendMode ?: BlendMode.SrcIn) },
     )
 }
