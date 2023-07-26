@@ -17,14 +17,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.ArchiveItem
-import com.ddd.component.BDSAlertDialog
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
 import com.ddd.component.BDSButtonInnerPadding
@@ -34,10 +33,13 @@ import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSHeader
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
+import ddd.buyornot.findActivity
 
 @ExperimentalMaterial3Api
 @Composable
 fun ArchiveEditScreen() {
+    val context = LocalContext.current
+
     val archiveItems = remember {
         mutableStateListOf(
             ArchiveItem(
@@ -99,13 +101,12 @@ fun ArchiveEditScreen() {
                     modifier = Modifier.padding(horizontal = 10.dp),
                     right = {
                         BDSFilledButton(
-                            onClick = { /*TODO*/ },
+                            onClick = { context.findActivity().finish() },
                             text = "완료",
                             modifier = Modifier.size(width = 64.dp, height = 34.dp),
                             contentPadding = BDSButtonInnerPadding.SMALL,
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
-                            // enabled = 선택된 아이템이 하나 이상일 때 true
                         )
                     },
                     center = {
