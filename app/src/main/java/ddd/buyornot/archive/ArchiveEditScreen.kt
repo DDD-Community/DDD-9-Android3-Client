@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,11 +28,13 @@ import androidx.compose.ui.unit.sp
 import com.ddd.component.ArchiveItem
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
+import com.ddd.component.BDSBorderlessButton
 import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSConfirmDialog
 import com.ddd.component.BDSEditBottomNavigationLayout
 import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSHeader
+import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
 import ddd.buyornot.findActivity
@@ -48,37 +52,43 @@ fun ArchiveEditScreen() {
                 "SWEATSHIRT",
                 20f,
                 67500
-            ), ArchiveItem(
+            ),
+            ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT F.",
                 20f,
                 67500
-            ), ArchiveItem(
+            ),
+            ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT FL",
                 20f,
                 67500
-            ), ArchiveItem(
+            ),
+            ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT FLO",
                 20f,
                 67500
-            ), ArchiveItem(
+            ),
+            ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT FLOW",
                 20f,
                 67500
-            ), ArchiveItem(
+            ),
+            ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT FLOWE",
                 20f,
                 67500
-            ), ArchiveItem(
+            ),
+            ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT FLOWER",
@@ -161,16 +171,27 @@ fun ArchiveEditScreen() {
 
     if (showDeleteDialog) {
         BDSConfirmDialog(
-            title = "아카이브의 상품을 삭제할까요?",
             onDismissRequest = { showDeleteDialog = false },
+            title = "아카이브의 상품을 삭제할까요?",
             subTitle = "삭제된 상품은 아카이브함에서 볼 수 없어요.",
-            cancel = "취소",
-            accept = "삭제",
-            onClickCancel = { showDeleteDialog = false },
-            onClickAccept = {
-                archiveItems.removeAll(selectItems)
-                selectItems.clear()
-                showDeleteDialog = false
+            cancelButton = {
+                BDSOutlinedButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { showDeleteDialog = false },
+                    text = "취소"
+                )
+            },
+            acceptButton = {
+                BDSFilledButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        archiveItems.removeAll(selectItems)
+                        selectItems.clear()
+                        showDeleteDialog = false
+                    },
+                    text = "삭제",
+                    containerColor = Color.Red
+                )
             }
         )
     }

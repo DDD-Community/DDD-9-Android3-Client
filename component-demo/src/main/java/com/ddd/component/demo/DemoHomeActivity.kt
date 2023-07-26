@@ -425,7 +425,7 @@ fun DemoBottomSheet(
         bottomContent = {
             if (postItemList.isNotEmpty()) {
                 BDSBottomSheetHorizontalDualButton(
-                    confirmButton = {
+                    acceptButton = {
                         BDSOutlinedButton(
                             onClick = { /*TODO*/ }, text = "새 투표 만들기",
                             modifier = Modifier

@@ -227,7 +227,7 @@ fun BDSBottomSheetVerticalDualButton(
 
 @Composable
 fun BDSBottomSheetHorizontalDualButton(
-    confirmButton: @Composable (() -> Unit)? = null,
+    acceptButton: @Composable (() -> Unit)? = null,
     cancelButton: @Composable (() -> Unit)? = null
 ) {
     Row(
@@ -238,10 +238,10 @@ fun BDSBottomSheetHorizontalDualButton(
         horizontalArrangement = Arrangement.spacedBy(7.dp, Alignment.CenterHorizontally)
     ) {
         Box(modifier = Modifier.weight(1f)) {
-            confirmButton?.invoke()
+            cancelButton?.invoke()
         }
         Box(modifier = Modifier.weight(1f)) {
-            cancelButton?.invoke()
+            acceptButton?.invoke()
         }
     }
 }
