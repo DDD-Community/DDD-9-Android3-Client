@@ -33,6 +33,11 @@
             android:theme="@style/Theme.BuyOrNot" />
 
         <activity
+            android:name=".archive.ArchiveEditActivity"
+            android:exported="true"
+            android:theme="@style/Theme.BuyOrNot" />
+
+        <activity
             android:name=".SubActivity"
             android:exported="true">
             <intent-filter>

@@ -1,5 +1,6 @@
 package ddd.buyornot.archive
 
+import android.content.Intent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,7 +38,6 @@ import androidx.compose.ui.unit.sp
 import com.ddd.component.ArchiveItem
 import com.ddd.component.BDSArchiveItemCard
 import com.ddd.component.BDSBorderlessButton
-import com.ddd.component.BDSBottomNavigationLayout
 import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSHeader
 import com.ddd.component.BDSImage
@@ -45,6 +46,7 @@ import com.ddd.component.BottomNavigationItem
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.SlateGray900
+import ddd.buyornot.add_vote.AddNewVoteActivity
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -53,6 +55,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 fun ArchiveScreen() {
+    val context = LocalContext.current
     val archiveItems = listOf(
         ArchiveItem(
             "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
@@ -193,7 +196,9 @@ fun ArchiveScreen() {
                 right = {
                     Box(modifier = Modifier.padding(top = 14.dp)) {
                         BDSBorderlessButton(
-                            onClick = { /*TODO*/ },
+                            onClick = {
+                                context.startActivity(Intent(context, ArchiveEditActivity::class.java))
+                            },
                             modifier = Modifier.size(width = 45.dp, height = 24.dp),
                             contentPadding = BDSButtonInnerPadding.XSMALL,
                             text = "편집",
@@ -203,17 +208,6 @@ fun ArchiveScreen() {
                             enabled = archiveItems.isNotEmpty()
                         )
                     }
-
-                    /*BDSText(
-                        text = "편집",
-                        modifier = Modifier
-                            .padding(end = 4.dp, top = 19.dp)
-                            .clickable(enabled = !archiveItems.isNullOrEmpty(), onClick = { *//* Edit 화면으로 이동 *//* }),
-                        color = BDSColor.SlateGray900,
-                        fontSize = 12.sp,
-                        lineHeight = 18.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )*/
                 }
             )
             if (archiveItems.isEmpty()) {
