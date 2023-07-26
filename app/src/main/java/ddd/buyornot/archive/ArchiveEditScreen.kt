@@ -1,6 +1,5 @@
 package ddd.buyornot.archive
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -165,7 +165,7 @@ fun ArchiveEditScreen() {
                     verticalArrangement = Arrangement.spacedBy(18.dp)
                 ) {
                     items(archiveItems) { archiveItem ->
-                        var isSelected by remember { mutableStateOf(false) }
+                        var isSelected by rememberSaveable { mutableStateOf(false) }
                         BDSArchiveItemCard(
                             archiveItem = archiveItem,
                             onClickSelect = {
