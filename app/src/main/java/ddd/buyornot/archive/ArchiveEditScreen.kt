@@ -14,7 +14,9 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
-import androidx.compose.material3.SheetValue
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,13 +34,13 @@ import androidx.compose.ui.unit.sp
 import com.ddd.component.ArchiveItem
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
-import com.ddd.component.BDSBorderlessButton
 import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSConfirmDialog
 import com.ddd.component.BDSEditBottomNavigationLayout
 import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSHeader
 import com.ddd.component.BDSOutlinedButton
+import com.ddd.component.BDSSingleTextSnackbar
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
 import ddd.buyornot.findActivity
@@ -104,12 +106,13 @@ fun ArchiveEditScreen() {
     }
     val selectItems = remember { mutableStateListOf<ArchiveItem>() }
     val scope = rememberCoroutineScope()
-    var showDeleteDialog by remember { mutableStateOf(false) }
+    var showDeleteDialogState by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     BDSEditBottomNavigationLayout(
         selectCount = selectItems.size,
         onClickWrite = {},
-        onClickDelete = { showDeleteDialog = true }
+        onClickDelete = { showDeleteDialogState = true }
     ) {
         Scaffold(
             topBar = {
@@ -135,6 +138,11 @@ fun ArchiveEditScreen() {
                         )
                     }
                 )
+            },
+            snackbarHost = {
+                SnackbarHost(snackbarHostState) {
+                    BDSSingleTextSnackbar(text = "아카이브함에서 상품을 삭제했어요")
+                }
             }
         ) { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {
@@ -175,10 +183,10 @@ fun ArchiveEditScreen() {
         }
     }
 
-    if (showDeleteDialog) {
+    if (showDeleteDialogState) {
         val sheetState: SheetState = rememberModalBottomSheetState()
         BDSConfirmDialog(
-            onDismissRequest = { showDeleteDialog = false },
+            onDismissRequest = { showDeleteDialogState = false },
             title = "아카이브의 상품을 삭제할까요?",
             subTitle = "삭제된 상품은 아카이브함에서 볼 수 없어요.",
             sheetState = sheetState,
@@ -190,7 +198,7 @@ fun ArchiveEditScreen() {
                             sheetState.hide()
                         }.invokeOnCompletion {
                             if (!sheetState.isVisible) {
-                                showDeleteDialog = false
+                                showDeleteDialogState = false
                             }
                         }
                     },
@@ -207,7 +215,13 @@ fun ArchiveEditScreen() {
                             sheetState.hide()
                         }.invokeOnCompletion {
                             if (!sheetState.isVisible) {
-                                showDeleteDialog = false
+                                showDeleteDialogState = false
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        message = "Delete Archive Items",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
                             }
                         }
                     },
