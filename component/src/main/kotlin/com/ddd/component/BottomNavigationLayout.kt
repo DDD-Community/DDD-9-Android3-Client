@@ -133,6 +133,8 @@ sealed class BottomNavigationItem(
 fun BDSEditBottomNavigationLayout(
     modifier: Modifier = Modifier,
     selectCount: Int = 0,
+    onClickWrite: () -> Unit,
+    onClickDelete: () -> Unit,
     content: @Composable () -> Unit,
 ) {
     Scaffold(
@@ -162,7 +164,10 @@ fun BDSEditBottomNavigationLayout(
                                 .weight(1f)
                                 .clickableWithoutRipple(
                                     enabled = isClickable,
-                                    onClick = { item.onClickNavigationEvent }
+                                    onClick = { when (item) {
+                                        is EditBottomNavigationItem.Write -> onClickWrite()
+                                        is EditBottomNavigationItem.Delete -> onClickDelete()
+                                    } }
                                 ),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
@@ -196,12 +201,10 @@ fun BDSEditBottomNavigationLayout(
 
 sealed class EditBottomNavigationItem(
     val title: String,
-    @DrawableRes val icon: Int,
-    val route: String,
-    val onClickNavigationEvent: () -> Unit
+    @DrawableRes val icon: Int
 ) {
-    object Write : EditBottomNavigationItem("글쓰기", R.drawable.ic_edit, "Write", { /* 글쓰기 화면 이동 */ })
-    object Delete : EditBottomNavigationItem("삭제", R.drawable.ic_delete, "Delete", { /* 삭제 Dialog 노출 */ })
+    object Write : EditBottomNavigationItem("글쓰기", R.drawable.ic_edit)
+    object Delete : EditBottomNavigationItem("삭제", R.drawable.ic_delete)
 
     companion object {
         val bottomNavigationItems = listOf(

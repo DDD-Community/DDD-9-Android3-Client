@@ -24,9 +24,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.ArchiveItem
+import com.ddd.component.BDSAlertDialog
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
 import com.ddd.component.BDSButtonInnerPadding
+import com.ddd.component.BDSConfirmDialog
 import com.ddd.component.BDSEditBottomNavigationLayout
 import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSHeader
@@ -36,86 +38,60 @@ import com.ddd.component.theme.BDSColor
 @ExperimentalMaterial3Api
 @Composable
 fun ArchiveEditScreen() {
-    val archiveItems = listOf(
-        ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
+    val archiveItems = remember {
+        mutableStateListOf(
+            ArchiveItem(
+                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+                "마르디메르크디",
+                "SWEATSHIRT",
+                20f,
+                67500
+            ), ArchiveItem(
+                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+                "마르디메르크디",
+                "SWEATSHIRT F.",
+                20f,
+                67500
+            ), ArchiveItem(
+                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+                "마르디메르크디",
+                "SWEATSHIRT FL",
+                20f,
+                67500
+            ), ArchiveItem(
+                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+                "마르디메르크디",
+                "SWEATSHIRT FLO",
+                20f,
+                67500
+            ), ArchiveItem(
+                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+                "마르디메르크디",
+                "SWEATSHIRT FLOW",
+                20f,
+                67500
+            ), ArchiveItem(
+                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+                "마르디메르크디",
+                "SWEATSHIRT FLOWE",
+                20f,
+                67500
+            ), ArchiveItem(
+                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
+                "마르디메르크디",
+                "SWEATSHIRT FLOWER",
+                20f,
+                67500
+            ),
         )
-    )
+    }
     val selectItems = remember { mutableStateListOf<ArchiveItem>() }
-    val clickEnabled by remember { mutableStateOf(false) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     BDSEditBottomNavigationLayout(
         selectCount = selectItems.size,
+        onClickWrite = {},
+        onClickDelete = { showDeleteDialog = true }
     ) {
         Scaffold(
             topBar = {
@@ -165,19 +141,36 @@ fun ArchiveEditScreen() {
                     verticalArrangement = Arrangement.spacedBy(18.dp)
                 ) {
                     items(archiveItems) { archiveItem ->
-                        var isSelected by rememberSaveable { mutableStateOf(false) }
-                        BDSArchiveItemCard(
-                            archiveItem = archiveItem,
-                            onClickSelect = {
-                                isSelected = !isSelected
-                                if (isSelected) selectItems.add(archiveItem) else selectItems.remove(archiveItem)
-                            },
-                            isEditMode = true,
-                            isSelected = isSelected,
-                        )
+                        archiveItem.run {
+                            BDSArchiveItemCard(
+                                archiveItem = this,
+                                onClickSelect = {
+                                    isSelected.value = !isSelected.value
+                                    if (isSelected.value) selectItems.add(this) else selectItems.remove(this)
+                                },
+                                isEditMode = true,
+                                isSelected = isSelected.value,
+                            )
+                        }
                     }
                 }
             }
         }
+    }
+
+    if (showDeleteDialog) {
+        BDSConfirmDialog(
+            title = "아카이브의 상품을 삭제할까요?",
+            onDismissRequest = { showDeleteDialog = false },
+            subTitle = "삭제된 상품은 아카이브함에서 볼 수 없어요.",
+            cancel = "취소",
+            accept = "삭제",
+            onClickCancel = { showDeleteDialog = false },
+            onClickAccept = {
+                archiveItems.removeAll(selectItems)
+                selectItems.clear()
+                showDeleteDialog = false
+            }
+        )
     }
 }

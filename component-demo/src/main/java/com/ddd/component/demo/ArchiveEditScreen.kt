@@ -1,6 +1,5 @@
 package com.ddd.component.demo
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import com.ddd.component.ArchiveItem
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
-import com.ddd.component.BDSButton
 import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSEditBottomNavigationLayout
 import com.ddd.component.BDSFilledButton
@@ -118,6 +116,8 @@ fun ArchiveEditScreen() {
 
     BDSEditBottomNavigationLayout(
         // TODO: 추후 수정
+        onClickWrite = {},
+        onClickDelete = {},
         selectCount = 3,
     ) {
         Scaffold(
