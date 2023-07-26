@@ -268,9 +268,8 @@ fun ArchiveScreen() {
                         items(archiveItems) { archiveItem ->
                             BDSArchiveItemCard(
                                 archiveItem = archiveItem,
-                                modifier = Modifier.clickable {
-                                    /* VIP 이동 */
-                                }
+                                isEditMode = false,
+                                isLike = true
                             )
                         }
                     }

@@ -1,7 +1,5 @@
 package com.ddd.component
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,17 +8,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,23 +38,17 @@ data class ArchiveItem(
 fun BDSArchiveItemCard(
     archiveItem: ArchiveItem,
     modifier: Modifier = Modifier,
-    isSelectMode: Boolean = false
+    onClick: () -> Unit = {},
+    isEditMode: Boolean = false,
+    isSelected: Boolean = false,
+    onClickSelect: () -> Unit = {},
+    isLike: Boolean = false,
+    onClickLike: () -> Unit = {}
 ) {
-    var isSelect by remember { mutableStateOf(false) }
-
     Box(
         modifier
             .size(164.dp, 260.dp)
     ) {
-        // TODO: BDSButton 추가되면 수정
-        /*if (isSelectMode) {
-            BDSButton(
-                onClick = {
-                    isSelect = !isSelect
-                }
-            )
-        }*/
-
         Column {
             Box(
                 modifier = Modifier
@@ -70,15 +61,37 @@ fun BDSArchiveItemCard(
                         .fillMaxSize()
                         .then(modifier),
                     contentScale = ContentScale.FillBounds,
-                    contentDescription = "image description"
+                    contentDescription = "image description",
+                    tintColor = if (isEditMode && isSelected) Primary400.copy(0.4f) else null,
+                    blendMode = if (isEditMode && isSelected) BlendMode.Screen else null
                 )
-                if (isSelect) {
+
+                if (isEditMode) {
                     Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .alpha(0.4f)
-                            .background(color = Primary400)
-                    )
+                            .align(Alignment.TopEnd)
+                            .padding(top = 10.dp, end = 10.dp)
+                    ) {
+                        BDSCheckbox(
+                            checkedImage = R.drawable.ic_check,
+                            uncheckedImage = R.drawable.ic_uncheck,
+                            checked = isSelected,
+                            onClick = onClickSelect
+                        )
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(bottom = 10.dp, end = 10.dp)
+                    ) {
+                        BDSCheckbox(
+                            checkedImage = R.drawable.ic_heart_mono_fill,
+                            uncheckedImage = R.drawable.ic_heart_mono_stroke,
+                            checked = isLike,
+                            onClick = onClickLike
+                        )
+                    }
                 }
             }
             if (archiveItem.brand != null) {
