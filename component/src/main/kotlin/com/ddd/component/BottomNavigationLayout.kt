@@ -100,7 +100,7 @@ fun BDSBottomNavigationLayout(
                 }
             }
         }) { padding ->
-        Column(
+        Box(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
