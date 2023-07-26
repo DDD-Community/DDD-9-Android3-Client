@@ -13,11 +13,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +42,7 @@ import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
 import ddd.buyornot.findActivity
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @Composable
@@ -98,6 +103,7 @@ fun ArchiveEditScreen() {
         )
     }
     val selectItems = remember { mutableStateListOf<ArchiveItem>() }
+    val scope = rememberCoroutineScope()
     var showDeleteDialog by remember { mutableStateOf(false) }
 
     BDSEditBottomNavigationLayout(
@@ -170,14 +176,24 @@ fun ArchiveEditScreen() {
     }
 
     if (showDeleteDialog) {
+        val sheetState: SheetState = rememberModalBottomSheetState()
         BDSConfirmDialog(
             onDismissRequest = { showDeleteDialog = false },
             title = "아카이브의 상품을 삭제할까요?",
             subTitle = "삭제된 상품은 아카이브함에서 볼 수 없어요.",
+            sheetState = sheetState,
             cancelButton = {
                 BDSOutlinedButton(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = { showDeleteDialog = false },
+                    onClick = {
+                        scope.launch {
+                            sheetState.hide()
+                        }.invokeOnCompletion {
+                            if (!sheetState.isVisible) {
+                                showDeleteDialog = false
+                            }
+                        }
+                    },
                     text = "취소"
                 )
             },
@@ -185,9 +201,15 @@ fun ArchiveEditScreen() {
                 BDSFilledButton(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        archiveItems.removeAll(selectItems)
-                        selectItems.clear()
-                        showDeleteDialog = false
+                        scope.launch {
+                            archiveItems.removeAll(selectItems)
+                            selectItems.clear()
+                            sheetState.hide()
+                        }.invokeOnCompletion {
+                            if (!sheetState.isVisible) {
+                                showDeleteDialog = false
+                            }
+                        }
                     },
                     text = "삭제",
                     containerColor = Color.Red
