@@ -25,7 +25,7 @@ fun TextFieldScreen() {
                 value = value,
                 onValueChange = { newValue ->
                     value = newValue
-                    if (newValue.isEmpty()) state = BDSTextFieldState.Error
+                    state = if (value.isEmpty())  BDSTextFieldState.Error else BDSTextFieldState.Focus
                 },
                 onFocusChanged = { focusState ->
                     state = if (focusState.isFocused) BDSTextFieldState.Focus else BDSTextFieldState.UnFocus
