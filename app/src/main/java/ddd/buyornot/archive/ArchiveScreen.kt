@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,7 +45,6 @@ import com.ddd.component.BottomNavigationItem
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.SlateGray900
-import ddd.buyornot.add_vote.AddNewVoteActivity
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -199,7 +197,6 @@ fun ArchiveScreen() {
                             onClick = {
                                 context.startActivity(Intent(context, ArchiveEditActivity::class.java))
                             },
-                            modifier = Modifier.size(width = 45.dp, height = 24.dp),
                             contentPadding = BDSButtonInnerPadding.XSMALL,
                             text = "편집",
                             fontSize = 12.sp,

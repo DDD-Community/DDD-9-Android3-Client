@@ -54,7 +54,6 @@ import com.ddd.component.BDSBottomSheetHeader
 import com.ddd.component.BDSBottomSheetHorizontalDualButton
 import com.ddd.component.BDSBottomSheetSingleButton
 import com.ddd.component.BDSBottomSheetVerticalDualButton
-import com.ddd.component.BDSButton
 import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSIconSnackbar
@@ -390,9 +389,7 @@ fun DemoBottomSheet(
                     )
                 },
                 right = {
-                    BDSButton {
 
-                    }
                 }
             )
         },

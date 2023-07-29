@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -122,7 +121,6 @@ fun ArchiveEditScreen() {
                         BDSFilledButton(
                             onClick = { context.findActivity().finish() },
                             text = "완료",
-                            modifier = Modifier.size(width = 64.dp, height = 34.dp),
                             contentPadding = BDSButtonInnerPadding.SMALL,
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
