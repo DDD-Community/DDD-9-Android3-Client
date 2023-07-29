@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import com.ddd.component.theme.BDSFontFamily
 
 @Composable
@@ -27,7 +28,7 @@ fun BDSText(
     fontStyle: FontStyle? = FontStyle.Normal,
     fontWeight: FontWeight? = FontWeight.Normal,
     fontFamily: BDSFontFamily? = BDSFontFamily.Korean,
-    letterSpacing: TextUnit = TextUnit.Unspecified,
+    letterSpacing: TextUnit = (-0.3).sp,
     textDecoration: TextDecoration? = null,
     textAlign: TextAlign? = TextAlign.Start,
     lineHeight: TextUnit = TextUnit.Unspecified,
@@ -68,7 +69,7 @@ fun BDSText(
     fontStyle: FontStyle? = FontStyle.Normal,
     fontWeight: FontWeight? = FontWeight.Normal,
     fontFamily: BDSFontFamily? = BDSFontFamily.Korean,
-    letterSpacing: TextUnit = TextUnit.Unspecified,
+    letterSpacing: TextUnit = (-0.3).sp,
     textDecoration: TextDecoration? = null,
     textAlign: TextAlign? = TextAlign.Start,
     lineHeight: TextUnit = TextUnit.Unspecified,
