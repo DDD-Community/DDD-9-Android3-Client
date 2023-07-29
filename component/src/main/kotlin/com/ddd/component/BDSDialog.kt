@@ -1,7 +1,6 @@
 package com.ddd.component
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -65,10 +64,8 @@ fun BDSConfirmDialog(
     dragHandle: @Composable (() -> Unit)? = null,
     title: String,
     subTitle: String,
-    cancel: String,
-    accept: String,
-    onClickCancel: () -> Unit,
-    onClickAccept: () -> Unit,
+    cancelButton: @Composable (() -> Unit)? = null,
+    acceptButton: @Composable (() -> Unit)? = null,
 ) {
     ModalBottomSheet(
         modifier = modifier,
@@ -107,21 +104,10 @@ fun BDSConfirmDialog(
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(34.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
-            ) {
-                Button(onClick = onClickCancel) {
-                    BDSText(
-                        text = cancel
-                    )
-                }
-                Button(onClick = onClickAccept) {
-                    BDSText(
-                        text = accept
-                    )
-                }
-            }
+            BDSBottomSheetHorizontalDualButton(
+                cancelButton = cancelButton,
+                acceptButton = acceptButton
+            )
         }
     }
 }
@@ -187,7 +173,8 @@ fun BDSAlertDialog(
                 onClick = onClickAlert,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp
+                    .padding(
+                        horizontal = 16.dp
                     )
             ) {
                 BDSText(

@@ -14,6 +14,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,7 +34,9 @@ data class ArchiveItem(
     val name: String? = null,
     val discount: Float? = null,
     val price: Long? = null,
-)
+) {
+    val isSelected: MutableState<Boolean> = mutableStateOf(false)
+}
 
 @Composable
 fun BDSArchiveItemCard(
