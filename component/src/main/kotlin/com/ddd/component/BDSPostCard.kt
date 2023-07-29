@@ -72,8 +72,8 @@ fun BDSPostCard(
             )
         }
         Spacer(modifier = Modifier.width(34.dp))
-        BDSButton() {
+        /*BDSButton() {
             // 체크 버튼 추가
-        }
+        }*/
     }
 }

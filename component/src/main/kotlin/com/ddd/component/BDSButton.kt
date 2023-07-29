@@ -1,25 +1,24 @@
 package com.ddd.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,16 +29,6 @@ import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.White
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-
-@Composable
-fun BDSButton(onClick: () -> Unit) {
-    Button(
-
-        onClick = onClick
-    ) {
-
-    }
-}
 
 @Composable
 fun BDSButton(
@@ -60,26 +49,33 @@ fun BDSButton(
     withoutRipple: Boolean = false
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    Button(
-        onClick = onClick,
-        modifier = modifier,
-        contentPadding = contentPadding,
-        shape = shape,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = containerColor,
-            contentColor = contentColor,
-            disabledContainerColor = disabledContainerColor,
-            disabledContentColor = disabledContentColor
-        ),
-        border = border,
-        enabled = enabled,
-        interactionSource = if (withoutRipple) NoRippleInteractionSource() else interactionSource
+
+    Box(
+        modifier = modifier
+            .clickable(
+                interactionSource = if (withoutRipple) NoRippleInteractionSource() else interactionSource,
+                indication = null,
+                enabled = enabled,
+                onClick = onClick
+            )
+            .background(
+                color = if (enabled) containerColor else disabledContainerColor,
+                shape = shape
+            )
+            .apply {
+                border?.let {
+                    border(border = it, shape = shape)
+                }
+            },
+        contentAlignment = Alignment.Center,
     ) {
         BDSText(
             text = text,
+            color = if (enabled) contentColor else disabledContentColor,
             fontSize = fontSize,
             lineHeight = lineHeight,
-            fontWeight = fontWeight
+            fontWeight = fontWeight,
+            modifier = Modifier.padding(contentPadding),
         )
     }
 }
