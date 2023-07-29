@@ -4,6 +4,7 @@ import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.ddd.component.theme.BDSColor.Primary400
 import com.ddd.component.theme.BDSColor.SlateGray400
@@ -20,8 +21,10 @@ fun BDSSwitch(
         onCheckedChange = onCheckedChange,
         enabled = enabled,
         colors = SwitchDefaults.colors(
+            checkedBorderColor = Color.Transparent,
             checkedThumbColor = White,
             checkedTrackColor = Primary400,
+            uncheckedBorderColor = Color.Transparent,
             uncheckedThumbColor = White,
             uncheckedTrackColor = SlateGray400,
             disabledCheckedThumbColor = White.copy(alpha = ContentAlpha.disabled),

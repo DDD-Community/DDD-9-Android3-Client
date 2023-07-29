@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Gray950
 import com.ddd.component.theme.BDSColor.Primary400
@@ -32,24 +34,23 @@ import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun BDSButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape,
-    border: BorderStroke?,
-    containerColor: Color,
-    contentColor: Color,
-    disabledContainerColor: Color,
-    disabledContentColor: Color,
-    contentPadding: PaddingValues,
     text: String,
-    fontSize: TextUnit,
-    lineHeight: TextUnit,
-    fontWeight: FontWeight,
+    modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(50.dp),
+    border: BorderStroke? = null,
+    containerColor: Color = BDSColor.Primary500,
+    contentColor: Color = White,
+    disabledContainerColor: Color = BDSColor.SlateGray500,
+    disabledContentColor: Color = White,
+    contentPadding: PaddingValues = PaddingValues(vertical = 7.dp, horizontal = 20.dp),
+    fontSize: TextUnit = TextUnit.Unspecified,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    fontWeight: FontWeight? = FontWeight.Normal,
     enabled: Boolean = true,
-    withoutRipple: Boolean = false
+    withoutRipple: Boolean = true,
+    onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-
     Box(
         modifier = modifier
             .clickable(

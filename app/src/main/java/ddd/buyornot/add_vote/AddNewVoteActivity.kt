@@ -7,7 +7,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,11 +25,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.BDSAppBar
+import com.ddd.component.BDSButton
 import com.ddd.component.BDSImage
+import com.ddd.component.BDSSwitch
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BuyOrNotTheme
@@ -41,67 +46,150 @@ class AddNewVoteActivity : ComponentActivity() {
 
         setContent {
             BuyOrNotTheme {
-                Column(
+                var isTempStorageAvailable by remember {
+                    mutableStateOf(false)
+                }
+                var hideVote by remember { mutableStateOf(false) }
+
+                Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(color = BDSColor.White)
                 ) {
-                    var isTempStorageAvailable by remember {
-                        mutableStateOf(false)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        BDSAppBar(
+                            modifier = Modifier
+                                .height(54.dp)
+                                .fillMaxWidth(),
+                            left = {
+                                BDSText(
+                                    text = "취소",
+                                    modifier = Modifier.clickable {
+                                        finish()
+                                    },
+                                    fontSize = 16.sp,
+                                    color = BDSColor.Gray500,
+                                )
+                            },
+                            right = {
+                                BDSText(
+                                    text = "임시저장",
+                                    fontSize = 16.sp,
+                                    color = if (isTempStorageAvailable) BDSColor.Gray500 else BDSColor.Gray300,
+                                    modifier = Modifier
+                                        .padding(end = 22.dp)
+                                        .clickable {
+
+                                        }
+                                )
+                            },
+                            title = "투표글 쓰기",
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            VoteItemButton(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp)
+                                    .padding(start = 24.dp, end = 8.dp)
+                                    .weight(1f),
+                                imageUrl = ""
+                            )
+                            VoteItemButton(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp)
+                                    .padding(start = 8.dp, end = 24.dp)
+                                    .weight(1f),
+                                imageUrl = ""
+                            )
+                        }
                     }
 
-                    BDSAppBar(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        left = {
-                            BDSText(
-                                text = "취소",
-                                modifier = Modifier.clickable {
-
-                                },
-                                fontSize = 16.sp,
-                                color = BDSColor.Gray500,
-                            )
-                        },
-                        right = {
-                            BDSText(
-                                text = "임시저장",
-                                fontSize = 16.sp,
-                                color = if (isTempStorageAvailable) BDSColor.Gray500 else BDSColor.Gray300,
-                                modifier = Modifier
-                                    .padding(end = 22.dp)
-                                    .clickable {
-
-                                    }
-                            )
-                        },
-                        title = "투표글 쓰기",
-                    )
-                    Row(
+                    VoteBottomContent(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        VoteItemButton(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                                .padding(start = 24.dp, end = 8.dp)
-                                .weight(1f),
-                            imageUrl = ""
-                        )
-                        VoteItemButton(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                                .padding(start = 8.dp, end = 24.dp)
-                                .weight(1f),
-                            imageUrl = ""
-                        )
-                    }
+                            .padding(bottom = 36.dp, top = 16.dp)
+                            .align(Alignment.BottomCenter),
+                        checked = hideVote,
+                        savedCount = 0,
+                        postButtonEnabled = true,
+                        onCheckedChange = {
+                            hideVote = it
+                        },
+                        onClickSave = {
+
+                        },
+                        onClickPost = {
+
+                        },
+                    )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun VoteBottomContent(
+    modifier: Modifier = Modifier,
+    checked: Boolean = false,
+    savedCount: Int = 0,
+    postButtonEnabled: Boolean = false,
+    onCheckedChange: (Boolean) -> Unit,
+    onClickSave: () -> Unit,
+    onClickPost: (Boolean) -> Unit,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            BDSSwitch(
+                checked = checked,
+                onCheckedChange = {
+                    onCheckedChange(it)
+                },
+            )
+            BDSText(
+                modifier = Modifier.padding(start = 8.dp),
+                text = "비공개 (링크를 받은 친구만 투표 가능)",
+                fontSize = 14.sp,
+                color = BDSColor.SlateGray900,
+            )
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            BDSButton(
+                text = "임시저장 $savedCount",
+                fontSize = 14.sp,
+                contentColor = BDSColor.SlateGray900,
+                containerColor = Color.Transparent,
+            ) {
+                onClickSave()
+            }
+            BDSButton(
+                contentPadding = PaddingValues(horizontal = 20.dp, vertical = 13.dp),
+                modifier = Modifier.fillMaxWidth(),
+                text = "글 등록하기",
+                fontSize = 16.sp,
+            ) {
+                onClickPost(checked)
             }
         }
     }
