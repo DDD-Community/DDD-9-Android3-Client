@@ -50,6 +50,9 @@ fun DemoNavHost(navController: NavHostController) {
         composable(DemoNavigationRoute.Button.route) {
             ButtonTestScreen()
         }
+        composable(DemoNavigationRoute.TextField.route) {
+            TextFieldScreen()
+        }
     }
 }
 
@@ -94,5 +97,8 @@ internal sealed interface DemoNavigationRoute {
     }
     object Button : DemoNavigationRoute {
         override val route: String = "button"
+    }
+    object TextField : DemoNavigationRoute {
+        override val route: String = "textField"
     }
 }

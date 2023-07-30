@@ -268,6 +268,17 @@ fun DemoHomeScreen(
                         .fillMaxWidth()
                 )
             }
+            Button(
+                modifier = Modifier.padding(top = 8.dp),
+                onClick = {
+                    navController.navigate(DemoNavigationRoute.TextField.route)
+                }) {
+                Text(
+                    text = "TextField Test",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
         }
 
         if (openDialog) {
