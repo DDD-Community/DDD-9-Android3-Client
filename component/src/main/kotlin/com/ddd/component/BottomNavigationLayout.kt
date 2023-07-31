@@ -154,43 +154,38 @@ fun BDSEditBottomNavigationLayout(
                         .background(color = Primary400),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    EditBottomNavigationItem.bottomNavigationItems.forEach { item ->
-                        val isClickable = when (item) {
-                            EditBottomNavigationItem.Write -> selectCount == 2
-                            EditBottomNavigationItem.Delete -> selectCount > 0
-                        }
-                        Column(
+                    val item = EditBottomNavigationItem.bottomNavigationItems.first()
+                    val isClickable = selectCount > 0
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 14.dp, bottom = 24.dp, start = 16.dp, end = 16.dp)
+                            .weight(1f)
+                            .clickableWithoutRipple(
+                                enabled = isClickable,
+                                onClick = onClickDelete
+                            ),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        BDSImage(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 14.dp, bottom = 24.dp, start = 16.dp, end = 16.dp)
-                                .weight(1f)
-                                .clickableWithoutRipple(
-                                    enabled = isClickable,
-                                    onClick = { when (item) {
-                                        is EditBottomNavigationItem.Write -> onClickWrite()
-                                        is EditBottomNavigationItem.Delete -> onClickDelete()
-                                    } }
-                                ),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center,
-                        ) {
-                            BDSImage(
-                                modifier = Modifier
-                                    .padding(bottom = 4.dp)
-                                    .size(24.dp),
-                                resId = item.icon,
-                                contentDescription = item.title,
-                                tintColor = if (isClickable) BDSColor.White else BDSColor.White.copy(alpha = ContentAlpha.disabled),
-                            )
-                            BDSText(
-                                text = item.title,
-                                fontSize = 11.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = if (isClickable) BDSColor.White else BDSColor.White.copy(alpha = ContentAlpha.disabled),
-                            )
-                        }
+                                .padding(bottom = 4.dp)
+                                .size(24.dp),
+                            resId = item.icon,
+                            contentDescription = item.title,
+                            tintColor = if (isClickable) BDSColor.White else BDSColor.White.copy(alpha = ContentAlpha.disabled),
+                        )
+                        BDSText(
+                            text = item.title,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = if (isClickable) BDSColor.White else BDSColor.White.copy(alpha = ContentAlpha.disabled),
+                        )
                     }
                 }
+
             }
         }) { padding ->
         Box(
@@ -205,12 +200,10 @@ sealed class EditBottomNavigationItem(
     val title: String,
     @DrawableRes val icon: Int
 ) {
-    object Write : EditBottomNavigationItem("글쓰기", R.drawable.ic_edit)
     object Delete : EditBottomNavigationItem("삭제", R.drawable.ic_delete)
 
     companion object {
         val bottomNavigationItems = listOf(
-            Write,
             Delete
         )
     }

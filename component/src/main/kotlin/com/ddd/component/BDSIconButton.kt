@@ -1,5 +1,6 @@
 package com.ddd.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
@@ -7,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 
 @Composable
 fun BDSIconButton(
@@ -51,5 +53,20 @@ fun BDSIconButton(
         enabled = enabled
     ) {
         Icon(painter = painter, contentDescription = null)
+    }
+}
+
+@Composable
+fun BDSIconButton(
+    @DrawableRes resId: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
+) {
+    IconButton(
+        onClick = onClick,
+        enabled = enabled
+    ) {
+        Icon(painter = painterResource(id = resId), contentDescription = null)
     }
 }

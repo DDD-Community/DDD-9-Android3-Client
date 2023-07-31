@@ -27,8 +27,7 @@ fun BDSAppBar(
         contentAlignment = Alignment.Center
     ) {
         Box(
-            modifier = Modifier.align(Alignment.CenterStart)
-                .padding(start = 16.dp),
+            modifier = Modifier.align(Alignment.CenterStart),
             contentAlignment = Alignment.CenterStart,
         ) {
             left?.invoke()

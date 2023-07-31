@@ -19,7 +19,7 @@ fun BDSHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 8.dp)
             .then(modifier),
     ) {
         Row(
@@ -30,10 +30,5 @@ fun BDSHeader(
             left?.invoke()
             right?.invoke()
         }
-
-        BDSDivider(
-            modifier = Modifier.padding(vertical = 12.dp),
-            color = BDSColor.SlateGray300
-        )
     }
 }

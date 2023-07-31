@@ -181,30 +181,29 @@ fun ArchiveScreen() {
     ) {
         Column {
             BDSHeader(
+                modifier = Modifier.padding(top = 14.dp, bottom = 8.dp),
                 left = {
-                    BDSText(
+                    BDSBorderlessButton(
+                        onClick = {},
+                        contentPadding = BDSButtonInnerPadding.XSMALL,
                         text = "담은 상품 ${archiveItems.size}",
-                        modifier = Modifier.padding(start = 4.dp, top = 19.dp),
-                        color = BDSColor.SlateGray500,
                         fontSize = 12.sp,
-                        lineHeight = 14.sp,
-                        fontWeight = FontWeight.Bold,
+                        lineHeight = 18.sp,
+                        enabled = false
                     )
                 },
                 right = {
-                    Box(modifier = Modifier.padding(top = 14.dp)) {
-                        BDSBorderlessButton(
-                            onClick = {
-                                context.startActivity(Intent(context, ArchiveEditActivity::class.java))
-                            },
-                            contentPadding = BDSButtonInnerPadding.XSMALL,
-                            text = "편집",
-                            fontSize = 12.sp,
-                            lineHeight = 18.sp,
-                            contentColor = SlateGray900,
-                            enabled = archiveItems.isNotEmpty()
-                        )
-                    }
+                    BDSBorderlessButton(
+                        onClick = {
+                            context.startActivity(Intent(context, ArchiveEditActivity::class.java))
+                        },
+                        contentPadding = BDSButtonInnerPadding.XSMALL,
+                        text = "편집",
+                        fontSize = 12.sp,
+                        lineHeight = 18.sp,
+                        contentColor = SlateGray900,
+                        enabled = archiveItems.isNotEmpty()
+                    )
                 }
             )
             if (archiveItems.isEmpty()) {
@@ -241,7 +240,6 @@ fun ArchiveScreen() {
                     textAlign = TextAlign.Center
                 )
             } else {
-                Spacer(modifier = Modifier.height(4.dp))
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     contentPadding = PaddingValues(start = 16.dp, end = 16.dp),

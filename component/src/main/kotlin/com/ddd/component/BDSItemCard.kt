@@ -1,5 +1,6 @@
 package com.ddd.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -58,6 +59,7 @@ fun BDSArchiveItemCard(
                 modifier = Modifier
                     .clip(RoundedCornerShape(4.dp))
                     .size(164.dp, 164.dp)
+                    .clickable { onClick() }
             ) {
                 BDSImage(
                     resId = R.drawable.ic_app_logo_sample, /*?: defaultImage*/
@@ -80,7 +82,7 @@ fun BDSArchiveItemCard(
                             checkedImage = R.drawable.ic_check,
                             uncheckedImage = R.drawable.ic_uncheck,
                             checked = isSelected,
-                            onClick = onClickSelect
+                            onClick = onClick
                         )
                     }
                 } else {
