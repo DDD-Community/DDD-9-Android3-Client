@@ -5,7 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -68,6 +72,9 @@ fun BDSBottomSheet(
                         topEnd = 16.dp
                     )
                 )
+                // 키보드 노출 시 시스템 네비게이션 바 여백 제거
+                .consumeWindowInsets(WindowInsets.navigationBars)
+                .imePadding()
         ) {
             val context = LocalContext.current
             var bottomHeight by remember { mutableStateOf(0) }
