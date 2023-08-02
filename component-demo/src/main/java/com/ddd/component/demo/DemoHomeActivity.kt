@@ -61,6 +61,8 @@ import com.ddd.component.BDSImage
 import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSPostCard
 import com.ddd.component.BDSText
+import com.ddd.component.BDSTextField
+import com.ddd.component.BDSTextFieldState
 import com.ddd.component.PostItem
 import com.ddd.component.theme.BDSColor.Primary700
 import com.ddd.component.theme.BDSColor.SlateGray900
@@ -286,12 +288,15 @@ fun DemoHomeScreen(
                 onDismissRequest = { openDialog = false },
                 sheetState = bottomSheetState
             )*/
-            DemoBottomSheet(
+            /*DemoBottomSheet(
                 onDismissRequest = { openDialog = false }
-            )
+            )*/
             /*BottomSheetPostDone(
                 onDismissRequest = { openDialog = false }
             )*/
+            BottomSheetNewPost(
+                onDismissRequest = { openDialog = false }
+            )
         }
     }
 }
@@ -550,6 +555,79 @@ fun BottomSheetPostDone(
                     )
                 }
             )
+        }
+    )
+}
+
+@Composable
+fun BottomSheetNewPost(
+    onDismissRequest: () -> Unit
+) {
+    var value by remember {
+        mutableStateOf("")
+    }
+    var state: BDSTextFieldState by remember { mutableStateOf(BDSTextFieldState.UnFocus) }
+
+    BDSBottomSheet(
+        onDismissRequest = onDismissRequest,
+        headerContent = {
+            BDSBottomSheetHeader(
+                center = {
+                    BDSText(
+                        text = "새 투표 만들기",
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = SemiBold,
+                        color = SlateGray900
+                    )
+                }
+            )
+        },
+        bodyContent = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 22.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(12.dp))
+                BDSImage(
+                    url = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                    modifier = Modifier
+                        .size(91.dp, 91.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .border(width = 1.dp, color = SlateGray900)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                BDSTextField(
+                    value = value,
+                    onValueChange = { newValue ->
+                        value = newValue
+                        state = if (value.isEmpty() || value.length > 30) BDSTextFieldState.Error else BDSTextFieldState.Focus
+                    },
+                    onFocusChanged = { focusState ->
+                        state = if (focusState.isFocused) BDSTextFieldState.Focus else BDSTextFieldState.UnFocus
+                    },
+                    title = "투표 제목을 작성해주세요",
+                    hint = "",
+                    subText = "${value.length} / 최대 30자",
+                    state = state
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        },
+        bottomContent = {
+            BDSBottomSheetSingleButton {
+                BDSFilledButton(
+                    onClick = { /*TODO*/ },
+                    text = "다음으로",
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = BDSButtonInnerPadding.MEDIUM,
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    enabled = !(state is BDSTextFieldState.Error)
+                )
+            }
         }
     )
 }
