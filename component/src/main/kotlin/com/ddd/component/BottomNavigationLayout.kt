@@ -12,8 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -36,7 +35,6 @@ import com.ddd.component.theme.BDSColor.SlateGray600
  * @param onClickNavigationItem 탭 클릭 시 호출되는 콜백
  * @param content 탭 내용
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BDSBottomNavigationLayout(
     modifier: Modifier = Modifier,
