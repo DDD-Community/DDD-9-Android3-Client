@@ -1,11 +1,8 @@
 package com.ddd.component.demo
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -95,23 +91,16 @@ fun ProfileScreen() {
             color = SlateGray700
         )
         Divider(modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp))
-        BodyView(
-            modifier = Modifier.clickableWithoutRipple {  },
-            left = {
-                BDSText(
-                    text = "내가 쓴 글",
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = SemiBold,
-                    color = SlateGray800
-                )
-            },
-            right = {
-                BDSImage(
-                    resId = com.ddd.component.R.drawable.ic_arrow_right_small_mono,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
+        BDSText(
+            modifier = Modifier
+                .clickableWithoutRipple { }
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 13.dp),
+            text = "내가 쓴 글",
+            fontSize = 16.sp,
+            lineHeight = 24.sp,
+            fontWeight = SemiBold,
+            color = SlateGray800
         )
         Spacer(modifier = Modifier.height(42.dp))
         BDSText(
@@ -123,29 +112,27 @@ fun ProfileScreen() {
             color = SlateGray700
         )
         Divider(modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp))
-        BodyView(
-            modifier = Modifier.clickableWithoutRipple { showLogoutDialogState = true },
-            left = {
-                BDSText(
-                    text = "로그아웃",
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = SemiBold,
-                    color = SlateGray800
-                )
-            }
+        BDSText(
+            modifier = Modifier
+                .clickableWithoutRipple { showLogoutDialogState = true }
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 13.dp),
+            text = "로그아웃",
+            fontSize = 16.sp,
+            lineHeight = 24.sp,
+            fontWeight = SemiBold,
+            color = SlateGray800
         )
-        BodyView(
-            modifier = Modifier.clickableWithoutRipple {  },
-            left = {
-                BDSText(
-                    text = "계정삭제",
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = SemiBold,
-                    color = Red
-                )
-            }
+        BDSText(
+            modifier = Modifier
+                .clickableWithoutRipple { }
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 13.dp),
+            text = "계정삭제",
+            fontSize = 16.sp,
+            lineHeight = 24.sp,
+            fontWeight = SemiBold,
+            color = Red
         )
     }
     BDSImage(
@@ -160,7 +147,7 @@ fun ProfileScreen() {
     if (showLogoutDialogState) {
         val sheetState: SheetState = rememberModalBottomSheetState()
         BDSConfirmDialog(
-            onDismissRequest = { showLogoutDialogState = false},
+            onDismissRequest = { showLogoutDialogState = false },
             title = "계정에서 로그아웃 할까요?",
             subTitle = "작성한 투표는 잘 보관하고 있을게요",
             sheetState = sheetState,
@@ -197,23 +184,5 @@ fun ProfileScreen() {
                 )
             }
         )
-    }
-}
-
-@Composable
-fun BodyView(
-    modifier: Modifier = Modifier,
-    left: @Composable (() -> Unit)? = null,
-    right: @Composable (() -> Unit)? = null,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 13.dp)
-            .then(modifier),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        left?.invoke()
-        right?.invoke()
     }
 }
