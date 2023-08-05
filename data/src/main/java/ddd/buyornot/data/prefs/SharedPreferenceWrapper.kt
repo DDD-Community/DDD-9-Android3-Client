@@ -1,9 +1,8 @@
-package ddd.buyornot.prefs
+package ddd.buyornot.data.prefs
 
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import ddd.buyornot.delegate.DelegatedPreferences
 
 class SharedPreferenceWrapper private constructor() {
 

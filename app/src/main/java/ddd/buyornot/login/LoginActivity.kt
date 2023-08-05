@@ -1,4 +1,4 @@
-package ddd.buyornot
+package ddd.buyornot.login
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -10,8 +10,10 @@ import androidx.compose.ui.Modifier
 import com.ddd.component.BDSImage
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
+import ddd.buyornot.R
+import ddd.buyornot.data.model.login.KaKaoAuthRequest
 import ddd.buyornot.data.service.LoginService
-import ddd.buyornot.login.KakaoLogin
+import ddd.buyornot.data.util.KakaoLogin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +32,7 @@ class LoginActivity : ComponentActivity() {
             BuyOrNotTheme {
                 val kakaoLogin = KakaoLogin(baseContext) { token ->
                     CoroutineScope(Dispatchers.IO).launch {
-                        loginService.postKakaoAuth(LoginService.KaKaoAuthRequest(token))
+                        loginService.postKakaoAuth(KaKaoAuthRequest(token))
                     }
                 }
 

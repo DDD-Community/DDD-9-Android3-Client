@@ -1,21 +1,8 @@
-package ddd.buyornot.data.service
+package ddd.buyornot.data.model.login
 
 import com.google.gson.annotations.SerializedName
-import retrofit2.http.Body
-import retrofit2.http.POST
 
-interface LoginService {
-
-    @POST("/auth/kakao")
-    suspend fun postKakaoAuth(
-        @Body kakaoAuthRequest: KaKaoAuthRequest
-    ) : KakaoAuthResponse
-
-    data class KaKaoAuthRequest(
-        val authorizationCode: String
-    )
-
-    data class KakaoAuthResponse(
+data class KakaoAuthResponse(
         @SerializedName("result")
         val result: AuthResult?,
 
@@ -40,4 +27,3 @@ interface LoginService {
              val expiresIn: Int = 0
          )
     }
-}

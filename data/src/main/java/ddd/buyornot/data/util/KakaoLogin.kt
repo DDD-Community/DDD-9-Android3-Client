@@ -1,4 +1,4 @@
-package ddd.buyornot.login
+package ddd.buyornot.data.util
 
 import android.content.Context
 import android.util.Log

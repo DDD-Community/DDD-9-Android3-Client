@@ -12,9 +12,6 @@ plugins {
     id "dagger.hilt.android.plugin"
 }
 
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-
 android {
     namespace 'ddd.buyornot'
     compileSdk 33
@@ -33,10 +30,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            buildConfigField("String", "NAVER_LOGIN_ID", "" + localProperties['NAVER_LOGIN_ID'] + "")
-            buildConfigField("String", "NAVER_LOGIN_SECRET", "" + localProperties['NAVER_LOGIN_SECRET'] + "")
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

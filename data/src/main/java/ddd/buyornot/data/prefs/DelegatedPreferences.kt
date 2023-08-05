@@ -1,4 +1,4 @@
-package ddd.buyornot.delegate
+package ddd.buyornot.data.prefs
 
 import android.content.SharedPreferences
 import kotlin.reflect.KProperty

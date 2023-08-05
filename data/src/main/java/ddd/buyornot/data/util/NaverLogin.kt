@@ -1,16 +1,14 @@
-package ddd.buyornot.login
+package ddd.buyornot.data.util
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
-import ddd.buyornot.BuildConfig
-import ddd.buyornot.R
-import ddd.buyornot.prefs.SharedPreferenceWrapper
+import ddd.buyornot.data.BuildConfig
+import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 
 /*
     네이버 로그인 사용법
@@ -56,7 +54,7 @@ class NaverLogin {
     }
 
     fun initialize(context: Context) {
-        NaverIdLoginSDK.initialize(context, BuildConfig.NAVER_LOGIN_ID, BuildConfig.NAVER_LOGIN_SECRET, context.getString(R.string.app_name))
+        NaverIdLoginSDK.initialize(context, BuildConfig.NAVER_LOGIN_ID, BuildConfig.NAVER_LOGIN_SECRET, "BuyOrNot")
     }
 
     fun authenticate(context: Context) {

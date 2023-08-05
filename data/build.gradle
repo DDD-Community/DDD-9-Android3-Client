@@ -24,6 +24,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildTypes {
+        debug {
+            buildConfigField("String", "NAVER_LOGIN_ID", "" + localProperties['NAVER_LOGIN_ID'] + "")
+            buildConfigField("String", "NAVER_LOGIN_SECRET", "" + localProperties['NAVER_LOGIN_SECRET'] + "")
+        }
+    }
 }
 
 dependencies {
