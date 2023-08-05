@@ -11,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.component.BDSBottomNavigationLayout
@@ -52,7 +51,10 @@ class MainActivity : ComponentActivity() {
     private fun handleNavigationEvent(navHostController: NavHostController, bottomNavigationItem: BottomNavigationItem) {
         when (bottomNavigationItem) {
             is BottomNavigationItem.Home -> {
-                navHostController.navigate(BuyOrNotNavigationRoute.Home.route)
+                navHostController.navigate(BuyOrNotNavigationRoute.Home.route) {
+                    launchSingleTop = true
+                    popUpTo(BuyOrNotNavigationRoute.Archive.route) { inclusive = true }
+                }
             }
             is BottomNavigationItem.Add -> {
                 startActivity(
@@ -60,7 +62,10 @@ class MainActivity : ComponentActivity() {
                 )
             }
             is BottomNavigationItem.Archive -> {
-                navHostController.navigate(BuyOrNotNavigationRoute.Archive.route)
+                navHostController.navigate(BuyOrNotNavigationRoute.Archive.route) {
+                    launchSingleTop = true
+                    popUpTo(BuyOrNotNavigationRoute.Home.route) { inclusive = true }
+                }
             }
         }
     }
