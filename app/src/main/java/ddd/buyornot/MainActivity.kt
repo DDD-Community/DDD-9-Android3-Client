@@ -28,6 +28,8 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
+
+
         setContent {
             BuyOrNotTheme {
                 val navHostController = rememberNavController()
