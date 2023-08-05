@@ -2,28 +2,16 @@ package ddd.buyornot.data.model.login
 
 import com.google.gson.annotations.SerializedName
 
-data class KakaoAuthResponse(
-        @SerializedName("result")
-        val result: AuthResult?,
+data class AuthResult(
+    @SerializedName("accessToken")
+    val accessToken: String?,
 
-        @SerializedName("resultCode")
-        val resultCode: Int = 0,
+    @SerializedName("refreshToken")
+    val refreshToken: String?,
 
-        @SerializedName("resultMsg")
-        val resultMsg: String?
+    @SerializedName("grantType")
+    val grantType: String?,
 
-    ) {
-         data class AuthResult(
-             @SerializedName("accessToken")
-             val accessToken: String?,
-
-             @SerializedName("refreshToken")
-             val refreshToken: String?,
-
-             @SerializedName("grantType")
-             val grantType: String?,
-
-             @SerializedName("expiresIn")
-             val expiresIn: Int = 0
-         )
-    }
+    @SerializedName("expiresIn")
+    val expiresIn: Int = 0
+)

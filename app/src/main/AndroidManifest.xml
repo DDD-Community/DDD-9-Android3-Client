@@ -29,12 +29,14 @@
 
         <activity
             android:name=".add_vote.AddNewVoteActivity"
-            android:exported="true"
             android:theme="@style/Theme.BuyOrNot" />
 
         <activity
             android:name=".archive.ArchiveEditActivity"
-            android:exported="true"
+            android:theme="@style/Theme.BuyOrNot" />
+
+        <activity
+            android:name=".login.LoginActivity"
             android:theme="@style/Theme.BuyOrNot" />
 
         <activity
