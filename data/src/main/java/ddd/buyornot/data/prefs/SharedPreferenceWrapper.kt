@@ -1,17 +1,15 @@
 package ddd.buyornot.data.prefs
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class SharedPreferenceWrapper private constructor() {
-
-    companion object {
-        val instance = SharedPreferenceWrapper()
-    }
+class SharedPreferenceWrapper @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
     val prefs: SharedPreferences by lazy {
-        val context = Application()
         context.getSharedPreferences(context.packageName + "." + SharedPreferenceWrapper::class.java.simpleName, Context.MODE_PRIVATE)
     }
 
@@ -21,4 +19,5 @@ class SharedPreferenceWrapper private constructor() {
 
     var name: String by DelegatedPreferences(prefs, "")
     var birthYear: String by DelegatedPreferences(prefs, "")
+    var authenticationCode: String by DelegatedPreferences(prefs, "")
 }
