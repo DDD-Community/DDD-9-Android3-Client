@@ -1,7 +1,6 @@
 package ddd.buyornot.login
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -11,6 +10,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.ui.Modifier
 import com.ddd.component.BDSImage
 import com.ddd.component.theme.BDSColor
+import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.R
 import ddd.buyornot.data.model.login.KaKaoAuthRequest
@@ -27,31 +27,33 @@ class LoginActivity : ComponentActivity() {
     @Inject
     lateinit var loginService: LoginService
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         setContent {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = BDSColor.Background300),
-            ) {
-                val kakaoLogin = KakaoLogin(baseContext) { token ->
-                    CoroutineScope(Dispatchers.IO).launch {
-                        loginService.postKakaoAuth(KaKaoAuthRequest(token))
-                    }
-                }
-
-                IconButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        kakaoLogin.kakaoLogin()
-                    }
+            BuyOrNotTheme {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = BDSColor.Background300),
                 ) {
-                    BDSImage(
+                    val kakaoLogin = KakaoLogin(baseContext) { token ->
+                        CoroutineScope(Dispatchers.IO).launch {
+                            loginService.postKakaoAuth(KaKaoAuthRequest(token))
+                        }
+                    }
+
+                    IconButton(
                         modifier = Modifier.fillMaxWidth(),
-                        resId = R.drawable.kakao_login_medium_wide
-                    )
+                        onClick = {
+                            kakaoLogin.kakaoLogin()
+                        }
+                    ) {
+                        BDSImage(
+                            modifier = Modifier.fillMaxWidth(),
+                            resId = R.drawable.kakao_login_medium_wide
+                        )
+                    }
                 }
             }
         }
