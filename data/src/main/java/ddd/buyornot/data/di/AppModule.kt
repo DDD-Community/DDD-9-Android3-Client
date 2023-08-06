@@ -1,4 +1,4 @@
-package ddd.buyornot.di
+package ddd.buyornot.data.di
 
 import dagger.Module
 import dagger.Provides
