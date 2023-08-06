@@ -3,6 +3,7 @@ package ddd.buyornot
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,9 +43,21 @@ class MainActivity : ComponentActivity() {
                         handleNavigationEvent(navHostController, it)
                     }
                 ) {
+                    BackHandler {
+                        onBackPressed(navHostController)
+                    }
                     BuyOrNotNavHost(navHostController = navHostController)
                 }
             }
+        }
+    }
+
+    private fun onBackPressed(navHostController: NavHostController) {
+        val currentRoute = navHostController.currentBackStackEntry?.destination?.route
+        if (currentRoute in listOf(BuyOrNotNavigationRoute.Home.route, BuyOrNotNavigationRoute.Archive.route)) {
+            finish()
+        } else {
+            navHostController.popBackStack()
         }
     }
 
@@ -56,11 +69,13 @@ class MainActivity : ComponentActivity() {
                     popUpTo(BuyOrNotNavigationRoute.Archive.route) { inclusive = true }
                 }
             }
+
             is BottomNavigationItem.Add -> {
                 startActivity(
                     Intent(this, AddNewVoteActivity::class.java)
                 )
             }
+
             is BottomNavigationItem.Archive -> {
                 navHostController.navigate(BuyOrNotNavigationRoute.Archive.route) {
                     launchSingleTop = true
