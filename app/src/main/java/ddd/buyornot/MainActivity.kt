@@ -11,24 +11,42 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.component.BDSBottomNavigationLayout
 import com.ddd.component.BottomNavigationItem
 import com.ddd.component.theme.BuyOrNotTheme
+import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.add_vote.AddNewVoteActivity
+import ddd.buyornot.data.repository.login.AuthRepository
+import ddd.buyornot.login.LoginActivity
 import ddd.buyornot.navigation.BuyOrNotNavHost
 import ddd.buyornot.navigation.BuyOrNotNavigationRoute
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var repository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-
+        lifecycleScope.launch {
+            repository.isLoggedIn().onSuccess {
+                if (!it) {
+                    startKakaoLogin()
+                }
+            }.onFailure {
+                startKakaoLogin()
+            }
+        }
 
         setContent {
             BuyOrNotTheme {
@@ -50,6 +68,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun startKakaoLogin() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
+
     private fun handleNavigationEvent(navHostController: NavHostController, bottomNavigationItem: BottomNavigationItem) {
         when (bottomNavigationItem) {
             is BottomNavigationItem.Home -> {
@@ -58,11 +81,13 @@ class MainActivity : ComponentActivity() {
                     popUpTo(BuyOrNotNavigationRoute.Archive.route) { inclusive = true }
                 }
             }
+
             is BottomNavigationItem.Add -> {
                 startActivity(
                     Intent(this, AddNewVoteActivity::class.java)
                 )
             }
+
             is BottomNavigationItem.Archive -> {
                 navHostController.navigate(BuyOrNotNavigationRoute.Archive.route) {
                     launchSingleTop = true

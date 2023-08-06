@@ -18,7 +18,10 @@ import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 
     추후에 로그인 화면의 ViewModel로 migration 예정
  */
-class NaverLogin {
+class NaverLogin(
+    sharedPreferenceWrapper: SharedPreferenceWrapper
+) {
+
     private val oAuthLoginCallback = object : OAuthLoginCallback {
         override fun onSuccess() {
             NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
@@ -27,8 +30,8 @@ class NaverLogin {
                     val name = result.profile?.name.toString()
                     val birthYear = result.profile?.birthYear.toString()
 
-                    SharedPreferenceWrapper.instance.name = name
-                    SharedPreferenceWrapper.instance.birthYear = birthYear
+                    sharedPreferenceWrapper.name = name
+                    sharedPreferenceWrapper.birthYear = birthYear
 
                     Log.d("Naver Login", "로그인 유저 이름 : $name")
                     Log.d("Naver Login", "로그인 유저 출생연도 : $birthYear")
