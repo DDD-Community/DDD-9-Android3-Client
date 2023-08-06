@@ -3,6 +3,7 @@ package ddd.buyornot
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -62,6 +63,9 @@ class MainActivity : ComponentActivity() {
                         handleNavigationEvent(navHostController, it)
                     }
                 ) {
+                    BackHandler {
+                        onBackPressed(navHostController)
+                    }
                     BuyOrNotNavHost(navHostController = navHostController)
                 }
             }
@@ -71,6 +75,15 @@ class MainActivity : ComponentActivity() {
     private fun startKakaoLogin() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
+    }
+
+    private fun onBackPressed(navHostController: NavHostController) {
+        val currentRoute = navHostController.currentBackStackEntry?.destination?.route
+        if (currentRoute in listOf(BuyOrNotNavigationRoute.Home.route, BuyOrNotNavigationRoute.Archive.route)) {
+            finish()
+        } else {
+            navHostController.popBackStack()
+        }
     }
 
     private fun handleNavigationEvent(navHostController: NavHostController, bottomNavigationItem: BottomNavigationItem) {
