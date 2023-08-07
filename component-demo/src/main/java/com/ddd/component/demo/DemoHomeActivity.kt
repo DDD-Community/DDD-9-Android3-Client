@@ -252,9 +252,12 @@ fun DemoHomeScreen(
         }
 
         if (openDialog) {
-            WritePostPageSaveAlertBottomSheet(
+            /*WritePostPageSaveAlertBottomSheet(
                 onDismissRequest = { openDialog = false },
                 sheetState = bottomSheetState
+            )*/
+            WritePostPageDefaultBottomSheet(
+                onDismissRequest = { openDialog = false }
             )
         }
     }
