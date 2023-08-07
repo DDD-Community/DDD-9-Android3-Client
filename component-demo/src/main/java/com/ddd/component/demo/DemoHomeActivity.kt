@@ -24,7 +24,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -47,7 +46,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.ddd.component.BDSAlertDialog
 import com.ddd.component.BDSBorderlessButton
 import com.ddd.component.BDSBottomSheet
 import com.ddd.component.BDSBottomSheetHeader
@@ -284,47 +282,21 @@ fun DemoHomeScreen(
         }
 
         if (openDialog) {
-            /*DemoDialog(
+            WritePostPageSaveAlertBottomSheet(
                 onDismissRequest = { openDialog = false },
                 sheetState = bottomSheetState
-            )*/
+            )
             /*DemoBottomSheet(
                 onDismissRequest = { openDialog = false }
             )*/
             /*BottomSheetPostDone(
                 onDismissRequest = { openDialog = false }
             )*/
-            BottomSheetNewPost(
+            /*BottomSheetNewPost(
                 onDismissRequest = { openDialog = false }
-            )
+            )*/
         }
     }
-}
-
-
-@Composable
-@ExperimentalMaterial3Api
-fun DemoDialog(
-    onDismissRequest: () -> Unit,
-    sheetState: SheetState
-) {
-    /*BDSConfirmDialog(
-        onDismissRequest = onDismissRequest,
-        title = "상품을 삭제할까요?",
-        subTitle = "선택하신 상품을 정말 삭제하시겠어요?",
-        cancel = "취소",
-        accept = "삭제",
-        onClickCancel = {},
-        onClickAccept = {}
-    )*/
-    BDSAlertDialog(
-        onDismissRequest = onDismissRequest,
-        sheetState = sheetState,
-        title = "text",
-        subTitle = "text",
-        alert = "text",
-        onClickAlert = {}
-    )
 }
 
 @Composable
