@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.unit.dp
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.ddd.component.BDSBottomSheet
 import com.ddd.component.BDSBottomSheetHeader
 import com.ddd.component.BDSIconButton
+import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor.SlateGray100
@@ -93,10 +95,10 @@ fun SelectionButton(
             .border(width = 1.dp, color = SlateGray300, shape = RoundedCornerShape(16.dp))
             .padding(horizontal = 26.dp, vertical = 32.dp)
     ) {
-        Icon(
+        BDSImage(
             modifier = Modifier.size(38.dp),
-            painter = painterResource(id = resId),
-            contentDescription = ""
+            resId = resId,
+            contentScale = ContentScale.Fit
         )
         Spacer(modifier = Modifier.width(18.dp))
         Column(
