@@ -1,4 +1,4 @@
-package com.ddd.component.demo
+package com.ddd.component.demo.write
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -23,12 +23,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ddd.component.BDSBorderlessButton
 import com.ddd.component.BDSBottomSheet
 import com.ddd.component.BDSBottomSheetHeader
+import com.ddd.component.BDSBottomSheetVerticalDualButton
+import com.ddd.component.BDSButtonInnerPadding
+import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSIconButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.R
+import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.SlateGray100
 import com.ddd.component.theme.BDSColor.SlateGray300
 import com.ddd.component.theme.BDSColor.SlateGray600
@@ -57,7 +62,8 @@ fun WritePostPageDefaultBottomSheet(
             )
         },
         bodyContent = {
-            Column(modifier = Modifier.padding(top = 16.dp)
+            Column(modifier = Modifier
+                .padding(top = 16.dp)
                 .padding(horizontal = 18.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
@@ -130,4 +136,61 @@ fun SelectionButton(
             )
         }
     }
+}
+
+@Composable
+fun ArchivingSuccessBottomSheet(
+    onDismissRequest: () -> Unit,
+) {
+    BDSBottomSheet(
+        onDismissRequest = onDismissRequest,
+        headerContent = {
+            BDSBottomSheetHeader(
+                center = {
+                    BDSText(
+                        text = "아카이브 담기를 완료했어요!",
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = SemiBold,
+                        color = SlateGray900
+                    )
+                }
+            )
+        },
+        bodyContent = {
+            Box(
+                modifier = Modifier.padding(top = 11.dp, start = 86.dp, end = 92.dp)
+            ) {
+                BDSImage(
+                    resId = R.drawable.bg_archive_success,
+                    contentScale = ContentScale.Fit
+                )
+            }
+        },
+        bottomContent = {
+            BDSBottomSheetVerticalDualButton(
+                confirmButton = {
+                    BDSFilledButton(
+                        onClick = { /*TODO*/ }, text = "앱에서 확인하기",
+                        modifier = Modifier
+                            .height(50.dp)
+                            .fillMaxWidth(),
+                        contentPadding = BDSButtonInnerPadding.MEDIUM,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp
+                    )
+                },
+                cancelButton = {
+                    BDSBorderlessButton(
+                        onClick = { /*TODO*/ }, text = "닫기",
+                        modifier = Modifier.size(width = 74.dp, height = 34.dp),
+                        contentPadding = BDSButtonInnerPadding.SMALL,
+                        contentColor = BDSColor.Primary700,
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp,
+                    )
+                }
+            )
+        }
+    )
 }

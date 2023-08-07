@@ -1,4 +1,4 @@
-package com.ddd.component.demo
+package com.ddd.component.demo.write
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box

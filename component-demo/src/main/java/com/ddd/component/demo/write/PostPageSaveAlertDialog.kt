@@ -1,4 +1,4 @@
-package com.ddd.component.demo
+package com.ddd.component.demo.write
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
