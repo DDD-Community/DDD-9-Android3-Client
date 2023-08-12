@@ -71,7 +71,8 @@ fun BDSTextField(
                     BDSText(hint)
                 }
                 innerTextField()
-            }
+            },
+            maxLines = 2
         )
         Spacer(modifier = Modifier.height(10.dp))
         Divider(
