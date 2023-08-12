@@ -48,10 +48,11 @@ import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
 @Composable
 fun BDSBottomSheet(
     onDismissRequest: () -> Unit = { },
+    limitHeight: Boolean = true,
     properties: BottomSheetDialogProperties = BottomSheetDialogProperties(
         behaviorProperties = BottomSheetBehaviorProperties(
             state = BottomSheetBehaviorProperties.State.Expanded,
-            maxHeight = BottomSheetBehaviorProperties.Size(LocalConfiguration.current.screenHeightDp.dp.toPx() / 100 * 90),
+            maxHeight = if (limitHeight) BottomSheetBehaviorProperties.Size(LocalConfiguration.current.screenHeightDp.dp.toPx() / 100 * 90) else BottomSheetBehaviorProperties.Size.NotSet,
             isDraggable = false,
         )
     ),

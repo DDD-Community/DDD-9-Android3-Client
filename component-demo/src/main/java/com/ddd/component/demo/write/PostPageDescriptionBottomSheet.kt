@@ -42,6 +42,7 @@ fun PostPageDescriptionBottomSheet(
 
     BDSBottomSheet(
         onDismissRequest = onDismissRequest,
+        limitHeight = false,
         headerContent = {
             BDSBottomSheetHeader(
                 center = {
