@@ -4,6 +4,7 @@ import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.ddd.component.theme.BDSColor.Primary400
@@ -12,11 +13,13 @@ import com.ddd.component.theme.BDSColor.White
 
 @Composable
 fun BDSSwitch(
+    modifier: Modifier = Modifier,
     checked: Boolean = false,
     onCheckedChange: ((Boolean) -> Unit)?,
     enabled: Boolean = true
 ) {
     Switch(
+        modifier = modifier,
         checked = checked,
         onCheckedChange = onCheckedChange,
         enabled = enabled,

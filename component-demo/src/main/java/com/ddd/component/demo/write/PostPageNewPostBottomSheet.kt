@@ -71,6 +71,7 @@ fun WritePostPageNewPostBottomSheet(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 BDSTextField(
+                    modifier = Modifier.padding(8.dp),
                     value = value,
                     onValueChange = { newValue ->
                         value = newValue
@@ -96,7 +97,7 @@ fun WritePostPageNewPostBottomSheet(
                     contentPadding = BDSButtonInnerPadding.MEDIUM,
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
-                    enabled = !(state is BDSTextFieldState.Error)
+                    enabled = state !is BDSTextFieldState.Error
                 )
             }
         }

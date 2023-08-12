@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.component.BDSIconSnackbar
-import com.ddd.component.demo.write.ArchivingSuccessBottomSheet
+import com.ddd.component.demo.write.PostPageDescriptionBottomSheet
 import com.ddd.component.theme.BuyOrNotTheme
 import kotlinx.coroutines.launch
 
@@ -260,7 +260,7 @@ fun DemoHomeScreen(
             /*WritePostPageDefaultBottomSheet(
                 onDismissRequest = { openDialog = false }
             )*/
-            ArchivingSuccessBottomSheet(
+            PostPageDescriptionBottomSheet(
                 onDismissRequest = { openDialog = false }
             )
         }
