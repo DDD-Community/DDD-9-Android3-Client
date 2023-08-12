@@ -1,17 +1,21 @@
-package ddd.buyornot
+package ddd.buyornot.postpage
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.ddd.component.theme.BuyOrNotTheme
+import ddd.buyornot.postpage.bottomsheet.WritePostPageDefaultBottomSheet
 
-class SubActivity : ComponentActivity() {
+class ShareActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             BuyOrNotTheme {
+                WritePostPageDefaultBottomSheet(
+                    onDismissRequest = { finish() }
+                )
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.ddd.component.demo.write
+package ddd.buyornot.postpage.bottomsheet
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
