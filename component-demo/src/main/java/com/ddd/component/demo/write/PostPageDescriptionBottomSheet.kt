@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -121,7 +120,7 @@ fun PostPageDescriptionBottomSheet(
                 cancelButton = {
                     BDSBorderlessButton(
                         onClick = { /*TODO*/ }, text = "건너뛰기",
-                        modifier = Modifier.size(width = 74.dp, height = 34.dp),
+                        modifier = Modifier.height(34.dp),
                         contentPadding = BDSButtonInnerPadding.SMALL,
                         contentColor = BDSColor.Primary700,
                         fontSize = 14.sp,
