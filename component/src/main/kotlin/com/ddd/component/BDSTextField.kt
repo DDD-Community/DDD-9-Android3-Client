@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
@@ -33,6 +32,7 @@ import com.ddd.component.theme.BDSColor.SlateGray900
 
 @Composable
 fun BDSTextField(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     onFocusChanged: (FocusState) -> Unit,
@@ -45,7 +45,7 @@ fun BDSTextField(
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
     val focusManager = LocalFocusManager.current
 
-    Column(modifier = Modifier.padding(8.dp)) {
+    Column(modifier = modifier) {
         BDSText(
             text = title,
             fontSize = 12.sp,
@@ -71,7 +71,8 @@ fun BDSTextField(
                     BDSText(hint)
                 }
                 innerTextField()
-            }
+            },
+            maxLines = 2
         )
         Spacer(modifier = Modifier.height(10.dp))
         Divider(
