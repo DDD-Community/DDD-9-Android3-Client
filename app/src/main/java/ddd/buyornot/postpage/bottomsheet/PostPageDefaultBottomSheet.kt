@@ -3,6 +3,7 @@ package ddd.buyornot.postpage.bottomsheet
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +42,10 @@ import com.ddd.component.theme.BDSColor.SlateGray900
 
 @Composable
 fun WritePostPageDefaultBottomSheet(
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    onClickClose: () -> Unit,
+    onClickPoll: () -> Unit,
+    onClickArchive: () -> Unit,
 ) {
     BDSBottomSheet(
         onDismissRequest = onDismissRequest,
@@ -57,7 +61,10 @@ fun WritePostPageDefaultBottomSheet(
                     )
                 },
                 right = {
-                    BDSIconButton(resId = R.drawable.ic_ic_round_close, onClick = { /*TODO*/ })
+                    BDSIconButton(
+                        resId = R.drawable.ic_ic_round_close,
+                        onClick = onClickClose
+                    )
                 }
             )
         },
@@ -71,13 +78,13 @@ fun WritePostPageDefaultBottomSheet(
                     resId = R.drawable.ic_write_colored,
                     title = "이 상품으로 투표 만들기",
                     subTitle = "바로 투표를 생성할 수 있어요",
-                    {}
+                    onClick = onClickPoll
                 )
                 SelectionButton(
                     resId = R.drawable.ic_archive_colored,
                     title = "이 상품 아카이브에 담기",
                     subTitle = "아카이브함에서 상품을 확인할 수 있어요",
-                    {}
+                    onClick = onClickArchive
                 )
             }
         },
@@ -96,6 +103,7 @@ fun SelectionButton(
 ) {
     Row(
         modifier = Modifier
+            .clickable { onClick() }
             .fillMaxWidth()
             .background(color = SlateGray100, shape = RoundedCornerShape(16.dp))
             .border(width = 1.dp, color = SlateGray300, shape = RoundedCornerShape(16.dp))

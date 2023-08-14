@@ -2,7 +2,6 @@ package ddd.buyornot.postpage.bottomsheet
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,7 +13,6 @@ import com.ddd.component.BDSOutlinedButton
 @ExperimentalMaterial3Api
 fun WritePostPageSaveAlertBottomSheet(
     onDismissRequest: () -> Unit,
-    sheetState: SheetState
 ) {
     BDSConfirmDialog(
         onDismissRequest = onDismissRequest,

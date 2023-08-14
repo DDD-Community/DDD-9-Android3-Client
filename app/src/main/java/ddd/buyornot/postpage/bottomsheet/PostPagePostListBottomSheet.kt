@@ -20,6 +20,7 @@ import com.ddd.component.BDSBottomSheetHorizontalDualButton
 import com.ddd.component.BDSBottomSheetSingleButton
 import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSFilledButton
+import com.ddd.component.BDSIconButton
 import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSPostCard
 import com.ddd.component.BDSText
@@ -29,7 +30,8 @@ import com.ddd.component.theme.BDSColor
 
 @Composable
 fun WritePostPagePostListBottomSheet(
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    onClickClose: () -> Unit
 ) {
     val postItemList = listOf(
         PostItem(
@@ -105,7 +107,7 @@ fun WritePostPagePostListBottomSheet(
                     )
                 },
                 right = {
-
+                    BDSIconButton(resId = R.drawable.ic_ic_round_close, onClick = onClickClose)
                 }
             )
         },
@@ -139,17 +141,6 @@ fun WritePostPagePostListBottomSheet(
             if (postItemList.isNotEmpty()) {
                 BDSBottomSheetHorizontalDualButton(
                     acceptButton = {
-                        BDSOutlinedButton(
-                            onClick = { /*TODO*/ }, text = "새 투표 만들기",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp),
-                            contentPadding = BDSButtonInnerPadding.MEDIUM,
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                        )
-                    },
-                    cancelButton = {
                         BDSFilledButton(
                             onClick = { /*TODO*/ }, text = "상품 추가하기",
                             modifier = Modifier
@@ -159,6 +150,17 @@ fun WritePostPagePostListBottomSheet(
                             fontSize = 16.sp,
                             lineHeight = 24.sp,
                             // enabled = 상품이 선택됐을 때 true
+                        )
+                    },
+                    cancelButton = {
+                        BDSOutlinedButton(
+                            onClick = { /*TODO*/ }, text = "새 투표 만들기",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
+                            contentPadding = BDSButtonInnerPadding.MEDIUM,
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
                         )
                     }
                 )
