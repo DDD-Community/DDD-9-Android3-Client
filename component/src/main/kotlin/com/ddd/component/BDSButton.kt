@@ -37,7 +37,7 @@ fun BDSButton(
     text: String,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(50.dp),
-    border: BorderStroke? = null,
+    border: BorderStroke = BorderStroke(0.dp, Color.Transparent),
     containerColor: Color = BDSColor.Primary500,
     contentColor: Color = White,
     disabledContainerColor: Color = BDSColor.SlateGray500,
@@ -63,11 +63,7 @@ fun BDSButton(
                 color = if (enabled) containerColor else disabledContainerColor,
                 shape = shape
             )
-            .apply {
-                border?.let {
-                    border(border = it, shape = shape)
-                }
-            },
+            .border(border = border, shape = shape),
         contentAlignment = Alignment.Center,
     ) {
         BDSText(
@@ -102,7 +98,6 @@ fun BDSFilledButton(
         onClick = onClick,
         modifier = modifier,
         shape = shape,
-        border = null,
         containerColor = containerColor,
         contentColor = contentColor,
         disabledContainerColor = disabledContainerColor,
@@ -174,7 +169,6 @@ fun BDSBorderlessButton(
         onClick = onClick,
         modifier = modifier,
         shape = shape,
-        border = null,
         containerColor = containerColor,
         contentColor = contentColor,
         disabledContainerColor = disabledContainerColor,
