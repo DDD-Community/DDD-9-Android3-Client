@@ -32,7 +32,8 @@ import com.ddd.component.theme.BDSColor
 
 @Composable
 fun WritePostPageNewPostBottomSheet(
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    onClickNext: () -> Unit,
 ) {
     var value by remember {
         mutableStateOf("")
@@ -92,7 +93,7 @@ fun WritePostPageNewPostBottomSheet(
         bottomContent = {
             BDSBottomSheetSingleButton {
                 BDSFilledButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { onClickNext() },
                     text = "다음으로",
                     modifier = Modifier.fillMaxWidth(),
                     contentPadding = BDSButtonInnerPadding.MEDIUM,

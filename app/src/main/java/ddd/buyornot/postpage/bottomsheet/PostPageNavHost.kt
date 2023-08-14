@@ -31,7 +31,7 @@ fun PostPageNavHost(
                     navHostController.navigate(PostPageNavigationRoute.Post.route)
                 },
                 onClickArchive = {
-                    navHostController.navigate(PostPageNavigationRoute.Archive.route)
+                    navHostController.navigate(PostPageNavigationRoute.ArchiveDone.route)
                 }
             )
         }
@@ -42,6 +42,12 @@ fun PostPageNavHost(
                 },
                 onClickClose = {
                     navHostController.navigate(PostPageNavigationRoute.Close.route)
+                },
+                onClickNewPost = {
+                    navHostController.navigate(PostPageNavigationRoute.NewPost.route)
+                },
+                onClickAddItem = {
+                    navHostController.navigate(PostPageNavigationRoute.Description.route)
                 }
             )
         }
@@ -50,11 +56,33 @@ fun PostPageNavHost(
             WritePostPageNewPostBottomSheet(
                 onDismissRequest = {
                     navHostController.popBackStack()
+                },
+                onClickNext = {
+                    navHostController.navigate(PostPageNavigationRoute.Description.route)
                 }
             )
         }
 
-        composable(PostPageNavigationRoute.Archive.route) {
+        composable(PostPageNavigationRoute.Description.route) {
+            PostPageDescriptionBottomSheet(
+                onDismissRequest = {
+                    navHostController.popBackStack()
+                },
+                onClickNext = {
+                    navHostController.navigate(PostPageNavigationRoute.PostDone.route)
+                }
+            )
+        }
+
+        composable(PostPageNavigationRoute.PostDone.route) {
+            WritePostPageDoneBottomSheet(
+                onDismissRequest = {
+                    navHostController.popBackStack()
+                }
+            )
+        }
+
+        composable(PostPageNavigationRoute.ArchiveDone.route) {
             ArchivingSuccessBottomSheet(
                 onDismissRequest = {
                     navHostController.popBackStack()
@@ -69,7 +97,6 @@ fun PostPageNavHost(
                 }
             )
         }
-
     }
 }
 
@@ -78,10 +105,12 @@ sealed interface PostPageNavigationRoute {
         get() = this::class.java.name
 
     object Default : PostPageNavigationRoute
-    object Archive : PostPageNavigationRoute
+    object ArchiveDone : PostPageNavigationRoute
 
     object Post : PostPageNavigationRoute
     object NewPost : PostPageNavigationRoute
+    object Description : PostPageNavigationRoute
+    object PostDone : PostPageNavigationRoute
 
     object Close : PostPageNavigationRoute
 

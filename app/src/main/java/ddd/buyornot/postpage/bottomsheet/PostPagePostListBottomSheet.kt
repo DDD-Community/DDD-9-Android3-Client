@@ -31,7 +31,9 @@ import com.ddd.component.theme.BDSColor
 @Composable
 fun WritePostPagePostListBottomSheet(
     onDismissRequest: () -> Unit,
-    onClickClose: () -> Unit
+    onClickClose: () -> Unit,
+    onClickNewPost: () -> Unit,
+    onClickAddItem: () -> Unit,
 ) {
     val postItemList = listOf(
         PostItem(
@@ -142,7 +144,7 @@ fun WritePostPagePostListBottomSheet(
                 BDSBottomSheetHorizontalDualButton(
                     acceptButton = {
                         BDSFilledButton(
-                            onClick = { /*TODO*/ }, text = "상품 추가하기",
+                            onClick = { onClickAddItem() }, text = "상품 추가하기",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),
@@ -154,7 +156,7 @@ fun WritePostPagePostListBottomSheet(
                     },
                     cancelButton = {
                         BDSOutlinedButton(
-                            onClick = { /*TODO*/ }, text = "새 투표 만들기",
+                            onClick = { onClickNewPost() }, text = "새 투표 만들기",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),
@@ -168,7 +170,7 @@ fun WritePostPagePostListBottomSheet(
                 BDSBottomSheetSingleButton(
                     button = {
                         BDSFilledButton(
-                            onClick = { /*TODO*/ }, text = "새 투표 만들기",
+                            onClick = { onClickNewPost() }, text = "새 투표 만들기",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),

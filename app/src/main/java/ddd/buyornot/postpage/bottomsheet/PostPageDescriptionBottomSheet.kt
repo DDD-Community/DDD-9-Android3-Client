@@ -32,7 +32,8 @@ import com.ddd.component.theme.BDSColor
 
 @Composable
 fun PostPageDescriptionBottomSheet(
-    onDismissRequest: () -> Unit = { }
+    onDismissRequest: () -> Unit = { },
+    onClickNext: () -> Unit = { }
 ) {
     var value by remember {
         mutableStateOf("")
@@ -64,9 +65,10 @@ fun PostPageDescriptionBottomSheet(
                     .padding(horizontal = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(modifier = Modifier
-                    .padding(top = 24.dp)
-                    .height(155.dp)
+                Box(
+                    modifier = Modifier
+                        .padding(top = 24.dp)
+                        .height(155.dp)
                 ) {
                     BDSTextField(
                         modifier = Modifier
@@ -109,7 +111,8 @@ fun PostPageDescriptionBottomSheet(
             BDSBottomSheetVerticalDualButton(
                 confirmButton = {
                     BDSFilledButton(
-                        onClick = { /*TODO*/ }, text = "작성 완료",
+                        onClick = { onClickNext() },
+                        text = "작성 완료",
                         modifier = Modifier
                             .height(50.dp)
                             .fillMaxWidth(),
@@ -120,7 +123,8 @@ fun PostPageDescriptionBottomSheet(
                 },
                 cancelButton = {
                     BDSBorderlessButton(
-                        onClick = { /*TODO*/ }, text = "건너뛰기",
+                        onClick = { onClickNext() },
+                        text = "건너뛰기",
                         modifier = Modifier.height(34.dp),
                         contentPadding = BDSButtonInnerPadding.SMALL,
                         contentColor = BDSColor.Primary700,
