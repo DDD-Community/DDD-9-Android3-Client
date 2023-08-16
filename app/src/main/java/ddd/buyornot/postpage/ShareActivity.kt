@@ -1,17 +1,27 @@
-package ddd.buyornot
+package ddd.buyornot.postpage
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.navigation.compose.rememberNavController
 import com.ddd.component.theme.BuyOrNotTheme
+import ddd.buyornot.postpage.bottomsheet.PostPageNavHost
 
-class SubActivity : ComponentActivity() {
+// TODO: post 네비게이션 구현
+@ExperimentalMaterial3Api
+class ShareActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             BuyOrNotTheme {
+                val navHostController = rememberNavController()
+
+                PostPageNavHost(
+                    navHostController = navHostController,
+                )
             }
         }
     }
