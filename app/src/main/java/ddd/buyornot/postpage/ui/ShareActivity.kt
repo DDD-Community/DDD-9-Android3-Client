@@ -16,6 +16,9 @@ import ddd.buyornot.postpage.viewmodel.ShareViewModel
 @ExperimentalMaterial3Api
 @AndroidEntryPoint
 class ShareActivity : ComponentActivity() {
+
+    private val viewModel : ShareViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,6 +28,7 @@ class ShareActivity : ComponentActivity() {
 
                 PostPageNavHost(
                     navHostController = navHostController,
+                    viewModel
                 )
             }
         }
