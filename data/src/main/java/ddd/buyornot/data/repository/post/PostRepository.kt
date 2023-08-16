@@ -18,11 +18,11 @@ interface PostRepository {
 
     suspend fun fetchPost(postId: Int) : Result<BaseApiResponse<PostResponse>>
 
-    suspend fun fetchTemporaryPost() : Result<BaseApiResponse<PostResponse>>
+    suspend fun fetchTemporaryPost() : Result<BaseApiResponse<List<PostResponse>>>
 
-    suspend fun fetchPostList(page: Int, count: Int) : Result<BaseApiResponse<PostResponse>>
+    suspend fun fetchPostList(page: Int, count: Int) : Result<BaseApiResponse<List<PostResponse>>>
 
-    suspend fun fetchOnGoingPostList(page: Int, count: Int) : Result<BaseApiResponse<PostResponse>>
+    suspend fun fetchOnGoingPostList(page: Int, count: Int) : Result<BaseApiResponse<List<PostResponse>>>
 
-    suspend fun fetchClosedPostList(page: Int, count: Int) : Result<BaseApiResponse<PostResponse>>
+    suspend fun fetchClosedPostList(page: Int, count: Int) : Result<BaseApiResponse<List<PostResponse>>>
 }

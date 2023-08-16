@@ -46,23 +46,23 @@ interface PostService {
     ): BaseApiResponse<PostResponse>
 
     @GET("/api/post/temporary")
-    suspend fun fetchTemporaryPost() : BaseApiResponse<PostResponse>
+    suspend fun fetchTemporaryPost() : BaseApiResponse<List<PostResponse>>
 
     @GET("/api/post/received")
     suspend fun fetchPostList(
         @Query("page") page: Int,
         @Query("count") count: Int
-    ): BaseApiResponse<PostResponse>
+    ): BaseApiResponse<List<PostResponse>>
 
     @GET("/api/post/ongoing-list")
     suspend fun fetchOnGoingPostList(
         @Query("page") page: Int,
         @Query("count") count: Int
-    ): BaseApiResponse<PostResponse>
+    ): BaseApiResponse<List<PostResponse>>
 
     @GET("/api/post/closed-list")
     suspend fun fetchClosedPostList(
         @Query("page") page: Int,
         @Query("count") count: Int
-    ): BaseApiResponse<PostResponse>
+    ): BaseApiResponse<List<PostResponse>>
 }
