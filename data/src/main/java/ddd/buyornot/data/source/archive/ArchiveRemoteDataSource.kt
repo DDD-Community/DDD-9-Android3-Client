@@ -7,6 +7,8 @@ import ddd.buyornot.data.model.archive.DeleteArchiveReq
 
 interface ArchiveRemoteDataSource {
 
+    suspend fun postArchiveItem(itemUrl: String) : Result<BaseApiResponse<ArchiveResponse>>
+
     suspend fun postArchiveItem(itemId: Int) : Result<BaseApiResponse<ArchiveResponse>>
 
     suspend fun patchArchiveItemLike(itemId: Int) : Result<BaseApiResponse<ArchiveResponse>>

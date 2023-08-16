@@ -7,6 +7,7 @@ import javax.inject.Inject
 class PostRemoteDataSourceImpl @Inject constructor(
     private val postService: PostService
 ) : PostRemoteDataSource {
+
     override suspend fun postNewPost(postRequest: PostRequest) = runCatching {
         postService.postNewPost(postRequest)
     }
