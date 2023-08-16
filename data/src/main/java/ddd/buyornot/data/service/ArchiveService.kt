@@ -32,11 +32,11 @@ interface ArchiveService {
     suspend fun fetchArchivePostList(
         @Query("page") page: Int,
         @Query("count") count: Int,
-    ): BaseApiResponse<ArchiveResponse>
+    ): BaseApiResponse<List<ArchiveResponse>>
 
     @GET("/api/archive/liked-list")
     suspend fun fetchArchiveLikedPostList(
         @Query("page") page: Int,
         @Query("count") count: Int,
-    ): BaseApiResponse<ArchiveResponse>
+    ): BaseApiResponse<List<ArchiveResponse>>
 }

@@ -12,7 +12,7 @@ interface ArchiveRemoteDataSource {
 
     suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) : Result<BaseApiResponse<ArchiveResponse>>
 
-    suspend fun fetchPostList(page: Int, count: Int) : Result<BaseApiResponse<ArchiveResponse>>
+    suspend fun fetchPostList(page: Int, count: Int) : Result<BaseApiResponse<List<ArchiveResponse>>>
 
-    suspend fun fetchLikedPostList(page: Int, count: Int) : Result<BaseApiResponse<ArchiveResponse>>
+    suspend fun fetchLikedPostList(page: Int, count: Int) : Result<BaseApiResponse<List<ArchiveResponse>>>
 }

@@ -22,11 +22,11 @@ class ArchiveRemoteDataSourceImpl @Inject constructor(
         archiveService.patchArchiveItemDelete(deleteArchiveReq)
     }
 
-    override suspend fun fetchPostList(page: Int, count: Int): Result<BaseApiResponse<ArchiveResponse>> = runCatching {
+    override suspend fun fetchPostList(page: Int, count: Int): Result<BaseApiResponse<List<ArchiveResponse>>> = runCatching {
         archiveService.fetchArchivePostList(page, count)
     }
 
-    override suspend fun fetchLikedPostList(page: Int, count: Int): Result<BaseApiResponse<ArchiveResponse>> = runCatching {
+    override suspend fun fetchLikedPostList(page: Int, count: Int): Result<BaseApiResponse<List<ArchiveResponse>>> = runCatching {
         archiveService.fetchArchiveLikedPostList(page, count)
     }
 }
