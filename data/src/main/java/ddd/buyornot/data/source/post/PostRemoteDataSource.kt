@@ -10,6 +10,12 @@ interface PostRemoteDataSource {
 
     suspend fun postNewPostFromArchive(postRequest: PostRequest, itemId1: Int, itemId2: Int) : Result<BaseApiResponse<PostResponse>>
 
+    suspend fun patchPostModify(postRequest: PostRequest, postId: Int) : Result<BaseApiResponse<PostResponse>>
+
+    suspend fun patchPostDelete(postId: Int) : Result<BaseApiResponse<Int>>
+
+    suspend fun patchPostFinish(postId: Int) : Result<BaseApiResponse<PostResponse>>
+
     suspend fun fetchPost(postId: Int) : Result<BaseApiResponse<PostResponse>>
 
     suspend fun fetchTemporaryPost() : Result<BaseApiResponse<PostResponse>>

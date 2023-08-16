@@ -11,6 +11,12 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun postNewPostFromArchive(postRequest: PostRequest, itemId1: Int, itemId2: Int) = postRemoteDataSource.postNewPostFromArchive(postRequest, itemId1, itemId2)
 
+    override suspend fun patchPostModify(postRequest: PostRequest, postId: Int) = postRemoteDataSource.patchPostModify(postRequest, postId)
+
+    override suspend fun patchPostDelete(postId: Int) = postRemoteDataSource.patchPostDelete(postId)
+
+    override suspend fun patchPostFinish(postId: Int) = postRemoteDataSource.patchPostFinish(postId)
+
     override suspend fun fetchPost(postId: Int) = postRemoteDataSource.fetchPost(postId)
 
     override suspend fun fetchTemporaryPost() = postRemoteDataSource.fetchTemporaryPost()

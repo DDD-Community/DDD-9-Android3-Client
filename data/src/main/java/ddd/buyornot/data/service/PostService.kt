@@ -5,6 +5,7 @@ import ddd.buyornot.data.model.post.PostRequest
 import ddd.buyornot.data.model.post.PostResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -21,6 +22,22 @@ interface PostService {
         @Body postRequest: PostRequest,
         @Query("itemId1") itemId1: Int,
         @Query("itemId2") itemId2: Int,
+    ): BaseApiResponse<PostResponse>
+
+    @PATCH("/api/post/{postId}/modification")
+    suspend fun patchPostModify(
+        @Body postRequest: PostRequest,
+        @Path("postId") postId: Int,
+    ): BaseApiResponse<PostResponse>
+
+    @PATCH("/api/post/{postId}/deletion")
+    suspend fun patchPostDelete(
+        @Path("postId") postId: Int
+    ): BaseApiResponse<Int>
+
+    @PATCH("/api/post/{/postId}/end-poll")
+    suspend fun patchPostFinish(
+        @Path("postId") postId: Int
     ): BaseApiResponse<PostResponse>
 
     @GET("/api/post/{postId}")

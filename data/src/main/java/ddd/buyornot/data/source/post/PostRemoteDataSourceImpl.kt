@@ -15,6 +15,18 @@ class PostRemoteDataSourceImpl @Inject constructor(
         postService.postNewPostFromArchive(postRequest, itemId1, itemId2)
     }
 
+    override suspend fun patchPostModify(postRequest: PostRequest, postId: Int) = runCatching {
+        postService.patchPostModify(postRequest, postId)
+    }
+
+    override suspend fun patchPostDelete(postId: Int) = runCatching {
+        postService.patchPostDelete(postId)
+    }
+
+    override suspend fun patchPostFinish(postId: Int) = runCatching {
+        postService.patchPostFinish(postId)
+    }
+
     override suspend fun fetchPost(postId: Int) = runCatching {
         postService.fetchPost(postId)
     }
