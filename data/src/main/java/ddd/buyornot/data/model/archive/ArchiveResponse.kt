@@ -40,7 +40,7 @@ data class ArchiveResponse(
     val userId: String? = null,
 )
 
-data class PollResult(
+data class ArchiveDeleteResult(
     @SerializedName("additionalProp1")
     val additionalProp1: Int? = null,
     @SerializedName("additionalProp2")

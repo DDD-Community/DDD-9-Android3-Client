@@ -2,7 +2,7 @@ package ddd.buyornot.data.model.post
 
 import com.google.gson.annotations.SerializedName
 
-data class PostResult(
+data class PostResponse(
     @SerializedName("content")
     val content: String? = null,
 
