@@ -3,6 +3,7 @@ package ddd.buyornot.data.service
 import ddd.buyornot.data.model.BaseApiResponse
 import ddd.buyornot.data.model.archive.ArchiveResponse
 import ddd.buyornot.data.model.archive.DeleteArchiveReq
+import ddd.buyornot.data.model.archive.PollResult
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -22,11 +23,10 @@ interface ArchiveService {
         @Path("archiveId") archiveId: Int
     ): BaseApiResponse<ArchiveResponse>
 
-    // Response 확인 필요
     @PATCH("/api/archive/deletion")
     suspend fun patchArchiveItemDelete(
         @Body deleteArchiveReq: DeleteArchiveReq
-    ): BaseApiResponse<ArchiveResponse>
+    ): BaseApiResponse<PollResult>
 
     @GET("/api/archive/list")
     suspend fun fetchArchivePostList(
