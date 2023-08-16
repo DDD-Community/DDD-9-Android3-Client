@@ -8,6 +8,8 @@ class ArchiveRepositoryImpl @Inject constructor(
     private val archiveRemoteDataSource: ArchiveRemoteDataSource,
 ) : ArchiveRepository {
 
+    override suspend fun postArchiveItem(itemUrl: String) = archiveRemoteDataSource.postArchiveItem(itemUrl)
+
     override suspend fun postArchiveItem(itemId: Int) = archiveRemoteDataSource.postArchiveItem(itemId)
 
     override suspend fun patchArchiveItemLike(itemId: Int) = archiveRemoteDataSource.patchArchiveItemLike(itemId)

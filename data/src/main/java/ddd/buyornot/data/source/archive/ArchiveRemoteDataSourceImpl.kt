@@ -10,6 +10,10 @@ class ArchiveRemoteDataSourceImpl @Inject constructor(
     private val archiveService: ArchiveService,
 ) : ArchiveRemoteDataSource {
 
+    override suspend fun postArchiveItem(itemUrl: String) = runCatching {
+        archiveService.postArchiveItem(itemUrl)
+    }
+
     override suspend fun postArchiveItem(itemId: Int) = runCatching {
         archiveService.postArchiveItem(itemId)
     }

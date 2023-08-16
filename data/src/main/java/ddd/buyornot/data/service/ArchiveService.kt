@@ -13,6 +13,13 @@ import retrofit2.http.Query
 
 interface ArchiveService {
 
+    // 웹에서 보관
+    @POST("/api/archive/from-web")
+    suspend fun postArchiveItem(
+        @Path("itemUrl") itemUrl: String
+    ): BaseApiResponse<ArchiveResponse>
+
+    // 게시물에서 보관
     @POST("/api/archive/from-post/{itemId}")
     suspend fun postArchiveItem(
         @Path("itemId") itemId: Int
