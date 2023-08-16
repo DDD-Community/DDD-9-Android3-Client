@@ -14,4 +14,24 @@ class PostRemoteDataSourceImpl @Inject constructor(
     override suspend fun postNewPostFromArchive(postRequest: PostRequest, itemId1: Int, itemId2: Int) = runCatching {
         postService.postNewPostFromArchive(postRequest, itemId1, itemId2)
     }
+
+    override suspend fun fetchPost(postId: Int) = runCatching {
+        postService.fetchPost(postId)
+    }
+
+    override suspend fun fetchTemporaryPost() = runCatching {
+        postService.fetchTemporaryPost()
+    }
+
+    override suspend fun fetchPostList(page: Int, count: Int) = runCatching {
+        postService.fetchPostList(page, count)
+    }
+
+    override suspend fun fetchOnGoingPostList(page: Int, count: Int) = runCatching {
+        postService.fetchOnGoingPostList(page, count)
+    }
+
+    override suspend fun fetchClosedPostList(page: Int, count: Int) = runCatching {
+        postService.fetchClosedPostList(page, count)
+    }
 }
