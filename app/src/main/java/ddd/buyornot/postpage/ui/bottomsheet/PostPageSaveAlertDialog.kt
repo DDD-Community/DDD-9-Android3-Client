@@ -1,4 +1,4 @@
-package ddd.buyornot.postpage.bottomsheet
+package ddd.buyornot.postpage.ui.bottomsheet
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api

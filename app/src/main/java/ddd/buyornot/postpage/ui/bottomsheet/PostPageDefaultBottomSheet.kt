@@ -1,4 +1,4 @@
-package ddd.buyornot.postpage.bottomsheet
+package ddd.buyornot.postpage.ui.bottomsheet
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
