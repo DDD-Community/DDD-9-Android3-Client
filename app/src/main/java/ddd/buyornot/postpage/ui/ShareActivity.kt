@@ -12,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.postpage.ui.bottomsheet.PostPageNavHost
 import ddd.buyornot.postpage.viewmodel.ShareViewModel
 
-// TODO: post 네비게이션 구현
 @ExperimentalMaterial3Api
 @AndroidEntryPoint
 class ShareActivity : ComponentActivity() {
