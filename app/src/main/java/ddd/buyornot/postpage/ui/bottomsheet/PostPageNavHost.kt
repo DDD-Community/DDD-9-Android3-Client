@@ -80,9 +80,11 @@ fun PostPageNavHost(
         }
 
         composable(PostPageNavigationRoute.PostDone.route) {
+            val context = LocalContext.current
+
             WritePostPageDoneBottomSheet(
                 onDismissRequest = {
-                    navHostController.popBackStack()
+                    context.findActivity().finish()
                 }
             )
         }

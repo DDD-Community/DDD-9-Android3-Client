@@ -1,5 +1,6 @@
 package ddd.buyornot.postpage.ui.bottomsheet
 
+import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.unit.dp
@@ -39,6 +41,7 @@ import com.ddd.component.theme.BDSColor.SlateGray100
 import com.ddd.component.theme.BDSColor.SlateGray300
 import com.ddd.component.theme.BDSColor.SlateGray600
 import com.ddd.component.theme.BDSColor.SlateGray900
+import ddd.buyornot.findActivity
 
 @Composable
 fun WritePostPageDefaultBottomSheet(
@@ -150,6 +153,8 @@ fun SelectionButton(
 fun ArchivingSuccessBottomSheet(
     onDismissRequest: () -> Unit,
 ) {
+    val context = LocalContext.current
+
     BDSBottomSheet(
         onDismissRequest = onDismissRequest,
         headerContent = {
@@ -201,4 +206,8 @@ fun ArchivingSuccessBottomSheet(
             )
         }
     )
+
+    BackHandler {
+        context.findActivity().finish()
+    }
 }
