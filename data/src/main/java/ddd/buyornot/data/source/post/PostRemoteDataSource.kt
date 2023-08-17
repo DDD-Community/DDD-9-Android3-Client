@@ -2,27 +2,27 @@ package ddd.buyornot.data.source.post
 
 import ddd.buyornot.data.model.BaseApiResponse
 import ddd.buyornot.data.model.post.PostRequest
-import ddd.buyornot.data.model.post.PostResponse
+import ddd.buyornot.data.model.post.PostResult
 
 interface PostRemoteDataSource {
 
-    suspend fun postNewPost(postRequest: PostRequest) : Result<BaseApiResponse<PostResponse>>
+    suspend fun postNewPost(postRequest: PostRequest) : BaseApiResponse<PostResult>?
 
-    suspend fun postNewPostFromArchive(postRequest: PostRequest, itemId1: Int, itemId2: Int) : Result<BaseApiResponse<PostResponse>>
+    suspend fun postNewPostFromArchive(postRequest: PostRequest, itemId1: Int, itemId2: Int) : BaseApiResponse<PostResult>?
 
-    suspend fun patchPostModify(postRequest: PostRequest, postId: Int) : Result<BaseApiResponse<PostResponse>>
+    suspend fun patchPostModify(postRequest: PostRequest, postId: Int) : BaseApiResponse<PostResult>?
 
-    suspend fun patchPostDelete(postId: Int) : Result<BaseApiResponse<Int>>
+    suspend fun patchPostDelete(postId: Int) : BaseApiResponse<Int>?
 
-    suspend fun patchPostFinish(postId: Int) : Result<BaseApiResponse<PostResponse>>
+    suspend fun patchPostFinish(postId: Int) : BaseApiResponse<PostResult>?
 
-    suspend fun fetchPost(postId: Int) : Result<BaseApiResponse<PostResponse>>
+    suspend fun fetchPost(postId: Int) : BaseApiResponse<PostResult>?
 
-    suspend fun fetchTemporaryPost() : Result<BaseApiResponse<List<PostResponse>>>
+    suspend fun fetchTemporaryPost() : BaseApiResponse<List<PostResult>>?
 
-    suspend fun fetchPostList(page: Int, count: Int) : Result<BaseApiResponse<List<PostResponse>>>
+    suspend fun fetchPostList(page: Int, count: Int) : BaseApiResponse<List<PostResult>>?
 
-    suspend fun fetchOnGoingPostList(page: Int, count: Int) : Result<BaseApiResponse<List<PostResponse>>>
+    suspend fun fetchOnGoingPostList(page: Int, count: Int) : BaseApiResponse<List<PostResult>>?
 
-    suspend fun fetchClosedPostList(page: Int, count: Int) : Result<BaseApiResponse<List<PostResponse>>>
+    suspend fun fetchClosedPostList(page: Int, count: Int) : BaseApiResponse<List<PostResult>>?
 }
