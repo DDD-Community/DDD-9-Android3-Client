@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ddd.buyornot.data.service.LoginService
+import ddd.buyornot.data.service.PostService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -58,4 +59,11 @@ class RetrofitModule {
         retrofit: Retrofit
     ): LoginService =
         retrofit.create(LoginService::class.java)
+
+    @Provides
+    @Singleton
+    fun providePostService(
+        retrofit: Retrofit
+    ): PostService =
+        retrofit.create(PostService::class.java)
 }

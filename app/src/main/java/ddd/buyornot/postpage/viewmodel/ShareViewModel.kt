@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ddd.component.PostItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ddd.buyornot.data.model.post.PostRequest
 import ddd.buyornot.data.repository.post.PostRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +20,10 @@ class ShareViewModel @Inject constructor(
     val postList: LiveData<List<PostItem>>
         get() = _postList
 
+    private val _currentPost = MutableLiveData(PostRequest())
+    val currentPost: LiveData<PostRequest>
+        get() = _currentPost
+
     fun fetchPostList() {
         viewModelScope.launch {
             val postResult = postRepository.fetchTemporaryPost()?.result ?: return@launch
@@ -27,6 +32,12 @@ class ShareViewModel @Inject constructor(
                 title = it.content,
                 isPublic = false // publicStatus로 변경 예정
             ) }
+        }
+    }
+
+    fun setCurrentPostTitle(title: String) {
+        _currentPost.run {
+            _currentPost.postValue(this.value?.copy(title = title))
         }
     }
 

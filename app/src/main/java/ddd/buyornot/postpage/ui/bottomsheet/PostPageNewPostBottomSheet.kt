@@ -29,15 +29,17 @@ import com.ddd.component.BDSText
 import com.ddd.component.BDSTextField
 import com.ddd.component.BDSTextFieldState
 import com.ddd.component.theme.BDSColor
+import ddd.buyornot.postpage.viewmodel.ShareViewModel
 
 @Composable
 fun WritePostPageNewPostBottomSheet(
+    viewModel: ShareViewModel,
     onDismissRequest: () -> Unit,
     onClickNext: () -> Unit,
 ) {
-    var value by remember {
-        mutableStateOf("")
-    }
+    val savedTitle = viewModel.currentPost.value?.title ?: ""
+    var title by remember { mutableStateOf(savedTitle) }
+
     var state: BDSTextFieldState by remember { mutableStateOf(BDSTextFieldState.UnFocus) }
 
     BDSBottomSheet(
@@ -74,17 +76,17 @@ fun WritePostPageNewPostBottomSheet(
                 Spacer(modifier = Modifier.height(16.dp))
                 BDSTextField(
                     modifier = Modifier.padding(8.dp),
-                    value = value,
+                    value = title,
                     onValueChange = { newValue ->
-                        value = newValue
-                        state = if (value.isEmpty() || value.length > 30) BDSTextFieldState.Error else BDSTextFieldState.Focus
+                        title = newValue
+                        state = if (title.isEmpty() || title.length > 30) BDSTextFieldState.Error else BDSTextFieldState.Focus
                     },
                     onFocusChanged = { focusState ->
                         state = if (focusState.isFocused) BDSTextFieldState.Focus else BDSTextFieldState.UnFocus
                     },
                     title = "투표 제목을 작성해주세요",
                     hint = "",
-                    subText = "${value.length} / 최대 30자",
+                    subText = "${title.length} / 최대 30자",
                     state = state
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -93,7 +95,10 @@ fun WritePostPageNewPostBottomSheet(
         bottomContent = {
             BDSBottomSheetSingleButton {
                 BDSFilledButton(
-                    onClick = { onClickNext() },
+                    onClick = {
+                        viewModel.setCurrentPostTitle(title)
+                        onClickNext()
+                    },
                     text = "다음으로",
                     modifier = Modifier.fillMaxWidth(),
                     contentPadding = BDSButtonInnerPadding.MEDIUM,
