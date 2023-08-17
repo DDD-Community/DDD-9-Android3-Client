@@ -68,7 +68,8 @@ fun PostPageNavHost(
         }
 
         composable(PostPageNavigationRoute.Description.route) {
-            PostPageDescriptionBottomSheet(
+            PostPageContentBottomSheet(
+                viewModel = viewModel,
                 onDismissRequest = {
                     navHostController.popBackStack()
                 },

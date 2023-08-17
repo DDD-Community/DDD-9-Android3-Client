@@ -24,7 +24,19 @@ class ShareViewModel @Inject constructor(
     val currentPost: LiveData<PostRequest>
         get() = _currentPost
 
-    fun fetchPostList() {
+    fun setCurrentPostTitle(title: String) {
+        _currentPost.run {
+            _currentPost.postValue(this.value?.copy(title = title))
+        }
+    }
+
+    fun setCurrentPostContent(content: String) {
+        _currentPost.run {
+            _currentPost.postValue(this.value?.copy(content = content))
+        }
+    }
+
+    suspend fun fetchPostList() {
         viewModelScope.launch {
             val postResult = postRepository.fetchTemporaryPost()?.result ?: return@launch
             postResult.map { it -> PostItem(
@@ -35,10 +47,11 @@ class ShareViewModel @Inject constructor(
         }
     }
 
-    fun setCurrentPostTitle(title: String) {
-        _currentPost.run {
-            _currentPost.postValue(this.value?.copy(title = title))
+    suspend fun postNewPost() {
+        viewModelScope.launch {
+            currentPost.value?.let {
+                postRepository.postNewPost(it)
+            }
         }
     }
-
 }
