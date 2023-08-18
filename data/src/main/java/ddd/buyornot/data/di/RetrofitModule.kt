@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ddd.buyornot.data.service.LoginService
+import ddd.buyornot.data.service.PollService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -51,6 +52,13 @@ class RetrofitModule {
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
+
+    @Provides
+    @Singleton
+    fun providePollService(
+        retrofit: Retrofit
+    ): PollService =
+        retrofit.create(PollService::class.java)
 
     @Provides
     @Singleton
