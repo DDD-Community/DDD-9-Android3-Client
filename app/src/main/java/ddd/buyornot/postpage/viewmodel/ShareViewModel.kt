@@ -24,15 +24,17 @@ class ShareViewModel @Inject constructor(
     val currentPost: LiveData<PostRequest>
         get() = _currentPost
 
+    var sharedItemUrl: String = ""
+
     fun setCurrentPostTitle(title: String) {
         _currentPost.run {
-            _currentPost.postValue(this.value?.copy(title = title))
+            postValue(value?.copy(title = title))
         }
     }
 
     fun setCurrentPostContent(content: String) {
         _currentPost.run {
-            _currentPost.postValue(this.value?.copy(content = content))
+            postValue(value?.copy(content = content))
         }
     }
 
@@ -47,7 +49,26 @@ class ShareViewModel @Inject constructor(
         }
     }
 
+    // 임시 저장된 투표에서 title, itemUrl이 없는 경우는 예외처리가 필요할 듯
+    suspend fun fetchTemporaryPost(postId: Int) {
+        viewModelScope.launch {
+            val postResult = postRepository.fetchPost(postId)?.result ?: return@launch
+            setCurrentPostTitle(postResult.title ?: throw NullPointerException())
+            setCurrentPostContent(postResult.content ?: "")
+            addPostItemUrl(postResult.pollItemResponseList?.first()?.itemUrl ?: throw NullPointerException())
+        }
+    }
+
+    private fun addPostItemUrl(itemUrl: String) {
+        _currentPost.run {
+            val currentItemUrls = value?.itemUrls?.toMutableList()
+            currentItemUrls?.add(itemUrl)
+            postValue(value?.copy(itemUrls = currentItemUrls?.toList()))
+        }
+    }
+
     suspend fun postNewPost() {
+        addPostItemUrl(sharedItemUrl)
         viewModelScope.launch {
             currentPost.value?.let {
                 postRepository.postNewPost(it)

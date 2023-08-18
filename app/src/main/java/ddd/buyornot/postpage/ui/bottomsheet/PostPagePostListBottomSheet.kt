@@ -150,7 +150,12 @@ fun WritePostPagePostListBottomSheet(
                 BDSBottomSheetHorizontalDualButton(
                     acceptButton = {
                         BDSFilledButton(
-                            onClick = { onClickAddItem() }, text = "상품 추가하기",
+                            onClick = {
+                                // 현재 선택된 투표에서 itemUrl 가져와서 넣기
+                                // viewModel.fetchTemporaryPost(postId)
+                                onClickAddItem()
+                            },
+                            text = "상품 추가하기",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),

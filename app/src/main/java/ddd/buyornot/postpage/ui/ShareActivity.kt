@@ -21,6 +21,8 @@ class ShareActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel.sharedItemUrl = intent.getShareString() ?: throw NullPointerException()
+
         setContent {
             BuyOrNotTheme {
                 val navHostController = rememberNavController()
@@ -34,14 +36,12 @@ class ShareActivity : ComponentActivity() {
     }
 }
 
-fun Intent?.getShareString(default: String): String {
+fun Intent?.getShareString(): String? {
     return when (this?.action) {
         Intent.ACTION_SEND -> {
-            this.getStringExtra(Intent.EXTRA_TEXT) ?: default
+            this.getStringExtra(Intent.EXTRA_TEXT)
         }
 
-        else -> {
-            default
-        }
+        else -> { null }
     }
 }
