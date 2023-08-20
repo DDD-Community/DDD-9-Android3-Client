@@ -27,5 +27,4 @@ object PostModule {
         postRemoteDataSource: PostRemoteDataSource
     ): PostRepository = PostRepositoryImpl(postRemoteDataSource)
 
-
 }

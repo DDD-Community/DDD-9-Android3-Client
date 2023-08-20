@@ -1,4 +1,4 @@
-package ddd.buyornot.postpage.bottomsheet
+package ddd.buyornot.postpage.ui.bottomsheet
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,14 +27,22 @@ import com.ddd.component.BDSText
 import com.ddd.component.PostItem
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
+import ddd.buyornot.postpage.viewmodel.ShareViewModel
 
 @Composable
 fun WritePostPagePostListBottomSheet(
+    viewModel: ShareViewModel,
     onDismissRequest: () -> Unit,
     onClickClose: () -> Unit,
     onClickNewPost: () -> Unit,
     onClickAddItem: () -> Unit,
 ) {
+    /*val postItemList by viewModel.postList.observeAsState(emptyList())
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchPostList()
+    }*/
+
     val postItemList = listOf(
         PostItem(
             imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
@@ -93,8 +101,6 @@ fun WritePostPagePostListBottomSheet(
         )
     )
 
-    // val postItemList: List<PostItem> = emptyList()
-
     BDSBottomSheet(
         onDismissRequest = onDismissRequest,
         headerContent = {
@@ -144,7 +150,12 @@ fun WritePostPagePostListBottomSheet(
                 BDSBottomSheetHorizontalDualButton(
                     acceptButton = {
                         BDSFilledButton(
-                            onClick = { onClickAddItem() }, text = "상품 추가하기",
+                            onClick = {
+                                // 현재 선택된 투표에서 itemUrl 가져와서 넣기
+                                // viewModel.fetchTemporaryPost(postId)
+                                onClickAddItem()
+                            },
+                            text = "상품 추가하기",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),

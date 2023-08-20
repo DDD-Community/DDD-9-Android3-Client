@@ -1,4 +1,4 @@
-package ddd.buyornot.postpage.bottomsheet
+package ddd.buyornot.postpage.ui.bottomsheet
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -7,11 +7,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ddd.buyornot.findActivity
+import ddd.buyornot.postpage.viewmodel.ShareViewModel
 
 @Composable
 @ExperimentalMaterial3Api
 fun PostPageNavHost(
     navHostController: NavHostController,
+    viewModel: ShareViewModel
 ) {
     NavHost(
         navController = navHostController,
@@ -37,6 +39,7 @@ fun PostPageNavHost(
         }
         composable(PostPageNavigationRoute.Post.route) {
             WritePostPagePostListBottomSheet(
+                viewModel = viewModel,
                 onDismissRequest = {
                     navHostController.popBackStack()
                 },
@@ -54,6 +57,7 @@ fun PostPageNavHost(
 
         composable(PostPageNavigationRoute.NewPost.route) {
             WritePostPageNewPostBottomSheet(
+                viewModel = viewModel,
                 onDismissRequest = {
                     navHostController.popBackStack()
                 },
@@ -64,7 +68,8 @@ fun PostPageNavHost(
         }
 
         composable(PostPageNavigationRoute.Description.route) {
-            PostPageDescriptionBottomSheet(
+            PostPageContentBottomSheet(
+                viewModel = viewModel,
                 onDismissRequest = {
                     navHostController.popBackStack()
                 },
@@ -75,9 +80,11 @@ fun PostPageNavHost(
         }
 
         composable(PostPageNavigationRoute.PostDone.route) {
+            val context = LocalContext.current
+
             WritePostPageDoneBottomSheet(
                 onDismissRequest = {
-                    navHostController.popBackStack()
+                    context.findActivity().finish()
                 }
             )
         }
