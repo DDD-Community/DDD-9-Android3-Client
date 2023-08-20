@@ -110,9 +110,11 @@ fun PostPageNavHost(
         }
 
         composable(PostPageNavigationRoute.ArchiveDone.route) {
+            val context = LocalContext.current
+
             ArchivingSuccessBottomSheet(
                 onDismissRequest = {
-                    navHostController.popBackStack()
+                    context.findActivity().finish()
                 }
             )
         }

@@ -195,7 +195,7 @@ fun ArchivingSuccessBottomSheet(
                 },
                 cancelButton = {
                     BDSBorderlessButton(
-                        onClick = { /*TODO*/ }, text = "닫기",
+                        onClick = { onDismissRequest() }, text = "닫기",
                         modifier = Modifier.size(width = 74.dp, height = 34.dp),
                         contentPadding = BDSButtonInnerPadding.SMALL,
                         contentColor = BDSColor.Primary700,
