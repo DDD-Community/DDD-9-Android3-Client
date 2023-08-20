@@ -17,7 +17,9 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun issueAuthorizationCode(token: String, loginMethod: LoginMethod): Result<BaseApiResponse<AuthResult>> {
-        return authRemoteDataSource.issueAuthorizationCode(token, loginMethod)
+        return authRemoteDataSource.issueAuthorizationCode(token, loginMethod).onSuccess { result ->
+            saveAuthorizationCode(result.result?.accessToken ?: "")
+        }
     }
 
     override suspend fun saveAuthorizationCode(code: String): Result<Unit> {

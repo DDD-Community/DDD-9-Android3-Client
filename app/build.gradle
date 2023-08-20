@@ -12,9 +12,16 @@ plugins {
     id "dagger.hilt.android.plugin"
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 android {
     namespace 'ddd.buyornot'
     compileSdk 33
+
+    defaultConfig {
+        manifestPlaceholders = [KAKAO_OAUTH_HOST_SCHEME: localProperties['KAKAO_OAUTH_HOST_SCHEME']]
+    }
 
     defaultConfig {
         applicationId "ddd.buyornot"
