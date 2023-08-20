@@ -24,6 +24,10 @@ class ShareViewModel @Inject constructor(
     val currentPost: LiveData<PostRequest>
         get() = _currentPost
 
+    private val _selectedPost = MutableLiveData<PostItem?>(null)
+    val selectedPost: LiveData<PostItem?>
+        get() = _selectedPost
+
     var sharedItemUrl: String = ""
 
     fun setCurrentPostTitle(title: String) {
@@ -38,10 +42,15 @@ class ShareViewModel @Inject constructor(
         }
     }
 
+    fun setSelectedPost(postItem: PostItem?) {
+        _selectedPost.postValue(postItem)
+    }
+
     suspend fun fetchPostList() {
         viewModelScope.launch {
             val postResult = postRepository.fetchTemporaryPost()?.result ?: return@launch
             postResult.map { it -> PostItem(
+                postId = it.id,
                 imageUrl = it.pollItemResponseList?.first()?.imgUrl,
                 title = it.content,
                 isPublic = false // publicStatus로 변경 예정
