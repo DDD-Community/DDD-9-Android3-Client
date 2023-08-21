@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PostPageContentBottomSheet(
+    title: String,
     viewModel: ShareViewModel,
     onDismissRequest: () -> Unit = { },
     onClickNext: () -> Unit = { }
@@ -54,7 +55,7 @@ fun PostPageContentBottomSheet(
             BDSBottomSheetHeader(
                 center = {
                     BDSText(
-                        text = "새 투표 만들기",
+                        text = title,
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
                         fontWeight = FontWeight.SemiBold,

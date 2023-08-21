@@ -29,6 +29,7 @@ import ddd.buyornot.findActivity
 
 @Composable
 fun WritePostPageDoneBottomSheet(
+    title: String,
     onDismissRequest: () -> Unit
 ) {
     val context = LocalContext.current
@@ -39,7 +40,7 @@ fun WritePostPageDoneBottomSheet(
             BDSBottomSheetHeader(
                 center = {
                     BDSText(
-                        text = "투표를 완성했어요!",
+                        text = title,
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
                         fontWeight = FontWeight.SemiBold,

@@ -104,7 +104,7 @@ fun WritePostPageNewPostBottomSheet(
                     contentPadding = BDSButtonInnerPadding.MEDIUM,
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
-                    enabled = state !is BDSTextFieldState.Error
+                    enabled = state !is BDSTextFieldState.Error && title.isNotEmpty()
                 )
             }
         }
