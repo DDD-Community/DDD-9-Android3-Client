@@ -35,7 +35,7 @@ interface PostService {
         @Path("postId") postId: Int
     ): BaseApiResponse<Int>
 
-    @PATCH("/api/post/{/postId}/end-poll")
+    @PATCH("/api/post/{postId}/end-poll")
     suspend fun patchPostFinish(
         @Path("postId") postId: Int
     ): BaseApiResponse<PostResult>
