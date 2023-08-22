@@ -39,12 +39,3 @@ data class ArchiveResponse(
     @SerializedName("userId")
     val userId: String? = null,
 )
-
-data class ArchiveDeleteResult(
-    @SerializedName("additionalProp1")
-    val additionalProp1: Int? = null,
-    @SerializedName("additionalProp2")
-    val additionalProp2: Int? = null,
-    @SerializedName("additionalProp3")
-    val additionalProp3: Int? = null
-)
