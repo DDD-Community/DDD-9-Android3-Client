@@ -1,4 +1,4 @@
-package ddd.buyornot.postpage.bottomsheet
+package ddd.buyornot.postpage.ui.bottomsheet
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -29,13 +30,19 @@ import com.ddd.component.BDSText
 import com.ddd.component.BDSTextField
 import com.ddd.component.BDSTextFieldState
 import com.ddd.component.theme.BDSColor
+import ddd.buyornot.postpage.viewmodel.ShareViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun PostPageDescriptionBottomSheet(
+fun PostPageContentBottomSheet(
+    title: String,
+    viewModel: ShareViewModel,
     onDismissRequest: () -> Unit = { },
     onClickNext: () -> Unit = { }
 ) {
-    var value by remember {
+    val coroutineScope = rememberCoroutineScope()
+
+    var content by remember {
         mutableStateOf("")
     }
     var state: BDSTextFieldState by remember { mutableStateOf(BDSTextFieldState.UnFocus) }
@@ -48,7 +55,7 @@ fun PostPageDescriptionBottomSheet(
             BDSBottomSheetHeader(
                 center = {
                     BDSText(
-                        text = "새 투표 만들기",
+                        text = title,
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -73,17 +80,18 @@ fun PostPageDescriptionBottomSheet(
                     BDSTextField(
                         modifier = Modifier
                             .align(Alignment.TopStart),
-                        value = value,
+                        value = content,
                         onValueChange = { newValue ->
-                            value = newValue
-                            state = if (value.isEmpty() || value.length > 200) BDSTextFieldState.Error else BDSTextFieldState.Focus
+                            content = newValue
+                            state =
+                                if (content.isEmpty() || content.length > 200) BDSTextFieldState.Error else BDSTextFieldState.Focus
                         },
                         onFocusChanged = { focusState ->
                             state = if (focusState.isFocused) BDSTextFieldState.Focus else BDSTextFieldState.UnFocus
                         },
                         title = "내용을 작성해주세요 (선택)",
                         hint = "",
-                        subText = "${value.length} / 최대 200자",
+                        subText = "${content.length} / 최대 200자",
                         state = state
                     )
                     Row(modifier = Modifier.align(Alignment.BottomStart)) {
@@ -111,7 +119,13 @@ fun PostPageDescriptionBottomSheet(
             BDSBottomSheetVerticalDualButton(
                 confirmButton = {
                     BDSFilledButton(
-                        onClick = { onClickNext() },
+                        onClick = {
+                            viewModel.setCurrentPostContent(content)
+                            coroutineScope.launch() {
+                                viewModel.postNewPost()
+                            }
+                            onClickNext()
+                        },
                         text = "작성 완료",
                         modifier = Modifier
                             .height(50.dp)
@@ -123,7 +137,12 @@ fun PostPageDescriptionBottomSheet(
                 },
                 cancelButton = {
                     BDSBorderlessButton(
-                        onClick = { onClickNext() },
+                        onClick = {
+                            coroutineScope.launch {
+                                viewModel.postNewPost()
+                            }
+                            onClickNext()
+                        },
                         text = "건너뛰기",
                         modifier = Modifier.height(34.dp),
                         contentPadding = BDSButtonInnerPadding.SMALL,

@@ -1,7 +1,6 @@
 package ddd.buyornot.data.service
 
 import ddd.buyornot.data.model.BaseApiResponse
-import ddd.buyornot.data.model.archive.ArchiveDeleteResult
 import ddd.buyornot.data.model.archive.ArchiveResponse
 import ddd.buyornot.data.model.archive.DeleteArchiveReq
 import retrofit2.http.Body
@@ -16,7 +15,7 @@ interface ArchiveService {
     // 웹에서 보관
     @POST("/api/archive/from-web")
     suspend fun postArchiveItem(
-        @Path("itemUrl") itemUrl: String
+        @Query("itemUrl") itemUrl: String
     ): BaseApiResponse<ArchiveResponse>
 
     // 게시물에서 보관
@@ -33,7 +32,7 @@ interface ArchiveService {
     @PATCH("/api/archive/deletion")
     suspend fun patchArchiveItemDelete(
         @Body deleteArchiveReq: DeleteArchiveReq
-    ): BaseApiResponse<ArchiveDeleteResult>
+    ): BaseApiResponse<Int>
 
     @GET("/api/archive/list")
     suspend fun fetchArchivePostList(

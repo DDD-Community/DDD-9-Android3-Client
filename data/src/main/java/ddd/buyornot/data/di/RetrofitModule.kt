@@ -5,8 +5,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
-import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.service.LoginService
+import ddd.buyornot.data.service.PostService
+import ddd.buyornot.data.service.PollService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -67,9 +68,24 @@ class RetrofitModule {
 
     @Provides
     @Singleton
+    fun providePollService(
+        retrofit: Retrofit
+    ): PollService =
+        retrofit.create(PollService::class.java)
+
+    @Provides
+    @Singleton
     fun provideLoginService(
         retrofit: Retrofit
-    ): LoginService = retrofit.create(LoginService::class.java)
+    ): LoginService =
+        retrofit.create(LoginService::class.java)
+
+    @Provides
+    @Singleton
+    fun providePostService(
+        retrofit: Retrofit
+    ): PostService =
+        retrofit.create(PostService::class.java)
 }
 
 class AuthInterceptor @Inject constructor(

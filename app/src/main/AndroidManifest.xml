@@ -40,7 +40,7 @@
             android:theme="@style/Theme.BuyOrNot" />
 
         <activity
-            android:name=".postpage.ShareActivity"
+            android:name=".postpage.ui.ShareActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

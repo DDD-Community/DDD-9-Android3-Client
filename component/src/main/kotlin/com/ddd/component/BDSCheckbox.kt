@@ -1,6 +1,5 @@
 package com.ddd.component
 
-import android.graphics.drawable.RippleDrawable
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
 import androidx.compose.material.Icon
@@ -11,7 +10,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import java.lang.Exception
 
 @Composable
 fun BDSCheckbox(
@@ -69,12 +67,14 @@ fun BDSCheckbox(
 ) {
     Icon(
         painter = when {
-            !enabled && disabledImage != null-> painterResource(id = disabledImage)
+            !enabled && disabledImage != null -> painterResource(id = disabledImage)
             checked -> painterResource(id = checkedImage)
             else -> painterResource(id = uncheckedImage)
         },
         contentDescription = "",
-        modifier = Modifier.clickable(enabled = enabled, onClick = onClick),
+        modifier = Modifier
+            .clickable(enabled = enabled, onClick = onClick)
+            .then(modifier),
         tint = Color.Unspecified
     )
 }

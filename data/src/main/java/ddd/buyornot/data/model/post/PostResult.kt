@@ -1,8 +1,9 @@
 package ddd.buyornot.data.model.post
 
 import com.google.gson.annotations.SerializedName
+import ddd.buyornot.data.model.poll.PollResponse
 
-data class PostResponse(
+data class PostResult(
     @SerializedName("content")
     val content: String? = null,
 
@@ -19,10 +20,10 @@ data class PostResponse(
     val pollResponse: PollResponse? = null,
 
     @SerializedName("pollStatus")
-    val pollStatus: String? = null,
+    val pollStatus: PollStatus? = null,
 
     @SerializedName("publicStatus")
-    val publicStatus: String? = null,
+    val publicStatus: PublicStatus? = null,
 
     @SerializedName("title")
     val title: String? = null,
@@ -32,7 +33,18 @@ data class PostResponse(
 
     @SerializedName("userNickname")
     val userNickname: String? = null
-)
+) {
+    enum class PublicStatus {
+        PUBLIC,             // 전체 공개
+        PRIVATE,            // 제한된 공개
+        TEMPORARY_STORAGE   // 임시 저장
+    }
+
+    enum class PollStatus {
+        ONGOING,
+        CLOSED
+    }
+}
 
 data class PollItemResponse(
     @SerializedName("brand")
@@ -61,18 +73,4 @@ data class PollItemResponse(
 
     @SerializedName("originalPrice")
     val originalPrice: Int? = null
-)
-
-data class PollResponse(
-    @SerializedName("result")
-    val result: PollResult? = null
-)
-
-data class PollResult(
-    @SerializedName("additionalProp1")
-    val additionalProp1: Int? = null,
-    @SerializedName("additionalProp2")
-    val additionalProp2: Int? = null,
-    @SerializedName("additionalProp3")
-    val additionalProp3: Int? = null
 )

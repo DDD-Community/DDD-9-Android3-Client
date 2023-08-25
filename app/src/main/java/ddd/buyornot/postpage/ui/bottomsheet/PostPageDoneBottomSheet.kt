@@ -1,5 +1,6 @@
-package ddd.buyornot.postpage.bottomsheet
+package ddd.buyornot.postpage.ui.bottomsheet
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,18 +25,22 @@ import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
+import ddd.buyornot.findActivity
 
 @Composable
 fun WritePostPageDoneBottomSheet(
+    title: String,
     onDismissRequest: () -> Unit
 ) {
+    val context = LocalContext.current
+
     BDSBottomSheet(
         onDismissRequest = onDismissRequest,
         headerContent = {
             BDSBottomSheetHeader(
                 center = {
                     BDSText(
-                        text = "투표를 완성했어요!",
+                        text = title,
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -89,7 +95,7 @@ fun WritePostPageDoneBottomSheet(
                 },
                 cancelButton = {
                     BDSBorderlessButton(
-                        onClick = { /*TODO*/ }, text = "닫기",
+                        onClick = { onDismissRequest() }, text = "닫기",
                         modifier = Modifier.size(width = 74.dp, height = 34.dp),
                         contentPadding = BDSButtonInnerPadding.SMALL,
                         contentColor = BDSColor.Primary700,
@@ -100,4 +106,8 @@ fun WritePostPageDoneBottomSheet(
             )
         }
     )
+
+    BackHandler {
+        context.findActivity().finish()
+    }
 }

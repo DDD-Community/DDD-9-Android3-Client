@@ -21,6 +21,7 @@ import com.ddd.component.theme.BDSColor.SlateGray900
 
 // TODO: data class 위치 변경
 data class PostItem(
+    val postId: Int? = null,
     val imageUrl: String? = null,
     val title: String? = null,
     val isPublic: Boolean = false,
@@ -28,7 +29,9 @@ data class PostItem(
 
 @Composable
 fun BDSPostCard(
-    postItem: PostItem
+    postItem: PostItem,
+    checked: Boolean = false,
+    onCheck: (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
@@ -72,8 +75,16 @@ fun BDSPostCard(
             )
         }
         Spacer(modifier = Modifier.width(34.dp))
-        /*BDSButton() {
-            // 체크 버튼 추가
-        }*/
+        BDSCheckbox(
+            modifier = Modifier.align(Alignment.CenterVertically),
+            checkedImage = R.drawable.ic_check,
+            uncheckedImage = R.drawable.ic_uncheck,
+            onClick = {
+                if (onCheck != null) {
+                    onCheck()
+                }
+            },
+            checked = checked
+        )
     }
 }
