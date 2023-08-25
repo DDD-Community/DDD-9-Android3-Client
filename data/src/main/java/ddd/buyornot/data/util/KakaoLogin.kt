@@ -11,7 +11,6 @@ class KakaoLogin(private val context: Context, private val postAuth: (String) ->
     val TAG = "KakaoLogin"
 
     fun kakaoLogin() {
-        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
             UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
                 if (error != null) {

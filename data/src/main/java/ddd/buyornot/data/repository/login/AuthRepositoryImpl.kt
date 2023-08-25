@@ -17,8 +17,9 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun issueAuthorizationCode(token: String, loginMethod: LoginMethod): Result<BaseApiResponse<AuthResult>> {
-        return authRemoteDataSource.issueAuthorizationCode(token, loginMethod).onSuccess { result ->
-            saveAuthorizationCode(result.result?.accessToken ?: "")
+        return authRemoteDataSource.issueAuthorizationCode(token, loginMethod).onSuccess { authInfo ->
+            val authorizationHeader = authInfo.result?.run { grantType + accessToken } ?: ""
+            saveAuthorizationCode(authorizationHeader)
         }
     }
 
