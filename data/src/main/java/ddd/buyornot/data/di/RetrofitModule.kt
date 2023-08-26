@@ -4,13 +4,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.service.LoginService
-import ddd.buyornot.data.service.PostService
 import ddd.buyornot.data.service.PollService
+import ddd.buyornot.data.service.PostService
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -18,7 +22,7 @@ import javax.inject.Singleton
 class RetrofitModule {
 
     companion object {
-        const val BASE_URL = "http://Buyornot-env.eba-f34a7fzj.ap-northeast-2.elasticbeanstalk.com"
+        const val BASE_URL = "https://buyornot.shop"
     }
 
     @Provides
@@ -30,11 +34,19 @@ class RetrofitModule {
 
     @Provides
     @Singleton
+    fun provideAuthInterceptor(
+        prefWrapper: SharedPreferenceWrapper
+    ): AuthInterceptor = AuthInterceptor(prefWrapper)
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor
     ): OkHttpClient =
         OkHttpClient.Builder()
             .addNetworkInterceptor(httpLoggingInterceptor)
+            .addInterceptor(authInterceptor)
             .build()
 
     @Provides
@@ -74,4 +86,24 @@ class RetrofitModule {
         retrofit: Retrofit
     ): PostService =
         retrofit.create(PostService::class.java)
+}
+
+class AuthInterceptor @Inject constructor(
+    private val prefWrapper: SharedPreferenceWrapper
+) : Interceptor {
+
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val accessToken = prefWrapper.authenticationCode
+        val request = chain.request()
+
+        return if (accessToken.isBlank()) {
+            chain.proceed(request)
+        } else {
+            chain.proceed(
+                request.newBuilder()
+                    .header("Authorization", accessToken)
+                    .build()
+            )
+        }
+    }
 }

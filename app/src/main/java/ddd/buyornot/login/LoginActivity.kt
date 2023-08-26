@@ -44,13 +44,19 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        lifecycleScope.launch {
+            val isLoggedIn = authRepository.isLoggedIn().getOrNull() ?: false
+            if (isLoggedIn) {
+                startMainActivityAndFinish()
+            }
+        }
+
         val kakaoLogin = KakaoLogin(this@LoginActivity) { token ->
             CoroutineScope(Dispatchers.IO).launch {
                 authRepository.issueAuthorizationCode(token)
                     .onSuccess { response ->
                         if (response.isSuccess) {
-                            startActivity(Intent(applicationContext, MainActivity::class.java))
-                            finish()
+                            startMainActivityAndFinish()
                         } else {
                             handleLoginError()
                         }
@@ -95,6 +101,12 @@ class LoginActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun startMainActivityAndFinish() {
+        Toast.makeText(this, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(applicationContext, MainActivity::class.java))
+        finish()
     }
 
     private fun handleLoginError() {
