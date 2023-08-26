@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSText
 import com.ddd.component.BDSTextField
@@ -36,20 +37,17 @@ import ddd.buyornot.add_vote.viewmodel.AddNewVoteViewModel
 
 @Composable
 fun AddNewVoteScreen(
-    addNewVoteViewModel: AddNewVoteViewModel
+    viewModel: AddNewVoteViewModel
 ) {
     BuyOrNotTheme {
         val activity = LocalContext.current as? Activity
         val scrollState = rememberScrollState()
+        var bdsTextFieldState: BDSTextFieldState by remember { mutableStateOf(BDSTextFieldState.UnFocus) }
+
+        val postButtonEnabled by viewModel.isValidPost.collectAsStateWithLifecycle(false)
         var isTempStorageAvailable by remember { mutableStateOf(false) }
-        var bdsTextFieldState: BDSTextFieldState by remember {
-            mutableStateOf(
-                BDSTextFieldState.UnFocus
-            )
-        }
         var voteTitle by remember { mutableStateOf("") }
         var voteDescription by remember { mutableStateOf("") }
-        var hideVote by remember { mutableStateOf(false) }
 
         Box(
             modifier = Modifier
@@ -125,11 +123,15 @@ fun AddNewVoteScreen(
                     value = voteTitle,
                     onValueChange = {
                         voteTitle = it
+                        viewModel.checkPostValidation(
+                            title = voteTitle,
+                            description = voteDescription
+                        )
                     },
                     title = "투표 제목을 작성해주세요",
                     hint = "",
-                    subText = "${voteTitle.length} / 최대 30자",
-                    maxLength = 30,
+                    subText = "${voteTitle.length} / 최대 ${AddNewVoteViewModel.TITLE_MAX_LENGTH}자",
+                    maxLength = AddNewVoteViewModel.TITLE_MAX_LENGTH,
                     onFocusChanged = {
                         bdsTextFieldState =
                             if (it.isFocused) BDSTextFieldState.Focus else BDSTextFieldState.UnFocus
@@ -148,11 +150,15 @@ fun AddNewVoteScreen(
                     value = voteDescription,
                     onValueChange = {
                         voteDescription = it
+                        viewModel.checkPostValidation(
+                            title = voteTitle,
+                            description = voteDescription
+                        )
                     },
                     title = "내용을 작성해주세요 (선택)",
                     hint = "",
-                    maxLength = 200,
-                    subText = "${voteDescription.length} / 최대 200자",
+                    maxLength = AddNewVoteViewModel.DESCRIPTION_MAX_LENGTH,
+                    subText = "${voteDescription.length} / 최대 ${AddNewVoteViewModel.DESCRIPTION_MAX_LENGTH}자",
                     onFocusChanged = {
                         bdsTextFieldState =
                             if (it.isFocused) BDSTextFieldState.Focus else BDSTextFieldState.UnFocus
@@ -169,17 +175,21 @@ fun AddNewVoteScreen(
                     .fillMaxWidth()
                     .padding(bottom = 36.dp, top = 16.dp)
                     .align(Alignment.BottomCenter),
-                checked = hideVote,
                 savedCount = 0,
-                postButtonEnabled = true,
-                onCheckedChange = {
-                    hideVote = it
-                },
+                postButtonEnabled = postButtonEnabled,
                 onClickSave = {
-
+                    viewModel.saveVote(
+                        title = voteTitle,
+                        description = voteDescription,
+                        hideVote = it
+                    )
                 },
                 onClickPost = {
-
+                    viewModel.postVote(
+                        title = voteTitle,
+                        description = voteDescription,
+                        hideVote = it,
+                    )
                 },
             )
         }

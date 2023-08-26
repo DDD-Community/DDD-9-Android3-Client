@@ -9,7 +9,7 @@ class PostRemoteDataSourceImpl @Inject constructor(
 ) : PostRemoteDataSource {
 
     override suspend fun postNewPost(postRequest: PostRequest) = runCatching {
-        postService.postNewPost(postRequest)
+        postService.postNewVote(postRequest)
     }.getOrNull()
 
     override suspend fun postNewPostFromArchive(postRequest: PostRequest, itemId1: Int, itemId2: Int) = runCatching {

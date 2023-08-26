@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,13 +24,13 @@ import com.ddd.component.theme.BDSColor
 @Composable
 fun VoteBottomContent(
     modifier: Modifier = Modifier,
-    checked: Boolean = false,
     savedCount: Int = 0,
     postButtonEnabled: Boolean = false,
-    onCheckedChange: (Boolean) -> Unit,
-    onClickSave: () -> Unit,
+    onClickSave: (Boolean) -> Unit,
     onClickPost: (Boolean) -> Unit,
 ) {
+    var hideVote by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -38,9 +42,9 @@ fun VoteBottomContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             BDSSwitch(
-                checked = checked,
+                checked = hideVote,
                 onCheckedChange = {
-                    onCheckedChange(it)
+                    hideVote = it
                 },
             )
             BDSText(
@@ -60,15 +64,16 @@ fun VoteBottomContent(
                 contentColor = BDSColor.SlateGray900,
                 containerColor = Color.Transparent,
             ) {
-                onClickSave()
+                onClickSave(hideVote)
             }
             BDSButton(
+                containerColor = if (postButtonEnabled) BDSColor.Primary500 else BDSColor.SlateGray500,
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 13.dp),
                 modifier = Modifier.fillMaxWidth(),
                 text = "글 등록하기",
                 fontSize = 16.sp,
             ) {
-                onClickPost(checked)
+                onClickPost(hideVote)
             }
         }
     }

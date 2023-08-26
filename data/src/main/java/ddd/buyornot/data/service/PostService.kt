@@ -13,7 +13,7 @@ import retrofit2.http.Query
 interface PostService {
 
     @POST("/api/post/new")
-    suspend fun postNewPost(
+    suspend fun postNewVote(
         @Body postRequest: PostRequest
     ): BaseApiResponse<PostResult>
 
