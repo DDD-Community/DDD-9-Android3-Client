@@ -19,7 +19,7 @@ import com.ddd.component.BDSBottomNavigationLayout
 import com.ddd.component.BottomNavigationItem
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
-import ddd.buyornot.add_vote.AddNewVoteActivity
+import ddd.buyornot.add_vote.ui.AddNewVoteActivity
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.login.LoginActivity
 import ddd.buyornot.navigation.BuyOrNotNavHost
