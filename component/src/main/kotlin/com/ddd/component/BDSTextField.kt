@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,6 +42,9 @@ fun BDSTextField(
     hint: String,
     subText: String,
     enabled: Boolean = true,
+    maxLength: Int = Int.MAX_VALUE,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     state: BDSTextFieldState = BDSTextFieldState.UnFocus
 ) {
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
@@ -56,7 +61,11 @@ fun BDSTextField(
         Spacer(modifier = Modifier.height(10.dp))
         BasicTextField(
             value = value,
-            onValueChange = onValueChange,
+            onValueChange = {
+                if (it.length <= maxLength) {
+                    onValueChange(it)
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .onFocusChanged(onFocusChanged = onFocusChanged),
@@ -72,7 +81,9 @@ fun BDSTextField(
                 }
                 innerTextField()
             },
-            maxLines = 2
+            maxLines = 2,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
         )
         Spacer(modifier = Modifier.height(10.dp))
         Divider(

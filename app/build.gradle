@@ -80,6 +80,7 @@ dependencies {
     androidTestImplementation rootProject.ext.composeUiTest
     debugImplementation rootProject.ext.composeUiTooling
     debugImplementation rootProject.ext.composeUiTestManifest
+    debugImplementation rootProject.ext.composeLifecycle
 
     testImplementation rootProject.ext.junit
     androidTestImplementation rootProject.ext.junitExt
