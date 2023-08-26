@@ -6,8 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.service.LoginService
-import ddd.buyornot.data.service.PostService
 import ddd.buyornot.data.service.PollService
+import ddd.buyornot.data.service.PostService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -22,7 +22,7 @@ import javax.inject.Singleton
 class RetrofitModule {
 
     companion object {
-        const val BASE_URL = "http://Buyornot-env.eba-f34a7fzj.ap-northeast-2.elasticbeanstalk.com"
+        const val BASE_URL = "https://buyornot.shop"
     }
 
     @Provides
