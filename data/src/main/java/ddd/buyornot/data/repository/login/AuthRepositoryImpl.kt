@@ -16,11 +16,15 @@ class AuthRepositoryImpl @Inject constructor(
         return authLocalDataSource.isLoggedIn()
     }
 
-    override suspend fun issueAuthorizationCode(token: String, loginMethod: LoginMethod): Result<BaseApiResponse<AuthResult>> {
-        return authRemoteDataSource.issueAuthorizationCode(token, loginMethod).onSuccess { authInfo ->
-            val authorizationHeader = authInfo.result?.run { grantType + accessToken } ?: ""
-            saveAuthorizationCode(authorizationHeader)
-        }
+    override suspend fun issueAuthorizationCode(
+        token: String,
+        loginMethod: LoginMethod
+    ): Result<BaseApiResponse<AuthResult>> {
+        return authRemoteDataSource.issueAuthorizationCode(token, loginMethod)
+            .onSuccess { authInfo ->
+                val authorizationHeader = authInfo.result?.run { grantType + accessToken } ?: ""
+                saveAuthorizationCode(authorizationHeader)
+            }
     }
 
     override suspend fun saveAuthorizationCode(code: String): Result<Unit> {
@@ -31,7 +35,13 @@ class AuthRepositoryImpl @Inject constructor(
         return authLocalDataSource.saveAuthorizationCode(code)
     }
 
-    override suspend fun logout(): Result<Unit> {
-        return authLocalDataSource.clearLocalData()
+    override suspend fun logout(): Result<Boolean> {
+        return authRemoteDataSource.logout()
+            .onSuccess {
+                authLocalDataSource.clearLocalData()
+                Result.success(Unit)
+            }.onFailure {
+                Result.failure<Boolean>(it)
+            }
     }
 }

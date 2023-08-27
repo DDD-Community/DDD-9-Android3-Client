@@ -15,5 +15,5 @@ interface AuthRepository {
 
     suspend fun saveAuthorizationCode(code: String): Result<Unit>
 
-    suspend fun logout(): Result<Unit>
+    suspend fun logout(): Result<Boolean>
 }

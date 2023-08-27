@@ -6,6 +6,8 @@ import ddd.buyornot.data.model.login.AuthResult
 
 interface AuthRemoteDataSource {
 
+    suspend fun logout(): Result<Boolean>
+
     suspend fun issueAuthorizationCode(
         token: String,
         loginMethod: LoginMethod = LoginMethod.KAKAO
