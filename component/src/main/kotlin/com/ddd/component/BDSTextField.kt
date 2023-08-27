@@ -40,9 +40,10 @@ fun BDSTextField(
     onFocusChanged: (FocusState) -> Unit,
     title: String,
     hint: String,
-    subText: String,
+    subText: String? = null,
     enabled: Boolean = true,
     maxLength: Int = Int.MAX_VALUE,
+    maxLine: Int = 2,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     state: BDSTextFieldState = BDSTextFieldState.UnFocus
@@ -77,11 +78,14 @@ fun BDSTextField(
             ),
             decorationBox = { innerTextField ->
                 if (value.isEmpty()) {
-                    BDSText(hint)
+                    BDSText(
+                        text = hint,
+                        color = Gray500,
+                    )
                 }
                 innerTextField()
             },
-            maxLines = 2,
+            maxLines = maxLine,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
         )
@@ -92,13 +96,15 @@ fun BDSTextField(
             color = state.dividerColor
         )
         Spacer(modifier = Modifier.height(10.dp))
-        BDSText(
-            text = subText,
-            modifier = Modifier.align(Alignment.End),
-            fontSize = 12.sp,
-            lineHeight = 18.sp,
-            color = state.subTextColor
-        )
+        subText?.let {
+            BDSText(
+                text = subText,
+                modifier = Modifier.align(Alignment.End),
+                fontSize = 12.sp,
+                lineHeight = 18.sp,
+                color = state.subTextColor
+            )
+        }
     }
 }
 

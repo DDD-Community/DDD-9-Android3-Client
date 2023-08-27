@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
+import ddd.buyornot.data.service.ArchiveService
 import ddd.buyornot.data.service.LoginService
 import ddd.buyornot.data.service.PollService
 import ddd.buyornot.data.service.PostService
@@ -79,6 +80,13 @@ class RetrofitModule {
         retrofit: Retrofit
     ): LoginService =
         retrofit.create(LoginService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideArchiveService(
+        retrofit: Retrofit
+    ): ArchiveService =
+        retrofit.create(ArchiveService::class.java)
 
     @Provides
     @Singleton

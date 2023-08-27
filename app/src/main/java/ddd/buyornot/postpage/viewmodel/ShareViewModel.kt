@@ -80,7 +80,7 @@ class ShareViewModel @Inject constructor(
         addPostItemUrl(sharedItemUrl)
         viewModelScope.launch {
             currentPost.value?.let {
-                postRepository.postNewPost(it)
+                postRepository.postNewVote(it)
             }
         }
     }
