@@ -5,13 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ddd.buyornot.data.model.post.PostResult
+import ddd.buyornot.data.repository.poll.PollRepository
 import ddd.buyornot.data.repository.post.PostRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val pollRepository: PollRepository
 ) : ViewModel() {
 
     private var page = 0
@@ -27,6 +29,12 @@ class HomeViewModel @Inject constructor(
                 postList.postValue(currentList)
                 page++
             }
+        }
+    }
+
+    fun patchPollChoice(postId: Int, choice: Int) {
+        viewModelScope.launch {
+            pollRepository.patchPollChoice(postId, choice)
         }
     }
 }

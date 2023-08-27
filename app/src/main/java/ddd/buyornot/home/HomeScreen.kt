@@ -49,14 +49,21 @@ fun HomeScreen(viewModel: HomeViewModel) {
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn() {
             items(postList) { post ->
-                HomeCard(post)
+                HomeCard(
+                    post = post,
+                    patchPollChoice = viewModel::patchPollChoice
+                )
             }
         }
     }
 }
 
 @Composable
-fun HomeCard(post: PostResult) {
+fun HomeCard(
+    post: PostResult,
+    patchPollChoice: (Int, Int) -> Unit
+) {
+    val scope = rememberCoroutineScope()
     val pollA = post.pollItemResponseList?.getOrNull(0) ?: return
     val pollB = post.pollItemResponseList?.getOrNull(1) ?: return
 
@@ -88,7 +95,13 @@ fun HomeCard(post: PostResult) {
                     price = pollA.originalPrice
                 ),
                 title = "A",
-                onClick = { /* A 투표 */ }
+                onClick = {
+                    scope.launch {
+                        post.id?.let {
+                            patchPollChoice(it, 1)
+                        }
+                    }
+                }
             )
             BDSVoteCard(
                 archiveItem = ArchiveItem(
@@ -99,12 +112,27 @@ fun HomeCard(post: PostResult) {
                     price = pollB.originalPrice
                 ),
                 title = "B",
-                onClick = { /* B 투표 */ }
+                onClick = {
+                    scope.launch {
+                        post.id?.let {
+                            patchPollChoice(it, 2)
+                        }
+                    }
+                }
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(horizontalArrangement = Arrangement.SpaceAround) {
-            BDSFilledButton(onClick = { /*TODO*/ }, text = "둘다 별로")
+            BDSFilledButton(
+                onClick = {
+                    scope.launch {
+                        post.id?.let {
+                            patchPollChoice(it, 0)
+                        }
+                    }
+                },
+                text = "둘다 별로"
+            )
             BDSFilledButton(onClick = { /*TODO*/ }, text = "공유하기")
         }
     }
