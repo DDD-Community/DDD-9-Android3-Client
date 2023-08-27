@@ -7,28 +7,34 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight.Companion.Normal
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.ArchiveItem
+import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
 import com.ddd.component.BDSFilledButton
+import com.ddd.component.BDSIconButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray900
+import ddd.buyornot.R
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.viewmodel.HomeViewModel
 import kotlinx.coroutines.launch
@@ -45,14 +51,43 @@ fun HomeScreen(viewModel: HomeViewModel) {
         }
     }
 
-
     Column(modifier = Modifier.fillMaxSize()) {
-        LazyColumn() {
-            items(postList) { post ->
-                HomeCard(
-                    post = post,
-                    patchPollChoice = viewModel::patchPollChoice
+        Scaffold(
+            topBar = {
+                BDSAppBar(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    left = {
+                        BDSImage(
+                            resId = R.drawable.ic_text_logo,
+                            modifier = Modifier.size(width = 116.dp, height = 23.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                    },
+                    right = {
+                        Row {
+                            BDSIconButton(
+                                resId = com.ddd.component.R.drawable.ic_archive_empty,
+                                onClick = { /*TODO*/ }
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            BDSIconButton(
+                                // resId = user profile logo,
+                                resId = com.ddd.component.R.drawable.ic_add_in_circle,
+                                onClick = { /*TODO*/ }
+                            )
+                        }
+                    },
+                    center = null
                 )
+            }
+        ) { paddingValues ->
+            LazyColumn(modifier = Modifier.padding(paddingValues)) {
+                items(postList) { post ->
+                    HomeCard(
+                        post = post,
+                        patchPollChoice = viewModel::patchPollChoice
+                    )
+                }
             }
         }
     }
