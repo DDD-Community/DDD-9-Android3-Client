@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ddd.buyornot.data.model.post.PostRequest
-import ddd.buyornot.data.service.PostService
+import ddd.buyornot.data.repository.post.PostRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddNewVoteViewModel @Inject constructor(
-    private val postService: PostService
+    private val postRepository: PostRepository
 ) : ViewModel() {
 
     companion object {
@@ -52,7 +52,7 @@ class AddNewVoteViewModel @Inject constructor(
                 publicStatus = (if (hideVote) PublicStatus.PRIVATE else PublicStatus.PUBLIC).name,
                 itemUrls = itemUrls.toList()
             )
-            postService.postNewVote(request)
+            postRepository.postNewVote(request)
         }
     }
 

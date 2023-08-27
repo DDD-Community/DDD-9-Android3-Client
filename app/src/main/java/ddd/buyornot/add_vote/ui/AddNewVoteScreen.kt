@@ -1,6 +1,5 @@
 package ddd.buyornot.add_vote.ui
 
-import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,13 +33,14 @@ import com.ddd.component.BDSTextFieldState
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BuyOrNotTheme
 import ddd.buyornot.add_vote.viewmodel.AddNewVoteViewModel
+import ddd.buyornot.findActivity
 
 @Composable
 fun AddNewVoteScreen(
     viewModel: AddNewVoteViewModel
 ) {
     BuyOrNotTheme {
-        val activity = LocalContext.current as? Activity
+        val activity = LocalContext.current.findActivity()
         val scrollState = rememberScrollState()
         var bdsTextFieldState: BDSTextFieldState by remember { mutableStateOf(BDSTextFieldState.UnFocus) }
 
