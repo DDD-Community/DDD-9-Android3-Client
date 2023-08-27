@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
-
+    // TODO: 리스트 fetch 개선, paging 추가 
     val postList by viewModel.postList.observeAsState(emptyList())
 
     val scope = rememberCoroutineScope()
