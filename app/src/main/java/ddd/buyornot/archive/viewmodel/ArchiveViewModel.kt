@@ -19,12 +19,19 @@ class ArchiveViewModel @Inject constructor(
     private var likedPage = 0
     private val count = 20
 
-    val archiveItemList = MutableLiveData<List<ArchiveItem>>()
+    val tabIndex = MutableLiveData<Int>()
+
+    val savedItemList = MutableLiveData<List<ArchiveItem>>()
     val likedItemList = MutableLiveData<List<ArchiveItem>>()
 
-    suspend fun fetchArchiveItemList() {
+    suspend fun fetchSavedItemList(init: Boolean = false) {
         viewModelScope.launch {
-            val currentItemList = archiveItemList.value ?: emptyList()
+            val currentItemList = if (init) {
+                savedPage = 0
+                emptyList()
+            } else {
+                savedItemList.value ?: emptyList()
+            }
             val newItemList = archiveRepository.fetchPostList(savedPage, count)?.result?.map { it ->
                 ArchiveItem(
                     itemId = it.itemId,
@@ -39,15 +46,20 @@ class ArchiveViewModel @Inject constructor(
 
             if (!newItemList.isNullOrEmpty()) {
                 currentItemList.toMutableList().addAll(newItemList)
-                archiveItemList.postValue(currentItemList)
+                savedItemList.postValue(currentItemList)
                 savedPage++
             }
         }
     }
 
-    suspend fun fetchLikedArchiveItemList() {
+    suspend fun fetchLikedItemList(init: Boolean = false) {
         viewModelScope.launch {
-            val currentItemList = likedItemList.value ?: emptyList()
+            val currentItemList = if (init) {
+                likedPage = 0
+                emptyList()
+            } else {
+                likedItemList.value ?: emptyList()
+            }
             val newItemList = archiveRepository.fetchPostLikedList(likedPage, count)?.result?.map { it ->
                 ArchiveItem(
                     itemId = it.itemId,
@@ -62,7 +74,7 @@ class ArchiveViewModel @Inject constructor(
 
             if (!newItemList.isNullOrEmpty()) {
                 currentItemList.toMutableList().addAll(newItemList)
-                archiveItemList.postValue(currentItemList)
+                savedItemList.postValue(currentItemList)
                 likedPage++
             }
         }
@@ -71,7 +83,12 @@ class ArchiveViewModel @Inject constructor(
     suspend fun patchArchiveItemDelete(archiveItemList: List<ArchiveItem>) {
         viewModelScope.launch {
             val deleteArchiveReq = DeleteArchiveReq(ids = archiveItemList.mapNotNull { it.itemId })
-            archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq)
+            archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq) ?: return@launch
+            when (tabIndex.value) {
+                0 -> fetchLikedItemList(true)
+                1 -> fetchSavedItemList(true)
+                else -> {}
+            }
         }
     }
 
@@ -80,7 +97,12 @@ class ArchiveViewModel @Inject constructor(
             archiveItem.itemId?.let {
                 val result = archiveRepository.patchArchiveItemLike(it)?.result?.liked ?: return@launch
                 archiveItem.liked = result
+                likedItemList.value?.filter { it.liked }
             }
         }
+    }
+
+    fun setTabIndex(index: Int) {
+        tabIndex.value = index
     }
 }

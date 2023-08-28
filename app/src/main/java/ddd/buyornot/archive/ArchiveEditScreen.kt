@@ -62,7 +62,21 @@ fun ArchiveEditScreen(
 ) {
     val context = LocalContext.current
 
-    val archiveItems by viewModel.archiveItemList.observeAsState(emptyList())
+    val tabIndex by viewModel.tabIndex.observeAsState(0)
+
+    val likedItems by viewModel.likedItemList.observeAsState(emptyList())
+    val savedItems by viewModel.savedItemList.observeAsState(emptyList())
+
+    val archiveItems by remember {
+        mutableStateOf(
+            when (tabIndex) {
+                0 -> likedItems
+                1 -> savedItems
+                else -> emptyList()
+            }
+        )
+    }
+
     val selectItems = remember { mutableStateListOf<ArchiveItem>() }
     val scope = rememberCoroutineScope()
     var showDeleteDialogState by remember { mutableStateOf(false) }
@@ -79,15 +93,6 @@ fun ArchiveEditScreen(
                     left = {
                         BDSIconButton(resId = R.drawable.ic_back, onClick = { context.findActivity().finish() })
                     },
-                    /*right = {
-                        BDSFilledButton(
-                            onClick = { context.findActivity().finish() },
-                            text = "완료",
-                            contentPadding = BDSButtonInnerPadding.SMALL,
-                            fontSize = 14.sp,
-                            lineHeight = 20.sp,
-                        )
-                    },*/
                     center = {
                         BDSText(
                             text = "상품 선택",

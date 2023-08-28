@@ -42,6 +42,7 @@ import com.ddd.component.BDSBorderlessButton
 import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSHeader
 import com.ddd.component.BDSImage
+import com.ddd.component.BDSTab
 import com.ddd.component.BDSText
 import com.ddd.component.BottomNavigationItem
 import com.ddd.component.R
@@ -61,19 +62,36 @@ fun ArchiveScreen(
 ) {
     val context = LocalContext.current
 
-    val archiveItems by viewModel.archiveItemList.observeAsState(emptyList())
-
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     var selectedBottomNavigation: BottomNavigationItem by remember { mutableStateOf(BottomNavigationItem.bottomNavigationItems[2]) }
     var isEmpty: Boolean by remember { mutableStateOf(false) }
+
+    val tabIndex by viewModel.tabIndex.observeAsState(0)
+
+    val likedItems by viewModel.likedItemList.observeAsState(emptyList())
+    val savedItems by viewModel.savedItemList.observeAsState(emptyList())
+
+    val archiveItems by remember {
+        mutableStateOf(
+            when (tabIndex) {
+                0 -> likedItems
+                1 -> savedItems
+                else -> emptyList()
+            }
+        )
+    }
 
     val state = rememberCollapsingToolbarScaffoldState()
     val scope = rememberCoroutineScope()
 
     // TODO: fetch 조건 변경
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(key1 = tabIndex) {
         scope.launch {
-            viewModel.fetchArchiveItemList()
+            when (tabIndex) {
+                0 -> viewModel.fetchLikedItemList()
+                1 -> viewModel.fetchSavedItemList()
+                else -> {}
+            }
         }
     }
 
@@ -121,6 +139,13 @@ fun ArchiveScreen(
         }
     ) {
         Column {
+            BDSTab(
+                titles = listOf("좋아요한 상품", "저장한 상품"),
+                selectedTabIndex = tabIndex,
+                onTabSelected = {
+                    viewModel.setTabIndex(it)
+                }
+            )
             BDSHeader(
                 modifier = Modifier.padding(top = 14.dp, bottom = 8.dp),
                 left = {
