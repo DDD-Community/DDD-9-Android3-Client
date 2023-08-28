@@ -67,49 +67,49 @@ fun ArchiveEditScreen(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT",
-                20f,
+                20,
                 67500
             ),
             ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT F.",
-                20f,
+                20,
                 67500
             ),
             ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT FL",
-                20f,
+                20,
                 67500
             ),
             ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT FLO",
-                20f,
+                20,
                 67500
             ),
             ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT FLOW",
-                20f,
+                20,
                 67500
             ),
             ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT FLOWE",
-                20f,
+                20,
                 67500
             ),
             ArchiveItem(
                 "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
                 "마르디메르크디",
                 "SWEATSHIRT FLOWER",
-                20f,
+                20,
                 67500
             ),
         )
