@@ -197,7 +197,11 @@ fun ArchiveScreen(
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 BDSText(
-                    text = "좋아요를 눌러 아카이브함을 채워보세요!",
+                    text = when (tabIndex) {
+                        0 -> "좋아요를 눌러 아카이브함을 채워보세요!"
+                        1 -> "공유하기를 통해 바로 상품을 저장할 수 있어요!"
+                        else -> ""
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
