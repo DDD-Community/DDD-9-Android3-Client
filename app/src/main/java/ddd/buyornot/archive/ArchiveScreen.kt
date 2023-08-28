@@ -200,7 +200,7 @@ fun ArchiveScreen(
                     text = when (tabIndex) {
                         0 -> "좋아요를 눌러 아카이브함을 채워보세요!"
                         1 -> "공유하기를 통해 바로 상품을 저장할 수 있어요!"
-                        else -> ""
+                        else -> null
                     },
                     modifier = Modifier.fillMaxWidth(),
                     fontSize = 14.sp,

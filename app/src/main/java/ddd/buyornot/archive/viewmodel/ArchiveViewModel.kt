@@ -97,7 +97,7 @@ class ArchiveViewModel @Inject constructor(
             archiveItem.itemId?.let {
                 val result = archiveRepository.patchArchiveItemLike(it)?.result?.liked ?: return@launch
                 archiveItem.liked = result
-                likedItemList.value?.filter { it.liked }
+                fetchLikedItemList(true)
             }
         }
     }
