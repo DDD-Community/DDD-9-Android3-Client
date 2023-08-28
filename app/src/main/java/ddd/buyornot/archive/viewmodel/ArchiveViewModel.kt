@@ -25,12 +25,13 @@ class ArchiveViewModel @Inject constructor(
             val currentItemList = archiveItemList.value ?: emptyList()
             val newItemList = archiveRepository.fetchPostList(page, count)?.result?.map { it ->
                 ArchiveItem(
-                    id = it.itemId,
+                    itemId = it.itemId,
                     imageUrl = it.imgUrl,
                     brand = it.brand,
                     name = it.itemName,
                     discount = it.discountedPrice,
-                    price = it.originalPrice
+                    price = it.originalPrice,
+                    liked = it.liked
                 )
             }
 
@@ -44,9 +45,17 @@ class ArchiveViewModel @Inject constructor(
 
     suspend fun patchArchiveItemDelete(archiveItemList: List<ArchiveItem>) {
         viewModelScope.launch {
-            val deleteArchiveReq = DeleteArchiveReq(ids = archiveItemList.mapNotNull { it.id })
+            val deleteArchiveReq = DeleteArchiveReq(ids = archiveItemList.mapNotNull { it.itemId })
             archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq)
         }
     }
 
+    suspend fun patchArchiveItemLike(archiveItem: ArchiveItem) {
+        viewModelScope.launch {
+            archiveItem.itemId?.let {
+                val result = archiveRepository.patchArchiveItemLike(it)?.result?.liked ?: return@launch
+                archiveItem.liked = result
+            }
+        }
+    }
 }

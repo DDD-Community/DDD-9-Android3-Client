@@ -191,10 +191,10 @@ fun ArchiveScreen(
                         BDSArchiveItemCard(
                             archiveItem = archiveItem,
                             isEditMode = false,
-                            isLike = true,
+                            isLike = archiveItem.liked,
                             onClickLike = {
                                 scope.launch {
-
+                                    viewModel.patchArchiveItemLike(archiveItem)
                                 }
                             }
                         )
