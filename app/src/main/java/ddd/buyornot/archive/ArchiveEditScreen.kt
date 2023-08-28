@@ -21,6 +21,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,59 +62,7 @@ fun ArchiveEditScreen(
 ) {
     val context = LocalContext.current
 
-    val archiveItems = remember {
-        mutableStateListOf(
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT",
-                20,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT F.",
-                20,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT FL",
-                20,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT FLO",
-                20,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT FLOW",
-                20,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT FLOWE",
-                20,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT FLOWER",
-                20,
-                67500
-            ),
-        )
-    }
+    val archiveItems by viewModel.archiveItemList.observeAsState(emptyList())
     val selectItems = remember { mutableStateListOf<ArchiveItem>() }
     val scope = rememberCoroutineScope()
     var showDeleteDialogState by remember { mutableStateOf(false) }
@@ -258,7 +207,7 @@ fun ArchiveEditScreen(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         scope.launch {
-                            archiveItems.removeAll(selectItems)
+                            viewModel.patchArchiveItemDelete(selectItems)
                             selectItems.clear()
                             sheetState.hide()
                         }.invokeOnCompletion {
