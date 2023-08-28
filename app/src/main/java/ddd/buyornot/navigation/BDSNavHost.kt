@@ -13,20 +13,21 @@ import androidx.navigation.compose.composable
 import com.ddd.component.BDSText
 import ddd.buyornot.archive.ArchiveScreen
 import ddd.buyornot.home.HomeScreen
+import ddd.buyornot.home.viewmodel.HomeViewModel
 
 @Composable
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 fun BuyOrNotNavHost(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    homeViewModel: HomeViewModel
 ) {
-
     NavHost(
         navController = navHostController,
         startDestination = BuyOrNotNavigationRoute.Home.route
     ) {
         composable(BuyOrNotNavigationRoute.Home.route) {
-            HomeScreen()
+            HomeScreen(homeViewModel)
         }
         composable(BuyOrNotNavigationRoute.Archive.route) {
             ArchiveScreen()
