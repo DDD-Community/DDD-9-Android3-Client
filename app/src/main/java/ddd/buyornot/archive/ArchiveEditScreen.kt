@@ -50,12 +50,15 @@ import com.ddd.component.BDSSingleTextSnackbar
 import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
+import ddd.buyornot.archive.viewmodel.ArchiveViewModel
 import ddd.buyornot.findActivity
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @Composable
-fun ArchiveEditScreen() {
+fun ArchiveEditScreen(
+    viewModel: ArchiveViewModel
+) {
     val context = LocalContext.current
 
     val archiveItems = remember {

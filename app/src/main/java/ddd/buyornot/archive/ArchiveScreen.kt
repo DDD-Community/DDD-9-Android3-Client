@@ -45,6 +45,7 @@ import com.ddd.component.BottomNavigationItem
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.SlateGray900
+import ddd.buyornot.archive.viewmodel.ArchiveViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -52,8 +53,11 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
-fun ArchiveScreen() {
+fun ArchiveScreen(
+    viewModel: ArchiveViewModel
+) {
     val context = LocalContext.current
+
     val archiveItems = listOf(
         ArchiveItem(
             "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
