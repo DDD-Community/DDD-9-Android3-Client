@@ -15,15 +15,17 @@ class ArchiveViewModel @Inject constructor(
     private val archiveRepository: ArchiveRepository
 ) : ViewModel() {
 
-    private var page = 0
+    private var savedPage = 0
+    private var likedPage = 0
     private val count = 20
 
     val archiveItemList = MutableLiveData<List<ArchiveItem>>()
+    val likedItemList = MutableLiveData<List<ArchiveItem>>()
 
     suspend fun fetchArchiveItemList() {
         viewModelScope.launch {
             val currentItemList = archiveItemList.value ?: emptyList()
-            val newItemList = archiveRepository.fetchPostList(page, count)?.result?.map { it ->
+            val newItemList = archiveRepository.fetchPostList(savedPage, count)?.result?.map { it ->
                 ArchiveItem(
                     itemId = it.itemId,
                     imageUrl = it.imgUrl,
@@ -38,7 +40,30 @@ class ArchiveViewModel @Inject constructor(
             if (!newItemList.isNullOrEmpty()) {
                 currentItemList.toMutableList().addAll(newItemList)
                 archiveItemList.postValue(currentItemList)
-                page++
+                savedPage++
+            }
+        }
+    }
+
+    suspend fun fetchLikedArchiveItemList() {
+        viewModelScope.launch {
+            val currentItemList = likedItemList.value ?: emptyList()
+            val newItemList = archiveRepository.fetchPostLikedList(likedPage, count)?.result?.map { it ->
+                ArchiveItem(
+                    itemId = it.itemId,
+                    imageUrl = it.imgUrl,
+                    brand = it.brand,
+                    name = it.itemName,
+                    discount = it.discountedPrice,
+                    price = it.originalPrice,
+                    liked = it.liked
+                )
+            }
+
+            if (!newItemList.isNullOrEmpty()) {
+                currentItemList.toMutableList().addAll(newItemList)
+                archiveItemList.postValue(currentItemList)
+                likedPage++
             }
         }
     }
