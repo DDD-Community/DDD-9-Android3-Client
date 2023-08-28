@@ -6,15 +6,15 @@ import ddd.buyornot.data.model.archive.DeleteArchiveReq
 
 interface ArchiveRepository {
 
-    suspend fun postArchiveItem(itemUrl: String) : Result<BaseApiResponse<ArchiveResponse>>
+    suspend fun postArchiveItem(itemUrl: String) : BaseApiResponse<ArchiveResponse>?
 
-    suspend fun postArchiveItem(itemId: Int) : Result<BaseApiResponse<ArchiveResponse>>
+    suspend fun postArchiveItem(itemId: Int) : BaseApiResponse<ArchiveResponse>?
 
-    suspend fun patchArchiveItemLike(itemId: Int) : Result<BaseApiResponse<ArchiveResponse>>
+    suspend fun patchArchiveItemLike(itemId: Int) : BaseApiResponse<ArchiveResponse>?
 
-    suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) : Result<BaseApiResponse<Int>>
+    suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) : BaseApiResponse<Int>?
 
-    suspend fun fetchPostList(page: Int, count: Int) : Result<BaseApiResponse<List<ArchiveResponse>>>
+    suspend fun fetchPostList(page: Int, count: Int) : BaseApiResponse<List<ArchiveResponse>>?
 
-    suspend fun fetchPostLikedList(page: Int, count: Int) : Result<BaseApiResponse<List<ArchiveResponse>>>
+    suspend fun fetchPostLikedList(page: Int, count: Int) : BaseApiResponse<List<ArchiveResponse>>?
 }

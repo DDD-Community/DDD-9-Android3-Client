@@ -1,7 +1,5 @@
 package ddd.buyornot.data.source.archive
 
-import ddd.buyornot.data.model.BaseApiResponse
-import ddd.buyornot.data.model.archive.ArchiveResponse
 import ddd.buyornot.data.model.archive.DeleteArchiveReq
 import ddd.buyornot.data.service.ArchiveService
 import javax.inject.Inject
@@ -12,25 +10,25 @@ class ArchiveRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun postArchiveItem(itemUrl: String) = runCatching {
         archiveService.postArchiveItem(itemUrl)
-    }
+    }.getOrNull()
 
     override suspend fun postArchiveItem(itemId: Int) = runCatching {
         archiveService.postArchiveItem(itemId)
-    }
+    }.getOrNull()
 
     override suspend fun patchArchiveItemLike(itemId: Int) = runCatching {
         archiveService.patchArchiveItemLike(itemId)
-    }
+    }.getOrNull()
 
     override suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) = runCatching {
         archiveService.patchArchiveItemDelete(deleteArchiveReq)
-    }
+    }.getOrNull()
 
-    override suspend fun fetchPostList(page: Int, count: Int): Result<BaseApiResponse<List<ArchiveResponse>>> = runCatching {
+    override suspend fun fetchPostList(page: Int, count: Int) = runCatching {
         archiveService.fetchArchivePostList(page, count)
-    }
+    }.getOrNull()
 
-    override suspend fun fetchLikedPostList(page: Int, count: Int): Result<BaseApiResponse<List<ArchiveResponse>>> = runCatching {
+    override suspend fun fetchLikedPostList(page: Int, count: Int) = runCatching {
         archiveService.fetchArchiveLikedPostList(page, count)
-    }
+    }.getOrNull()
 }
