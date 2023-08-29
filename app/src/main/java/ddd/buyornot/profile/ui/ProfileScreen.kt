@@ -1,4 +1,4 @@
-package com.ddd.component.demo
+package ddd.buyornot.profile.ui
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Divider
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -61,7 +61,7 @@ fun ProfileScreen() {
                 .height(183.dp),
         ) {
             BDSImage(
-                resId = R.drawable.bg_profile,
+                resId = com.ddd.component.R.drawable.bg_profile,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
