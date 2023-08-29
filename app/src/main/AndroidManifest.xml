@@ -30,6 +30,9 @@
         <activity android:name=".profile.ui.ProfileActivity"
             android:theme="@style/Theme.BuyOrNot" />
 
+        <activity android:name=".profile.ui.CancellationActivity"
+            android:theme="@style/Theme.BuyOrNot" />
+
         <activity
             android:name=".add_vote.ui.AddNewVoteActivity"
             android:theme="@style/Theme.BuyOrNot" />
