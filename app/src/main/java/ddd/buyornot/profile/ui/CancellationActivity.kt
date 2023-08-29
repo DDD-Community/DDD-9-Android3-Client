@@ -14,7 +14,7 @@ class CancellationActivity : ComponentActivity() {
 
         setContent {
             BuyOrNotTheme {
-
+                CancellationScreen()
             }
         }
     }

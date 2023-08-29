@@ -1,5 +1,6 @@
 package ddd.buyornot.profile.ui
 
+import android.content.Intent
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,7 @@ import com.ddd.component.theme.BDSColor.SlateGray700
 import com.ddd.component.theme.BDSColor.SlateGray800
 import com.ddd.component.theme.BDSColor.SlateGray900
 import com.ddd.component.theme.BDSColor.White
+import ddd.buyornot.findActivity
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
@@ -68,7 +70,7 @@ fun ProfileScreen() {
             BDSIconButton(
                 modifier = Modifier.padding(16.dp),
                 resId = com.ddd.component.R.drawable.ic_back,
-                onClick = { },
+                onClick = { context.findActivity().finish() },
                 tint = White
             )
         }
@@ -125,7 +127,7 @@ fun ProfileScreen() {
         )
         BDSText(
             modifier = Modifier
-                .clickableWithoutRipple { }
+                .clickableWithoutRipple { context.startActivity(Intent(context, CancellationActivity::class.java))}
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 13.dp),
             text = "계정삭제",
