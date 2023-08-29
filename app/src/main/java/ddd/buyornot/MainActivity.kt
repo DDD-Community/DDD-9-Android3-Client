@@ -21,6 +21,7 @@ import com.ddd.component.BottomNavigationItem
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.add_vote.ui.AddNewVoteActivity
+import ddd.buyornot.archive.viewmodel.ArchiveViewModel
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.home.viewmodel.HomeViewModel
 import ddd.buyornot.login.LoginActivity
@@ -38,6 +39,8 @@ class MainActivity : ComponentActivity() {
     lateinit var repository: AuthRepository
 
     private val homeViewModel by viewModels<HomeViewModel>()
+    private val archiveViewModel by viewModels<ArchiveViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -72,7 +75,8 @@ class MainActivity : ComponentActivity() {
                     }
                     BuyOrNotNavHost(
                         navHostController = navHostController,
-                        homeViewModel = homeViewModel
+                        homeViewModel = homeViewModel,
+                        archiveViewModel = archiveViewModel
                     )
                 }
             }

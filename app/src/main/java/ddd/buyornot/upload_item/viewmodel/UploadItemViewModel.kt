@@ -35,8 +35,7 @@ class UploadItemViewModel @Inject constructor(
     fun checkUrl(url: String) {
         viewModelScope.launch {
             runCatching {
-                val result = archiveRepository.postArchiveItem(url).getOrNull()
-
+                val result = archiveRepository.postArchiveItem(url)
             }
         }
     }

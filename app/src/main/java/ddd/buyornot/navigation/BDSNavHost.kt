@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ddd.component.BDSText
 import ddd.buyornot.archive.ArchiveScreen
+import ddd.buyornot.archive.viewmodel.ArchiveViewModel
 import ddd.buyornot.home.HomeScreen
 import ddd.buyornot.home.viewmodel.HomeViewModel
 
@@ -20,7 +21,8 @@ import ddd.buyornot.home.viewmodel.HomeViewModel
 @ExperimentalMaterial3Api
 fun BuyOrNotNavHost(
     navHostController: NavHostController,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    archiveViewModel: ArchiveViewModel
 ) {
     NavHost(
         navController = navHostController,
@@ -30,7 +32,7 @@ fun BuyOrNotNavHost(
             HomeScreen(homeViewModel)
         }
         composable(BuyOrNotNavigationRoute.Archive.route) {
-            ArchiveScreen()
+            ArchiveScreen(archiveViewModel)
         }
     }
 }
