@@ -10,4 +10,6 @@ interface AuthRemoteDataSource {
         token: String,
         loginMethod: LoginMethod = LoginMethod.KAKAO
     ): Result<BaseApiResponse<AuthResult>>
+
+    suspend fun postLogout() : Result<BaseApiResponse<String>>
 }

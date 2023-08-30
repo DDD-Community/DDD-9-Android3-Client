@@ -1,5 +1,6 @@
 package ddd.buyornot.data.source.login
 
+import ddd.buyornot.data.model.BaseApiResponse
 import ddd.buyornot.data.model.LoginMethod
 import ddd.buyornot.data.model.login.KaKaoAuthRequest
 import ddd.buyornot.data.service.LoginService
@@ -14,5 +15,9 @@ class AuthRemoteDataSourceImpl @Inject constructor(
         loginMethod: LoginMethod
     ) = runCatching {
         loginService.postKakaoAuth(KaKaoAuthRequest(token))
+    }
+
+    override suspend fun postLogout(): Result<BaseApiResponse<String>> = runCatching {
+        loginService.postLogout()
     }
 }
