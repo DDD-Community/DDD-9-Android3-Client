@@ -85,4 +85,15 @@ class KakaoLogin(private val context: Context, private val postAuth: (String) ->
             }
         }
     }
+
+    fun kakaoLogout() {
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+            }
+            else {
+                Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+            }
+        }
+    }
 }
