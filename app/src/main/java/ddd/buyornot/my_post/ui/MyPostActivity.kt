@@ -1,4 +1,4 @@
-package ddd.buyornot.my_post
+package ddd.buyornot.my_post.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,44 +65,54 @@ class MyPostActivity : ComponentActivity() {
                     selectedTabIndex = selectedTabIndex,
                     onTabSelected = { selectedTabIndex = it }
                 )
-                if (postList.isNullOrEmpty()) {
-                    Box(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Column(modifier = Modifier.align(Alignment.Center)) {
-                            BDSImage(
-                                resId = R.drawable.ic_archive_empty,
-                                modifier = Modifier.size(150.dp)
-                            )
-                            Spacer(modifier = Modifier.height(12.dp))
-                            BDSText(
-                                text = "앗, 만들어진 투표가 없어요!",
-                                fontSize = 16.sp,
-                                lineHeight = 24.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = SlateGray900,
-                            )
-                            Spacer(modifier = Modifier.height(54.dp))
-                            BDSFilledButton(
-                                modifier = Modifier
-                                    .height(50.dp)
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 32.dp),
-                                onClick = { /*TODO*/ },
-                                text = "투표 만들러 가기"
-                            )
-                        }
-                    }
-                } else {
-                    LazyColumn {
-                        items(postList) { postResult ->
-                            BDSHomeCard(
-                                post = postResult,
-                                patchPollChoice = { /*viewModel::patchPollChoice*/ }
-                            )
-                        }
-                    }
+                MyPostScreen(postList)
+                when (selectedTabIndex) {
+                    0 -> postList = viewModel.fetchOnGoingPost()
+                    1 -> postList = viewModel.fetchClosedPost()
+                    else -> {}
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun MyPostScreen(postList: List<PostResult>) {
+    if (postList.isNullOrEmpty()) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Column(modifier = Modifier.align(Alignment.Center)) {
+                BDSImage(
+                    resId = R.drawable.ic_archive_empty,
+                    modifier = Modifier.size(150.dp)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                BDSText(
+                    text = "앗, 만들어진 투표가 없어요!",
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = SlateGray900,
+                )
+                Spacer(modifier = Modifier.height(54.dp))
+                BDSFilledButton(
+                    modifier = Modifier
+                        .height(50.dp)
+                        .fillMaxWidth()
+                        .padding(horizontal = 32.dp),
+                    onClick = { /*TODO*/ },
+                    text = "투표 만들러 가기"
+                )
+            }
+        }
+    } else {
+        LazyColumn {
+            items(postList) { postResult ->
+                BDSHomeCard(
+                    post = postResult,
+                    patchPollChoice = { /*viewModel::patchPollChoice*/ }
+                )
             }
         }
     }
