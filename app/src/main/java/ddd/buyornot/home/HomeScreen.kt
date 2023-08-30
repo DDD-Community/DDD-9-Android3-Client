@@ -1,6 +1,7 @@
 package ddd.buyornot.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight.Companion.Normal
@@ -85,7 +87,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                 items(postList) { post ->
                     BDSHomeCard(
                         post = post,
-                        patchPollChoice = viewModel::patchPollChoice
+                        patchPollChoice = viewModel::patchPollChoice,
                     )
                 }
             }
@@ -96,14 +98,20 @@ fun HomeScreen(viewModel: HomeViewModel) {
 @Composable
 fun BDSHomeCard(
     post: PostResult,
-    patchPollChoice: ((Int, Int) -> Unit)? = null
+    patchPollChoice: (Int, Int) -> Unit = { _, _ -> },
+    isMyPost: Boolean = false,
+    onClickDots: () -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
     val pollA = post.pollItemResponseList?.getOrNull(0) ?: return
     val pollB = post.pollItemResponseList?.getOrNull(1) ?: return
 
     Column(modifier = Modifier.padding(vertical = 24.dp, horizontal = 14.dp)) {
-        UserCard(userNickname = post.userNickname)
+        UserCard(
+            userNickname = post.userNickname,
+            isVisible = isMyPost,
+            onClick = onClickDots
+        )
         Spacer(modifier = Modifier.height(10.dp))
         BDSText(
             text = post.title,
@@ -133,9 +141,7 @@ fun BDSHomeCard(
                 onClick = {
                     scope.launch {
                         post.id?.let {
-                            if (patchPollChoice != null) {
-                                patchPollChoice(it, 1)
-                            }
+                            patchPollChoice(it, 1)
                         }
                     }
                 }
@@ -152,9 +158,7 @@ fun BDSHomeCard(
                 onClick = {
                     scope.launch {
                         post.id?.let {
-                            if (patchPollChoice != null) {
-                                patchPollChoice(it, 2)
-                            }
+                            patchPollChoice(it, 2)
                         }
                     }
                 }
@@ -166,9 +170,7 @@ fun BDSHomeCard(
                 onClick = {
                     scope.launch {
                         post.id?.let {
-                            if (patchPollChoice != null) {
-                                patchPollChoice(it, 0)
-                            }
+                            patchPollChoice(it, 0)
                         }
                     }
                 },
@@ -185,29 +187,40 @@ private fun UserCard(
     userNickname: String?,
     // userImage: String?,
     // until: String?
+    isVisible: Boolean = false,
+    onClick: () -> Unit
 ) {
-    Row {
-        BDSImage(
-            // url = userImage,
-            resId = com.ddd.component.R.drawable.ic_app_logo_sample,
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            BDSText(
-                text = userNickname,
-                fontSize = 12.sp,
-                lineHeight = 18.sp,
-                fontWeight = SemiBold,
-                color = SlateGray900
+    Box {
+        Row(modifier = Modifier.align(Alignment.CenterStart)) {
+            BDSImage(
+                // url = userImage,
+                resId = com.ddd.component.R.drawable.ic_app_logo_sample,
             )
-            Spacer(modifier = Modifier.height(2.dp))
-            BDSText(
-                // text = until,
-                text = "1시간 전",
-                fontSize = 12.sp,
-                lineHeight = 18.sp,
-                fontWeight = Normal,
-                color = SlateGray500
+            Spacer(modifier = Modifier.width(8.dp))
+            Column {
+                BDSText(
+                    text = userNickname,
+                    fontSize = 12.sp,
+                    lineHeight = 18.sp,
+                    fontWeight = SemiBold,
+                    color = SlateGray900
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                BDSText(
+                    // text = until,
+                    text = "1시간 전",
+                    fontSize = 12.sp,
+                    lineHeight = 18.sp,
+                    fontWeight = Normal,
+                    color = SlateGray500
+                )
+            }
+        }
+        if (isVisible) {
+            BDSIconButton(
+                resId = com.ddd.component.R.drawable.ic_dots_mono,
+                modifier = Modifier.align(Alignment.CenterEnd),
+                onClick = onClick
             )
         }
     }

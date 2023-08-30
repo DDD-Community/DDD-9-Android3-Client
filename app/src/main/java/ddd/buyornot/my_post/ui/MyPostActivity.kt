@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,12 +28,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.BDSAppBar
+import com.ddd.component.BDSBottomSheetTextList
 import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSIconButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSTab
 import com.ddd.component.BDSText
 import com.ddd.component.R
+import com.ddd.component.data.BDSTextData
+import com.ddd.component.theme.BDSColor.Red
+import com.ddd.component.theme.BDSColor.SlateGray800
 import com.ddd.component.theme.BDSColor.SlateGray900
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.data.model.post.PostResult
@@ -53,6 +58,8 @@ class MyPostActivity : ComponentActivity() {
 
             val onGoingPostList by viewModel.onGoingPostList.observeAsState(emptyList())
             val closedPostList by viewModel.closedPostList.observeAsState(emptyList())
+
+            // TODO: data fetch 로직 추가
 
             var postList by remember {
                 mutableStateOf(
@@ -81,7 +88,10 @@ class MyPostActivity : ComponentActivity() {
                     selectedTabIndex = selectedTabIndex,
                     onTabSelected = { selectedTabIndex = it }
                 )
-                MyPostScreen(postList)
+                MyPostScreen(
+                    postList,
+                    selectedTabIndex
+                )
             }
         }
     }
@@ -89,8 +99,58 @@ class MyPostActivity : ComponentActivity() {
 
 @Composable
 fun MyPostScreen(
-    postList: List<PostResult>
+    postList: List<PostResult>,
+    selectedTabIndex: Int
 ) {
+    var openBottomSheet by remember { mutableStateOf(false) }
+
+    if (openBottomSheet) {
+        BDSBottomSheetTextList(
+            onDismissRequest = { openBottomSheet = false },
+            title = "투표 옵션",
+            texts = when (selectedTabIndex) {
+                0 -> listOf(
+                    BDSTextData(
+                        text = "투표 공유하기",
+                        modifier = Modifier.clickable {  },
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = SlateGray800,
+                    ),
+                    BDSTextData(
+                        text = "답변 그만받기",
+                        modifier = Modifier.clickable {  },
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = SlateGray800
+                    ),
+                    BDSTextData(
+                        text = "투표 삭제하기",
+                        modifier = Modifier.clickable {  },
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Red
+                    ),
+                )
+                1 -> listOf(
+                    BDSTextData(
+                        text = "투표 삭제하기",
+                        modifier = Modifier.clickable {  },
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Red,
+                    )
+                )
+                else -> emptyList()
+            },
+            onClickRightIcon = { openBottomSheet = false }
+        )
+    }
+
     if (postList.isEmpty()) {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -124,6 +184,8 @@ fun MyPostScreen(
             items(postList) { postResult ->
                 BDSHomeCard(
                     post = postResult,
+                    isMyPost = true,
+                    onClickDots = { openBottomSheet = true }
                 )
             }
         }
