@@ -20,4 +20,8 @@ class AuthRemoteDataSourceImpl @Inject constructor(
     override suspend fun postLogout(token: String): Result<BaseApiResponse<String>> = runCatching {
         loginService.postLogout(KaKaoAuthRequest(token))
     }
+
+    override suspend fun postSignOut(token: String): Result<BaseApiResponse<String>> = runCatching {
+        loginService.postSignOut(KaKaoAuthRequest(token))
+    }
 }

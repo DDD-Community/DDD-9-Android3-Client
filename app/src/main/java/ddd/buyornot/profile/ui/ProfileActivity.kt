@@ -155,7 +155,7 @@ class ProfileActivity : ComponentActivity() {
                     )
                     BDSText(
                         modifier = Modifier
-                            .clickableWithoutRipple { startActivity(Intent(this@ProfileActivity, CancellationActivity::class.java)) }
+                            .clickableWithoutRipple { startActivity(Intent(this@ProfileActivity, SignOutActivity::class.java)) }
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp, vertical = 13.dp),
                         text = "계정삭제",

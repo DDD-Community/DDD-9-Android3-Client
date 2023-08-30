@@ -30,7 +30,7 @@
         <activity android:name=".profile.ui.ProfileActivity"
             android:theme="@style/Theme.BuyOrNot" />
 
-        <activity android:name=".profile.ui.CancellationActivity"
+        <activity android:name=".profile.ui.SignOutActivity"
             android:theme="@style/Theme.BuyOrNot" />
 
         <activity

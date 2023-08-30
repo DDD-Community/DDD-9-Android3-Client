@@ -1,6 +1,7 @@
 package ddd.buyornot.profile.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -23,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSCheckbox
@@ -35,16 +37,36 @@ import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.data.repository.login.AuthRepository
+import ddd.buyornot.data.util.KakaoLogin
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CancellationActivity : ComponentActivity() {
+class SignOutActivity : ComponentActivity() {
 
     @Inject
     lateinit var authRepository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val kakaoLogin = KakaoLogin(this@SignOutActivity) { token ->
+            CoroutineScope(Dispatchers.IO).launch {
+                authRepository.signoutRemote(token)
+                    .onSuccess { response ->
+                        if (response.isSuccess) {
+                            finish()
+                        } else {
+                            handleSignOutError()
+                        }
+                    } .onFailure {
+                        handleSignOutError()
+                    }
+            }
+        }
+
 
         setContent {
             BuyOrNotTheme {
@@ -86,7 +108,7 @@ class CancellationActivity : ComponentActivity() {
                         )
                         Spacer(modifier = Modifier.height(42.dp))
                         BDSImage(
-                            resId = ddd.buyornot.R.drawable.graphic_cancellation,
+                            resId = ddd.buyornot.R.drawable.graphic_sign_out,
                             modifier = Modifier
                                 .width(332.dp)
                                 .height(172.dp)
@@ -148,7 +170,9 @@ class CancellationActivity : ComponentActivity() {
                             lineHeight = 24.sp,
                             fontWeight = FontWeight.SemiBold,
                             enabled = allChecked,
-                            onClick = { /* 계정 삭제 */ }
+                            onClick = {
+                                kakaoLogin.kakaoSignOut()
+                            }
                         )
                         Spacer(modifier = Modifier.height(54.dp))
                     }
@@ -181,6 +205,12 @@ class CancellationActivity : ComponentActivity() {
                 fontWeight = FontWeight.Normal,
                 color = BDSColor.SlateGray900
             )
+        }
+    }
+
+    private fun handleSignOutError() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            Toast.makeText(this@SignOutActivity, "로그인에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
 }
