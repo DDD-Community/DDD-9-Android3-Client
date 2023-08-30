@@ -83,7 +83,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
         ) { paddingValues ->
             LazyColumn(modifier = Modifier.padding(paddingValues)) {
                 items(postList) { post ->
-                    HomeCard(
+                    BDSHomeCard(
                         post = post,
                         patchPollChoice = viewModel::patchPollChoice
                     )
@@ -94,7 +94,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
 }
 
 @Composable
-fun HomeCard(
+fun BDSHomeCard(
     post: PostResult,
     patchPollChoice: (Int, Int) -> Unit
 ) {
