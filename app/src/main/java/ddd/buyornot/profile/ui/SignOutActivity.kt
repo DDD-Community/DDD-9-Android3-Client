@@ -120,6 +120,7 @@ class SignOutActivity : ComponentActivity() {
                             .align(Alignment.BottomStart)
                     ) {
                         Row {
+                            Spacer(modifier = Modifier.width(20.dp))
                             BDSCheckbox(
                                 checkedImage = R.drawable.ic_check,
                                 uncheckedImage = R.drawable.ic_uncheck,
@@ -131,6 +132,7 @@ class SignOutActivity : ComponentActivity() {
                                     checked3 = allChecked
                                 }
                             )
+                            Spacer(modifier = Modifier.width(12.dp))
                             BDSText(
                                 text = "계정을 삭제하기 전 확인해주세요!",
                                 fontSize = 16.sp,
@@ -189,7 +191,7 @@ class SignOutActivity : ComponentActivity() {
     ) {
         Row(
             modifier = Modifier
-                .padding(start = 24.dp)
+                .padding(start = 20.dp)
         ) {
             BDSCheckbox(
                 checkedImage = R.drawable.ic_check,
@@ -197,8 +199,9 @@ class SignOutActivity : ComponentActivity() {
                 checked = checked,
                 onClick = onClick
             )
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(12.dp))
             BDSText(
+                modifier = Modifier.align(Alignment.CenterVertically),
                 text = text,
                 fontSize = 12.sp,
                 lineHeight = 18.sp,
