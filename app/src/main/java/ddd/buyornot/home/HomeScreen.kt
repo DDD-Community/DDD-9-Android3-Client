@@ -96,7 +96,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
 @Composable
 fun BDSHomeCard(
     post: PostResult,
-    patchPollChoice: (Int, Int) -> Unit
+    patchPollChoice: ((Int, Int) -> Unit)? = null
 ) {
     val scope = rememberCoroutineScope()
     val pollA = post.pollItemResponseList?.getOrNull(0) ?: return
@@ -133,7 +133,9 @@ fun BDSHomeCard(
                 onClick = {
                     scope.launch {
                         post.id?.let {
-                            patchPollChoice(it, 1)
+                            if (patchPollChoice != null) {
+                                patchPollChoice(it, 1)
+                            }
                         }
                     }
                 }
@@ -150,7 +152,9 @@ fun BDSHomeCard(
                 onClick = {
                     scope.launch {
                         post.id?.let {
-                            patchPollChoice(it, 2)
+                            if (patchPollChoice != null) {
+                                patchPollChoice(it, 2)
+                            }
                         }
                     }
                 }
@@ -162,7 +166,9 @@ fun BDSHomeCard(
                 onClick = {
                     scope.launch {
                         post.id?.let {
-                            patchPollChoice(it, 0)
+                            if (patchPollChoice != null) {
+                                patchPollChoice(it, 0)
+                            }
                         }
                     }
                 },

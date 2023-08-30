@@ -3,6 +3,7 @@ package ddd.buyornot.my_post.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,10 +37,13 @@ import com.ddd.component.theme.BDSColor.SlateGray900
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.BDSHomeCard
+import ddd.buyornot.my_post.viewmodel.MyPostViewModel
 
 @ExperimentalMaterial3Api
 @AndroidEntryPoint
 class MyPostActivity : ComponentActivity() {
+
+    private val viewModel by viewModels<MyPostViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +51,18 @@ class MyPostActivity : ComponentActivity() {
         setContent {
             var selectedTabIndex by remember { mutableStateOf(0) }
 
-            var postList = listOf<PostResult>()
+            val onGoingPostList by viewModel.onGoingPostList.observeAsState(emptyList())
+            val closedPostList by viewModel.closedPostList.observeAsState(emptyList())
+
+            var postList by remember {
+                mutableStateOf(
+                    when (selectedTabIndex) {
+                        0 -> onGoingPostList
+                        1 -> closedPostList
+                        else -> emptyList()
+                    }
+                )
+            }
 
             Column(
                 modifier = Modifier.fillMaxSize()
@@ -66,19 +82,16 @@ class MyPostActivity : ComponentActivity() {
                     onTabSelected = { selectedTabIndex = it }
                 )
                 MyPostScreen(postList)
-                when (selectedTabIndex) {
-                    0 -> postList = viewModel.fetchOnGoingPost()
-                    1 -> postList = viewModel.fetchClosedPost()
-                    else -> {}
-                }
             }
         }
     }
 }
 
 @Composable
-fun MyPostScreen(postList: List<PostResult>) {
-    if (postList.isNullOrEmpty()) {
+fun MyPostScreen(
+    postList: List<PostResult>
+) {
+    if (postList.isEmpty()) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -111,7 +124,6 @@ fun MyPostScreen(postList: List<PostResult>) {
             items(postList) { postResult ->
                 BDSHomeCard(
                     post = postResult,
-                    patchPollChoice = { /*viewModel::patchPollChoice*/ }
                 )
             }
         }
