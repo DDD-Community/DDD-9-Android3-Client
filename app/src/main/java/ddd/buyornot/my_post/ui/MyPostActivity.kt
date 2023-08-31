@@ -97,7 +97,8 @@ class MyPostActivity : ComponentActivity() {
                 )
                 MyPostScreen(
                     postList,
-                    selectedTabIndex
+                    selectedTabIndex,
+                    viewModel
                 )
             }
         }
@@ -108,11 +109,13 @@ class MyPostActivity : ComponentActivity() {
 @Composable
 fun MyPostScreen(
     postList: List<PostResult>,
-    selectedTabIndex: Int
+    selectedTabIndex: Int,
+    viewModel: MyPostViewModel
 ) {
     var openBottomSheet by remember { mutableStateOf(false) }
     var openBottomDialog by remember { mutableStateOf(false) }
-    var selectedOption: Int? by remember { mutableStateOf(null) }
+    var selectedPostId: Int? = null
+    var selectedOption: Int? = null
 
     val scope = rememberCoroutineScope()
 
@@ -150,7 +153,10 @@ fun MyPostScreen(
                 BDSHomeCard(
                     post = postResult,
                     isMyPost = true,
-                    onClickDots = { openBottomSheet = true }
+                    onClickDots = {
+                        selectedPostId = postResult.id
+                        openBottomSheet = true
+                    }
                 )
             }
         }
@@ -249,7 +255,13 @@ fun MyPostScreen(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         scope.launch {
-                            // TODO: 옵션 별 클릭 이벤트 수행 
+                            selectedPostId?.let {
+                                when (selectedOption) {
+                                    1 -> viewModel.patchPostFinish(it)
+                                    2 -> viewModel.patchPostDelete(it)
+                                    else -> {}
+                                }
+                            }
                             sheetState.hide()
                         }.invokeOnCompletion {
                             if (!sheetState.isVisible) {
