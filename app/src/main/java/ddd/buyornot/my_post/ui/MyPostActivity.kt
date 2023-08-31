@@ -1,5 +1,6 @@
 package ddd.buyornot.my_post.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,6 +48,7 @@ import com.ddd.component.theme.BDSColor.Red
 import com.ddd.component.theme.BDSColor.SlateGray800
 import com.ddd.component.theme.BDSColor.SlateGray900
 import dagger.hilt.android.AndroidEntryPoint
+import ddd.buyornot.add_vote.ui.AddNewVoteActivity
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.BDSHomeCard
 import ddd.buyornot.my_post.viewmodel.MyPostViewModel
@@ -112,6 +115,8 @@ fun MyPostScreen(
     selectedTabIndex: Int,
     viewModel: MyPostViewModel
 ) {
+    val context = LocalContext.current
+
     var openBottomSheet by remember { mutableStateOf(false) }
     var openBottomDialog by remember { mutableStateOf(false) }
     var selectedPostId: Int? = null
@@ -142,7 +147,7 @@ fun MyPostScreen(
                         .height(50.dp)
                         .fillMaxWidth()
                         .padding(horizontal = 32.dp),
-                    onClick = { /*TODO*/ },
+                    onClick = { context.startActivity(Intent(context, AddNewVoteActivity::class.java)) },
                     text = "투표 만들러 가기"
                 )
             }
