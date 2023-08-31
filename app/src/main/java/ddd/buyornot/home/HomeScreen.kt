@@ -1,5 +1,6 @@
 package ddd.buyornot.home
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +21,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight.Companion.Normal
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.unit.dp
@@ -37,10 +40,13 @@ import com.ddd.component.theme.BDSColor.SlateGray900
 import ddd.buyornot.R
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.viewmodel.HomeViewModel
+import ddd.buyornot.profile.ui.ProfileActivity
 import kotlinx.coroutines.launch
 
+@ExperimentalMaterial3Api
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
+    val context = LocalContext.current
     // TODO: 리스트 fetch 개선, paging 추가 
     val postList by viewModel.postList.observeAsState(emptyList())
 
@@ -73,7 +79,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                             BDSIconButton(
                                 // resId = user profile logo,
                                 resId = com.ddd.component.R.drawable.ic_add_in_circle,
-                                onClick = { /*TODO*/ }
+                                onClick = { context.startActivity(Intent(context, ProfileActivity::class.java)) }
                             )
                         }
                     },

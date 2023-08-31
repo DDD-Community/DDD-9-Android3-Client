@@ -12,4 +12,15 @@ interface LoginService {
     suspend fun postKakaoAuth(
         @Body kakaoAuthRequest: KaKaoAuthRequest
     ): BaseApiResponse<AuthResult>
+
+    @POST("/auth/logout")
+    suspend fun postLogout(
+        @Body kakaoAuthRequest: KaKaoAuthRequest
+    ): BaseApiResponse<String>
+
+    @POST("/auth/sign-out")
+    suspend fun postSignOut(
+        @Body kakaoAuthRequest: KaKaoAuthRequest
+    ): BaseApiResponse<String>
+
 }

@@ -27,6 +27,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".profile.ui.ProfileActivity"
+            android:theme="@style/Theme.BuyOrNot" />
+
+        <activity android:name=".profile.ui.SignOutActivity"
+            android:theme="@style/Theme.BuyOrNot" />
+
         <activity
             android:name=".add_vote.ui.AddNewVoteActivity"
             android:theme="@style/Theme.BuyOrNot" />

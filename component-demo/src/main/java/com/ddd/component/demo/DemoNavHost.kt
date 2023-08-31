@@ -1,7 +1,6 @@
 package com.ddd.component.demo
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -43,9 +42,6 @@ fun DemoNavHost(navController: NavHostController) {
         }
         composable(DemoNavigationRoute.ArchiveEditScreen.route) {
             ArchiveEditScreen()
-        }
-        composable(DemoNavigationRoute.ProfileScreen.route) {
-            ProfileScreen()
         }
         composable(DemoNavigationRoute.Button.route) {
             ButtonTestScreen()
