@@ -70,6 +70,7 @@ class MyPostActivity : ComponentActivity() {
             val closedPostList by viewModel.closedPostList.observeAsState(emptyList())
 
             // TODO: data fetch 로직 추가
+            // TODO: paging 추가
 
             var postList by remember {
                 mutableStateOf(
@@ -107,6 +108,8 @@ class MyPostActivity : ComponentActivity() {
         }
     }
 }
+
+// TODO: selectTabIndex, selectOptionIndex State로 전환
 
 @ExperimentalMaterial3Api
 @Composable
