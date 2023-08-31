@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
@@ -26,7 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.ddd.component.data.BDSTextData
+import com.ddd.component.theme.BDSColor.SlateGray900
 import com.holix.android.bottomsheetdialog.compose.BottomSheetBehaviorProperties
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialog
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
@@ -252,4 +258,58 @@ fun BDSBottomSheetHorizontalDualButton(
             acceptButton?.invoke()
         }
     }
+}
+
+@Composable
+fun BDSBottomSheetTextList(
+    onDismissRequest: () -> Unit = { },
+    title: String? = null,
+    texts: List<BDSTextData> = emptyList(),
+    onClickRightIcon: () -> Unit = {}
+) {
+    BDSBottomSheet(
+        onDismissRequest = onDismissRequest,
+        headerContent = {
+            BDSBottomSheetHeader(
+                center = {
+                    BDSText(
+                        text = title,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = SlateGray900
+                    )
+                },
+                right = {
+                    BDSIconButton(
+                        resId = R.drawable.ic_close,
+                        onClick = onClickRightIcon
+                    )
+                }
+            )
+        },
+        bodyContent = {
+            LazyColumn {
+                items(items = texts) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 14.dp, bottom = 12.dp, start = 32.dp)
+                            .then(it.modifier)
+                    ) {
+                        BDSText(
+                            text = it.text,
+                            fontSize = it.fontSize,
+                            lineHeight = it.lineHeight,
+                            fontWeight = it.fontWeight,
+                            color = it.color,
+                        )
+                    }
+                }
+            }
+        },
+        bottomContent = {
+            Spacer(modifier = Modifier.height(54.dp))
+        }
+    )
 }
