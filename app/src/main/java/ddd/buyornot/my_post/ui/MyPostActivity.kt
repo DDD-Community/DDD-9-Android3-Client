@@ -16,11 +16,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,13 +32,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSBottomSheetTextList
+import com.ddd.component.BDSConfirmDialog
 import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSIconButton
 import com.ddd.component.BDSImage
+import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSTab
 import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.data.BDSTextData
+import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Red
 import com.ddd.component.theme.BDSColor.SlateGray800
 import com.ddd.component.theme.BDSColor.SlateGray900
@@ -43,6 +49,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.BDSHomeCard
 import ddd.buyornot.my_post.viewmodel.MyPostViewModel
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @AndroidEntryPoint
@@ -97,59 +104,17 @@ class MyPostActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun MyPostScreen(
     postList: List<PostResult>,
     selectedTabIndex: Int
 ) {
     var openBottomSheet by remember { mutableStateOf(false) }
+    var openBottomDialog by remember { mutableStateOf(false) }
+    var selectedOption: Int? by remember { mutableStateOf(null) }
 
-    if (openBottomSheet) {
-        BDSBottomSheetTextList(
-            onDismissRequest = { openBottomSheet = false },
-            title = "투표 옵션",
-            texts = when (selectedTabIndex) {
-                0 -> listOf(
-                    BDSTextData(
-                        text = "투표 공유하기",
-                        modifier = Modifier.clickable {  },
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = SlateGray800,
-                    ),
-                    BDSTextData(
-                        text = "답변 그만받기",
-                        modifier = Modifier.clickable {  },
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = SlateGray800
-                    ),
-                    BDSTextData(
-                        text = "투표 삭제하기",
-                        modifier = Modifier.clickable {  },
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Red
-                    ),
-                )
-                1 -> listOf(
-                    BDSTextData(
-                        text = "투표 삭제하기",
-                        modifier = Modifier.clickable {  },
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Red,
-                    )
-                )
-                else -> emptyList()
-            },
-            onClickRightIcon = { openBottomSheet = false }
-        )
-    }
+    val scope = rememberCoroutineScope()
 
     if (postList.isEmpty()) {
         Box(
@@ -189,5 +154,120 @@ fun MyPostScreen(
                 )
             }
         }
+    }
+
+    if (openBottomSheet) {
+        BDSBottomSheetTextList(
+            onDismissRequest = { openBottomSheet = false },
+            title = "투표 옵션",
+            texts = when (selectedTabIndex) {
+                0 -> listOf(
+                    BDSTextData(
+                        text = "투표 공유하기",
+                        modifier = Modifier.clickable { selectedOption = 0 },
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = SlateGray800,
+                    ),
+                    BDSTextData(
+                        text = "답변 그만받기",
+                        modifier = Modifier.clickable {
+                            openBottomDialog = true
+                            selectedOption = 1
+                        },
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = SlateGray800
+                    ),
+                    BDSTextData(
+                        text = "투표 삭제하기",
+                        modifier = Modifier.clickable {
+                            openBottomDialog = true
+                            selectedOption = 2
+                        },
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Red
+                    ),
+                )
+
+                1 -> listOf(
+                    BDSTextData(
+                        text = "투표 삭제하기",
+                        modifier = Modifier.clickable {
+                            openBottomDialog = true
+                            selectedOption = 2
+                        },
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Red,
+                    )
+                )
+
+                else -> emptyList()
+            },
+            onClickRightIcon = { openBottomSheet = false }
+        )
+    }
+
+    if (openBottomDialog) {
+        val sheetState: SheetState = rememberModalBottomSheetState()
+        BDSConfirmDialog(
+            onDismissRequest = { openBottomDialog = false },
+            title = when (selectedOption) {
+                1 -> "투표 답변을 그만 받으시겠어요?"
+                2 -> "투표를 삭제할까요?"
+                else -> ""
+            },
+            subTitle = when (selectedOption) {
+                1 -> "답변 받기를 중단하면, 다시 답변을 받을 수 없어요."
+                2 -> "삭제된 투표는 불러올 수 없어요"
+                else -> ""
+            },
+            sheetState = sheetState,
+            cancelButton = {
+                BDSOutlinedButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        scope.launch {
+                            sheetState.hide()
+                        }.invokeOnCompletion {
+                            if (!sheetState.isVisible) {
+                                openBottomDialog = false
+                            }
+                        }
+                    },
+                    text = "취소"
+                )
+            },
+            acceptButton = {
+                BDSFilledButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        scope.launch {
+                            // TODO: 옵션 별 클릭 이벤트 수행 
+                            sheetState.hide()
+                        }.invokeOnCompletion {
+                            if (!sheetState.isVisible) {
+                                openBottomDialog = false
+                            }
+                        }
+                    },
+                    text = when (selectedOption) {
+                        1 -> "그만 받기"
+                        2 -> "삭제"
+                        else -> ""
+                    },
+                    containerColor = when (selectedOption) {
+                        2 -> Red
+                        else -> Black
+                    },
+                )
+            }
+        )
     }
 }
