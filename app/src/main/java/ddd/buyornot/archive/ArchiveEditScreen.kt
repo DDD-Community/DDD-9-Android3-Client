@@ -60,14 +60,16 @@ import kotlinx.coroutines.launch
 @Composable
 fun ArchiveEditScreen(
     viewModel: ArchiveViewModel,
-    tabIndex: Int
+    mode: Int
 ) {
     val context = LocalContext.current
 
     val likedItems by viewModel.likedItemList.observeAsState(emptyList())
     val savedItems by viewModel.savedItemList.observeAsState(emptyList())
 
-    val archiveItems = when (tabIndex) {
+    viewModel.setTabIndex(mode)
+
+    val archiveItems = when (viewModel.tabIndex.value) {
         0 -> likedItems
         1 -> savedItems
         else -> emptyList()
