@@ -20,6 +20,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
@@ -58,29 +59,30 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterial3Api
 @Composable
 fun ArchiveEditScreen(
-    viewModel: ArchiveViewModel
+    viewModel: ArchiveViewModel,
+    tabIndex: Int
 ) {
     val context = LocalContext.current
-
-    val tabIndex by viewModel.tabIndex.observeAsState(0)
 
     val likedItems by viewModel.likedItemList.observeAsState(emptyList())
     val savedItems by viewModel.savedItemList.observeAsState(emptyList())
 
-    val archiveItems by remember {
-        mutableStateOf(
-            when (tabIndex) {
-                0 -> likedItems
-                1 -> savedItems
-                else -> emptyList()
-            }
-        )
+    val archiveItems = when (tabIndex) {
+        0 -> likedItems
+        1 -> savedItems
+        else -> emptyList()
     }
 
     val selectItems = remember { mutableStateListOf<ArchiveItem>() }
     val scope = rememberCoroutineScope()
     var showDeleteDialogState by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(Unit) {
+        scope.launch {
+            viewModel.fetchSavedItemList()
+        }
+    }
 
     BDSEditBottomNavigationLayout(
         selectCount = selectItems.size,

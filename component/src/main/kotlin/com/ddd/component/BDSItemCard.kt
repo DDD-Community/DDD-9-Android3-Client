@@ -63,7 +63,7 @@ fun BDSArchiveItemCard(
                     .clickable { onClick() }
             ) {
                 BDSImage(
-                    resId = R.drawable.ic_app_logo_sample, /*?: defaultImage*/
+                    url = archiveItem.imageUrl,
                     modifier = Modifier
                         .fillMaxSize()
                         .then(modifier),
