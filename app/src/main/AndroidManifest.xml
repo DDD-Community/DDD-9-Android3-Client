@@ -67,6 +67,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".my_post.ui.MyPostActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.BuyOrNot" />
+
         <service
             android:name=".fcm.FcmService"
             android:exported="false">

@@ -46,6 +46,7 @@ import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.util.KakaoLogin
+import ddd.buyornot.my_post.ui.MyPostActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -123,7 +124,7 @@ class ProfileActivity : ComponentActivity() {
                     Divider(modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp))
                     BDSText(
                         modifier = Modifier
-                            .clickableWithoutRipple { }
+                            .clickableWithoutRipple { startActivity(Intent(this@ProfileActivity, MyPostActivity::class.java)) }
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp, vertical = 13.dp),
                         text = "내가 쓴 글",
