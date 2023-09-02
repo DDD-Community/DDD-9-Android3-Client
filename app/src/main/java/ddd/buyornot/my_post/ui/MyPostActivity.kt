@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSBottomSheetTextList
+import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSConfirmDialog
 import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSIconButton
@@ -135,9 +136,11 @@ fun MyPostScreen(
                 BDSImage(
                     resId = R.drawable.ic_archive_empty,
                     modifier = Modifier.size(150.dp)
+                        .align(Alignment.CenterHorizontally)
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 BDSText(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                     text = "앗, 만들어진 투표가 없어요!",
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
@@ -151,7 +154,8 @@ fun MyPostScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 32.dp),
                     onClick = { context.startActivity(Intent(context, AddNewVoteActivity::class.java)) },
-                    text = "투표 만들러 가기"
+                    text = "투표 만들러 가기",
+                    contentPadding = BDSButtonInnerPadding.MEDIUM
                 )
             }
         }

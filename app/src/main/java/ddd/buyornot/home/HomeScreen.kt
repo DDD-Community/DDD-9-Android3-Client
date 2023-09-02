@@ -42,6 +42,7 @@ import com.ddd.component.theme.BDSColor.SlateGray900
 import ddd.buyornot.R
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.viewmodel.HomeViewModel
+import ddd.buyornot.my_post.ui.MyPostActivity
 import ddd.buyornot.profile.ui.ProfileActivity
 import kotlinx.coroutines.launch
 
@@ -75,7 +76,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                         Row {
                             BDSIconButton(
                                 resId = com.ddd.component.R.drawable.ic_archive_empty,
-                                onClick = { /*TODO*/ }
+                                onClick = { context.startActivity(Intent(context, MyPostActivity::class.java)) }
                             )
                             Spacer(modifier = Modifier.width(16.dp))
                             BDSIconButton(
