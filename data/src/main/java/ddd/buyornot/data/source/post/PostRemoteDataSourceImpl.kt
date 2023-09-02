@@ -8,6 +8,10 @@ class PostRemoteDataSourceImpl @Inject constructor(
     private val postService: PostService
 ) : PostRemoteDataSource {
 
+    override suspend fun postPublishPost(postId: Int, postRequest: PostRequest) = runCatching {
+        postService.postPublishPost(postId, postRequest)
+    }.getOrNull()
+
     override suspend fun postNewVote(postRequest: PostRequest) = runCatching {
         postService.postNewVote(postRequest)
     }.getOrNull()
