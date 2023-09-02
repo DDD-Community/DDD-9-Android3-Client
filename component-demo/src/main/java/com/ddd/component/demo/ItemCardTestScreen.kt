@@ -10,7 +10,7 @@ fun ItemCardTestScreen() {
         "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
         "마르디메르크디",
         "SWEATSHIRT FLOWERMARDI_OATME..",
-        20f,
+        20,
         67500
     )
 

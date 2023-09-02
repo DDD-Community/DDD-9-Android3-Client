@@ -19,6 +19,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.BuyOrNot">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,24 +28,37 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".profile.ui.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.BuyOrNot" />
+
+        <activity android:name=".profile.ui.SignOutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.BuyOrNot" />
+
         <activity
             android:name=".add_vote.ui.AddNewVoteActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.BuyOrNot" />
 
         <activity
             android:name=".upload_item.ui.UploadItemActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.BuyOrNot" />
 
         <activity
             android:name=".archive.ArchiveEditActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.BuyOrNot" />
 
         <activity
             android:name=".login.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.BuyOrNot" />
 
         <activity
             android:name=".postpage.ui.ShareActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -52,6 +66,10 @@
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".my_post.ui.MyPostActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.BuyOrNot" />
 
         <service
             android:name=".fcm.FcmService"

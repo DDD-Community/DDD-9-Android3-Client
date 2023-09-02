@@ -12,6 +12,13 @@ import retrofit2.http.Query
 
 interface PostService {
 
+    // 임시저장 글 출간
+    @POST("/api/post/publish-post/{postId}")
+    suspend fun postPublishPost(
+        @Path("postId") postId: Int,
+        @Body postRequest: PostRequest
+    ): BaseApiResponse<PostResult>
+
     @POST("/api/post/new")
     suspend fun postNewVote(
         @Body postRequest: PostRequest

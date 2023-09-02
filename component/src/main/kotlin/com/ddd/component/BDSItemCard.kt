@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -30,11 +29,13 @@ import java.text.DecimalFormat
 
 // TODO: data class 위치 변경
 data class ArchiveItem(
+    val itemId: Int? = null,
     val imageUrl: String? = null,
     val brand: String? = null,
     val name: String? = null,
-    val discount: Float? = null,
-    val price: Long? = null,
+    val discount: Int? = null,
+    val price: Int? = null,
+    var liked: Boolean = false
 ) {
     val isSelected: MutableState<Boolean> = mutableStateOf(false)
 }
@@ -154,7 +155,7 @@ fun BDSArchiveItemCard(
     }
 }
 
-fun Long?.toPriceFormat() =
+fun Number?.toPriceFormat() =
     if (this == null) {
         ""
     } else {

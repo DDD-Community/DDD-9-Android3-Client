@@ -42,16 +42,6 @@ class AuthRepositoryImpl @Inject constructor(
         return authLocalDataSource.saveAuthorizationCode(grantType, accessToken, refreshToken)
     }
 
-    override suspend fun logout(): Result<Boolean> {
-        return authRemoteDataSource.logout()
-            .onSuccess {
-                authLocalDataSource.clearLocalData()
-                Result.success(Unit)
-            }.onFailure {
-                Result.failure<Boolean>(it)
-            }
-    }
-
     override suspend fun refreshToken(
         accessToken: String,
         refreshToken: String
@@ -66,5 +56,13 @@ class AuthRepositoryImpl @Inject constructor(
                     )
                 }
             }
+    }
+
+    override suspend fun logoutRemote(token: String): Result<BaseApiResponse<String>> {
+        return authRemoteDataSource.postLogout(token)
+    }
+
+    override suspend fun signoutRemote(token: String): Result<BaseApiResponse<String>> {
+        return authRemoteDataSource.postSignOut(token)
     }
 }

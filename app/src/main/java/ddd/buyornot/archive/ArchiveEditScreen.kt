@@ -21,6 +21,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,67 +51,32 @@ import com.ddd.component.BDSSingleTextSnackbar
 import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
+import ddd.buyornot.archive.viewmodel.ArchiveViewModel
 import ddd.buyornot.findActivity
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @Composable
-fun ArchiveEditScreen() {
+fun ArchiveEditScreen(
+    viewModel: ArchiveViewModel
+) {
     val context = LocalContext.current
 
-    val archiveItems = remember {
-        mutableStateListOf(
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT",
-                20f,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT F.",
-                20f,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT FL",
-                20f,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT FLO",
-                20f,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT FLOW",
-                20f,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT FLOWE",
-                20f,
-                67500
-            ),
-            ArchiveItem(
-                "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-                "마르디메르크디",
-                "SWEATSHIRT FLOWER",
-                20f,
-                67500
-            ),
+    val tabIndex by viewModel.tabIndex.observeAsState(0)
+
+    val likedItems by viewModel.likedItemList.observeAsState(emptyList())
+    val savedItems by viewModel.savedItemList.observeAsState(emptyList())
+
+    val archiveItems by remember {
+        mutableStateOf(
+            when (tabIndex) {
+                0 -> likedItems
+                1 -> savedItems
+                else -> emptyList()
+            }
         )
     }
+
     val selectItems = remember { mutableStateListOf<ArchiveItem>() }
     val scope = rememberCoroutineScope()
     var showDeleteDialogState by remember { mutableStateOf(false) }
@@ -127,15 +93,6 @@ fun ArchiveEditScreen() {
                     left = {
                         BDSIconButton(resId = R.drawable.ic_back, onClick = { context.findActivity().finish() })
                     },
-                    /*right = {
-                        BDSFilledButton(
-                            onClick = { context.findActivity().finish() },
-                            text = "완료",
-                            contentPadding = BDSButtonInnerPadding.SMALL,
-                            fontSize = 14.sp,
-                            lineHeight = 20.sp,
-                        )
-                    },*/
                     center = {
                         BDSText(
                             text = "상품 선택",
@@ -255,7 +212,7 @@ fun ArchiveEditScreen() {
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         scope.launch {
-                            archiveItems.removeAll(selectItems)
+                            viewModel.patchArchiveItemDelete(selectItems)
                             selectItems.clear()
                             sheetState.hide()
                         }.invokeOnCompletion {

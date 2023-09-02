@@ -21,9 +21,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,17 +37,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ddd.component.ArchiveItem
 import com.ddd.component.BDSArchiveItemCard
 import com.ddd.component.BDSBorderlessButton
 import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSHeader
 import com.ddd.component.BDSImage
+import com.ddd.component.BDSTab
 import com.ddd.component.BDSText
 import com.ddd.component.BottomNavigationItem
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.SlateGray900
+import ddd.buyornot.archive.viewmodel.ArchiveViewModel
+import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -52,89 +57,43 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
-fun ArchiveScreen() {
+fun ArchiveScreen(
+    viewModel: ArchiveViewModel
+) {
     val context = LocalContext.current
-    val archiveItems = listOf(
-        ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        ), ArchiveItem(
-            "https://cdn.newspenguin.com/news/photo/202112/10182_30193_258.jpg",
-            "마르디메르크디",
-            "SWEATSHIRT FLOWERMARDI_OATME..",
-            20f,
-            67500
-        )
-    )
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     var selectedBottomNavigation: BottomNavigationItem by remember { mutableStateOf(BottomNavigationItem.bottomNavigationItems[2]) }
     var isEmpty: Boolean by remember { mutableStateOf(false) }
 
+    val tabIndex by viewModel.tabIndex.observeAsState(0)
+
+    val likedItems by viewModel.likedItemList.observeAsState(emptyList())
+    val savedItems by viewModel.savedItemList.observeAsState(emptyList())
+
+    val archiveItems by remember {
+        mutableStateOf(
+            when (tabIndex) {
+                0 -> likedItems
+                1 -> savedItems
+                else -> emptyList()
+            }
+        )
+    }
+
     val state = rememberCollapsingToolbarScaffoldState()
+    val scope = rememberCoroutineScope()
+
+    // TODO: fetch 조건 변경
+    LaunchedEffect(key1 = tabIndex) {
+        scope.launch {
+            when (tabIndex) {
+                0 -> viewModel.fetchLikedItemList()
+                1 -> viewModel.fetchSavedItemList()
+                else -> {}
+            }
+        }
+    }
 
     CollapsingToolbarScaffold(
         modifier = Modifier.fillMaxSize(),
@@ -180,6 +139,13 @@ fun ArchiveScreen() {
         }
     ) {
         Column {
+            BDSTab(
+                titles = listOf("좋아요한 상품", "저장한 상품"),
+                selectedTabIndex = tabIndex,
+                onTabSelected = {
+                    viewModel.setTabIndex(it)
+                }
+            )
             BDSHeader(
                 modifier = Modifier.padding(top = 14.dp, bottom = 8.dp),
                 left = {
@@ -231,7 +197,11 @@ fun ArchiveScreen() {
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 BDSText(
-                    text = "좋아요를 눌러 아카이브함을 채워보세요!",
+                    text = when (tabIndex) {
+                        0 -> "좋아요를 눌러 아카이브함을 채워보세요!"
+                        1 -> "공유하기를 통해 바로 상품을 저장할 수 있어요!"
+                        else -> null
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
@@ -250,7 +220,12 @@ fun ArchiveScreen() {
                         BDSArchiveItemCard(
                             archiveItem = archiveItem,
                             isEditMode = false,
-                            isLike = true
+                            isLike = archiveItem.liked,
+                            onClickLike = {
+                                scope.launch {
+                                    viewModel.patchArchiveItemLike(archiveItem)
+                                }
+                            }
                         )
                     }
                 }
