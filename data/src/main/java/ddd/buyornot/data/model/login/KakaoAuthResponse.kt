@@ -7,7 +7,7 @@ data class AuthResult(
     val accessToken: String?,
 
     @SerializedName("refreshToken")
-    val refreshToken: String?,
+    val refreshToken: String,
 
     @SerializedName("grantType")
     val grantType: String?,

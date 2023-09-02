@@ -1,6 +1,7 @@
 package ddd.buyornot.data.service
 
 import ddd.buyornot.data.model.BaseApiResponse
+import ddd.buyornot.data.model.login.AuthRefreshRequest
 import ddd.buyornot.data.model.login.AuthResult
 import ddd.buyornot.data.model.login.KaKaoAuthRequest
 import retrofit2.http.Body
@@ -15,7 +16,7 @@ interface LoginService {
 
     @POST("/auth/refresh")
     suspend fun refresh(
-        @Body refreshRequest: KaKaoAuthRequest
+        @Body refreshRequest: AuthRefreshRequest
     ): BaseApiResponse<AuthResult>
 
     @POST("/auth/logout")

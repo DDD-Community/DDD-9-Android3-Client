@@ -9,15 +9,20 @@ interface AuthRepository {
     suspend fun isLoggedIn(): Result<Boolean>
 
     suspend fun issueAuthorizationCode(
-        token: String,
+        accessToken: String,
         loginMethod: LoginMethod = LoginMethod.KAKAO
     ): Result<BaseApiResponse<AuthResult>>
 
     suspend fun refreshToken(
+        accessToken: String,
         refreshToken: String
     ): Result<BaseApiResponse<AuthResult>>
 
     suspend fun logout(): Result<Boolean>
 
-    suspend fun saveAuthorizationCode(code: String, refreshToken: String?): Result<Unit>
+    suspend fun saveAuthorizationCode(
+        grantType: String,
+        accessToken: String,
+        refreshToken: String
+    ): Result<Unit>
 }

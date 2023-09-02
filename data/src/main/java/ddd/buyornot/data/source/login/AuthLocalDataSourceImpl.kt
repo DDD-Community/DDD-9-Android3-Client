@@ -9,14 +9,19 @@ class AuthLocalDataSourceImpl @Inject constructor(
 
     override suspend fun isLoggedIn(): Result<Boolean> {
         return runCatching {
-            prefWrapper.authenticationCode.isNotBlank()
+            prefWrapper.accessToken.isNotBlank()
         }
     }
 
-    override suspend fun saveAuthorizationCode(code: String, refreshToken: String?): Result<Unit> {
+    override suspend fun saveAuthorizationCode(
+        grantType: String,
+        accessToken: String,
+        refreshToken: String
+    ): Result<Unit> {
         return runCatching {
-            prefWrapper.authenticationCode = code
-            prefWrapper.refreshToken = refreshToken ?: ""
+            prefWrapper.grantType = grantType
+            prefWrapper.accessToken = accessToken
+            prefWrapper.refreshToken = refreshToken
         }
     }
 

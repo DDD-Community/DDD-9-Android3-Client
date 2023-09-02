@@ -49,7 +49,7 @@ class RetrofitModule {
     @Named("RequireAuthHeader")
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor
+        authInterceptor: AuthInterceptor,
     ): OkHttpClient =
         OkHttpClient.Builder()
             .addNetworkInterceptor(httpLoggingInterceptor)
@@ -132,7 +132,7 @@ class AuthInterceptor @Inject constructor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val accessToken = prefWrapper.authenticationCode
+        val accessToken = prefWrapper.accessToken
         val request = chain.request()
 
         val response = if (accessToken.isBlank()) {
@@ -147,7 +147,7 @@ class AuthInterceptor @Inject constructor(
 
         return if (response.code == 403) {
             val newAccessToken = runBlocking(Dispatchers.IO) {
-                authRepository.refreshToken(prefWrapper.refreshToken)
+                authRepository.refreshToken(prefWrapper.accessToken, prefWrapper.refreshToken)
             }.getOrNull()?.result?.accessToken ?: ""
 
             chain.proceed(

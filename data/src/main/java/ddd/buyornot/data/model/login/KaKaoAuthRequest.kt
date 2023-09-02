@@ -5,5 +5,6 @@ data class KaKaoAuthRequest(
 )
 
 data class AuthRefreshRequest(
+    val accessToken: String,
     val refreshToken: String
 )

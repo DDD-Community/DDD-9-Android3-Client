@@ -14,6 +14,7 @@ interface AuthRemoteDataSource {
     ): Result<BaseApiResponse<AuthResult>>
 
     suspend fun refreshToken(
-        token: String
+        accessToken: String,
+        refreshToken: String
     ): Result<BaseApiResponse<AuthResult>>
 }

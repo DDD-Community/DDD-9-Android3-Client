@@ -2,6 +2,7 @@ package ddd.buyornot.data.source.login
 
 import ddd.buyornot.data.model.BaseApiResponse
 import ddd.buyornot.data.model.LoginMethod
+import ddd.buyornot.data.model.login.AuthRefreshRequest
 import ddd.buyornot.data.model.login.AuthResult
 import ddd.buyornot.data.model.login.KaKaoAuthRequest
 import ddd.buyornot.data.service.LoginService
@@ -22,9 +23,12 @@ class AuthRemoteDataSourceImpl @Inject constructor(
         loginService.logout().isSuccess
     }
 
-    override suspend fun refreshToken(token: String): Result<BaseApiResponse<AuthResult>> {
+    override suspend fun refreshToken(
+        accessToken: String,
+        refreshToken: String
+    ): Result<BaseApiResponse<AuthResult>> {
         return runCatching {
-            loginService.refresh(KaKaoAuthRequest(token))
+            loginService.refresh(AuthRefreshRequest(accessToken, refreshToken))
         }
     }
 }

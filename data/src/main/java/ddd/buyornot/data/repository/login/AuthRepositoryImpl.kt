@@ -17,22 +17,29 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun issueAuthorizationCode(
-        token: String,
+        accessToken: String,
         loginMethod: LoginMethod
     ): Result<BaseApiResponse<AuthResult>> {
-        return authRemoteDataSource.issueAuthorizationCode(token, loginMethod)
+        return authRemoteDataSource.issueAuthorizationCode(accessToken, loginMethod)
             .onSuccess { authInfo ->
-                val authorizationHeader = authInfo.result?.run { grantType + accessToken } ?: ""
-                saveAuthorizationCode(authorizationHeader, authInfo.result?.refreshToken)
+                saveAuthorizationCode(
+                    authInfo.result?.grantType ?: "Bearer ",
+                    authInfo.result?.accessToken ?: "",
+                    authInfo.result?.refreshToken ?: ""
+                )
             }
     }
 
-    override suspend fun saveAuthorizationCode(code: String, refreshToken: String?): Result<Unit> {
-        if (code.isEmpty()) {
+    override suspend fun saveAuthorizationCode(
+        grantType: String,
+        accessToken: String,
+        refreshToken: String
+    ): Result<Unit> {
+        if (accessToken.isEmpty()) {
             return Result.failure(IllegalArgumentException("empty token"))
         }
 
-        return authLocalDataSource.saveAuthorizationCode(code, refreshToken)
+        return authLocalDataSource.saveAuthorizationCode(grantType, accessToken, refreshToken)
     }
 
     override suspend fun logout(): Result<Boolean> {
@@ -45,11 +52,19 @@ class AuthRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun refreshToken(refreshToken: String): Result<BaseApiResponse<AuthResult>> {
-        return authRemoteDataSource.refreshToken(refreshToken)
+    override suspend fun refreshToken(
+        accessToken: String,
+        refreshToken: String
+    ): Result<BaseApiResponse<AuthResult>> {
+        return authRemoteDataSource.refreshToken(accessToken, refreshToken)
             .onSuccess { authInfo ->
-                val authorizationHeader = authInfo.result?.run { grantType + accessToken } ?: ""
-                saveAuthorizationCode(authorizationHeader, authInfo.result?.refreshToken)
+                authInfo.result?.let {
+                    saveAuthorizationCode(
+                        it.grantType ?: "Bearer ",
+                        it.accessToken ?: "",
+                        it.refreshToken ?: ""
+                    )
+                }
             }
     }
 }
