@@ -23,16 +23,16 @@ class AuthRepositoryImpl @Inject constructor(
         return authRemoteDataSource.issueAuthorizationCode(token, loginMethod)
             .onSuccess { authInfo ->
                 val authorizationHeader = authInfo.result?.run { grantType + accessToken } ?: ""
-                saveAuthorizationCode(authorizationHeader)
+                saveAuthorizationCode(authorizationHeader, authInfo.result?.refreshToken)
             }
     }
 
-    override suspend fun saveAuthorizationCode(code: String): Result<Unit> {
+    override suspend fun saveAuthorizationCode(code: String, refreshToken: String?): Result<Unit> {
         if (code.isEmpty()) {
             return Result.failure(IllegalArgumentException("empty token"))
         }
 
-        return authLocalDataSource.saveAuthorizationCode(code)
+        return authLocalDataSource.saveAuthorizationCode(code, refreshToken)
     }
 
     override suspend fun logout(): Result<Boolean> {
@@ -42,6 +42,14 @@ class AuthRepositoryImpl @Inject constructor(
                 Result.success(Unit)
             }.onFailure {
                 Result.failure<Boolean>(it)
+            }
+    }
+
+    override suspend fun refreshToken(refreshToken: String): Result<BaseApiResponse<AuthResult>> {
+        return authRemoteDataSource.refreshToken(refreshToken)
+            .onSuccess { authInfo ->
+                val authorizationHeader = authInfo.result?.run { grantType + accessToken } ?: ""
+                saveAuthorizationCode(authorizationHeader, authInfo.result?.refreshToken)
             }
     }
 }

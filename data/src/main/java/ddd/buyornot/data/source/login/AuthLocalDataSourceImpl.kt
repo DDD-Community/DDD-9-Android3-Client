@@ -13,9 +13,10 @@ class AuthLocalDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveAuthorizationCode(code: String): Result<Unit> {
+    override suspend fun saveAuthorizationCode(code: String, refreshToken: String?): Result<Unit> {
         return runCatching {
             prefWrapper.authenticationCode = code
+            prefWrapper.refreshToken = refreshToken ?: ""
         }
     }
 

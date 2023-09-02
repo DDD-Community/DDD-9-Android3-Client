@@ -104,9 +104,11 @@ class LoginActivity : ComponentActivity() {
     }
 
     private fun startMainActivityAndFinish() {
-        Toast.makeText(this, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-        startActivity(Intent(applicationContext, MainActivity::class.java))
-        finish()
+        lifecycleScope.launch(Dispatchers.Main) {
+            Toast.makeText(this@LoginActivity, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+            finish()
+        }
     }
 
     private fun handleLoginError() {
