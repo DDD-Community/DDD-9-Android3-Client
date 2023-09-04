@@ -16,8 +16,8 @@ class ArchiveRemoteDataSourceImpl @Inject constructor(
         archiveService.postArchiveItem(itemId)
     }.getOrNull()
 
-    override suspend fun patchArchiveItemLike(itemId: Int) = runCatching {
-        archiveService.patchArchiveItemLike(itemId)
+    override suspend fun patchArchiveItemLike(archiveId: Int) = runCatching {
+        archiveService.patchArchiveItemLike(archiveId)
     }.getOrNull()
 
     override suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) = runCatching {

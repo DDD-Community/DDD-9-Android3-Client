@@ -7,13 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.ddd.component.PostItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ddd.buyornot.data.model.post.PostRequest
+import ddd.buyornot.data.repository.archive.ArchiveRepository
 import ddd.buyornot.data.repository.post.PostRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ShareViewModel @Inject constructor(
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val archiveRepository: ArchiveRepository
 ) : ViewModel() {
 
     private val _postList = MutableLiveData<List<PostItem>>()
@@ -81,6 +83,14 @@ class ShareViewModel @Inject constructor(
         viewModelScope.launch {
             currentPost.value?.let {
                 postRepository.postNewVote(it)
+            }
+        }
+    }
+
+    suspend fun postArchiveItem() {
+        viewModelScope.launch {
+            if (sharedItemUrl.isNotEmpty()) {
+                val result = archiveRepository.postArchiveItem(sharedItemUrl)
             }
         }
     }

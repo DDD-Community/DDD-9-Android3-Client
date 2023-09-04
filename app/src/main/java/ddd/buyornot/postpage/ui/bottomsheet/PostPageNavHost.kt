@@ -2,6 +2,7 @@ package ddd.buyornot.postpage.ui.bottomsheet
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -10,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import ddd.buyornot.findActivity
 import ddd.buyornot.postpage.viewmodel.ShareViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 @ExperimentalMaterial3Api
@@ -23,6 +25,7 @@ fun PostPageNavHost(
     ) {
         composable(PostPageNavigationRoute.Default.route) {
             val context = LocalContext.current
+            val scope = rememberCoroutineScope()
 
             WritePostPageDefaultBottomSheet(
                 onDismissRequest = {
@@ -35,6 +38,9 @@ fun PostPageNavHost(
                     navHostController.navigate(PostPageNavigationRoute.Post.route)
                 },
                 onClickArchive = {
+                    scope.launch {
+                        viewModel.postArchiveItem()
+                    }
                     navHostController.navigate(PostPageNavigationRoute.ArchiveDone.route)
                 }
             )
@@ -53,7 +59,6 @@ fun PostPageNavHost(
                 },
                 onClickAddItem = {
                     navHostController.navigate("${PostPageNavigationRoute.Description.route}/투표 올리기")
-
                 }
             )
         }

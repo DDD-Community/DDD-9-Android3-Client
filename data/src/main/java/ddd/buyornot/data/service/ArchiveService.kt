@@ -21,7 +21,7 @@ interface ArchiveService {
     // 게시물에서 보관
     @POST("/api/archive/from-post/{itemId}")
     suspend fun postArchiveItem(
-        @Path("itemId") itemId: Int
+        @Path("itemId") id: Int
     ): BaseApiResponse<ArchiveResponse>
 
     @PATCH("/api/archive/pick/{archiveId}")

@@ -10,9 +10,9 @@ class ArchiveRepositoryImpl @Inject constructor(
 
     override suspend fun postArchiveItem(itemUrl: String) = archiveRemoteDataSource.postArchiveItem(itemUrl)
 
-    override suspend fun postArchiveItem(itemId: Int) = archiveRemoteDataSource.postArchiveItem(itemId)
+    override suspend fun postArchiveItem(id: Int) = archiveRemoteDataSource.postArchiveItem(id)
 
-    override suspend fun patchArchiveItemLike(itemId: Int) = archiveRemoteDataSource.patchArchiveItemLike(itemId)
+    override suspend fun patchArchiveItemLike(archiveId: Int) = archiveRemoteDataSource.patchArchiveItemLike(archiveId)
 
     override suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) = archiveRemoteDataSource.patchArchiveItemDelete(deleteArchiveReq)
 

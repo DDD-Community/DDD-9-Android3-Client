@@ -23,6 +23,8 @@ class ArchiveEditActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val tabIndex = intent.extras?.getInt("tabIndex") ?: return
+
         setContent {
             BuyOrNotTheme {
                 Column(
@@ -30,7 +32,7 @@ class ArchiveEditActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(color = BDSColor.White)
                 ) {
-                    ArchiveEditScreen(archiveViewModel)
+                    ArchiveEditScreen(archiveViewModel, tabIndex)
                 }
             }
         }

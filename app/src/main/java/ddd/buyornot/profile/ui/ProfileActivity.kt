@@ -145,7 +145,9 @@ class ProfileActivity : ComponentActivity() {
                     Divider(modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp))
                     BDSText(
                         modifier = Modifier
-                            .clickableWithoutRipple { showLogoutDialogState = true }
+                            .clickableWithoutRipple {
+                                showLogoutDialogState = true
+                            }
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp, vertical = 13.dp),
                         text = "로그아웃",

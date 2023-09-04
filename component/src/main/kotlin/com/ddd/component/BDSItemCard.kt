@@ -29,6 +29,7 @@ import java.text.DecimalFormat
 
 // TODO: data class 위치 변경
 data class ArchiveItem(
+    val id: Int? = null,
     val itemId: Int? = null,
     val imageUrl: String? = null,
     val brand: String? = null,
@@ -63,7 +64,7 @@ fun BDSArchiveItemCard(
                     .clickable { onClick() }
             ) {
                 BDSImage(
-                    resId = R.drawable.ic_app_logo_sample, /*?: defaultImage*/
+                    url = archiveItem.imageUrl,
                     modifier = Modifier
                         .fillMaxSize()
                         .then(modifier),

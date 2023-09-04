@@ -1,5 +1,6 @@
 package ddd.buyornot.archive.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,31 +22,35 @@ class ArchiveViewModel @Inject constructor(
 
     val tabIndex = MutableLiveData<Int>()
 
-    val savedItemList = MutableLiveData<List<ArchiveItem>>()
-    val likedItemList = MutableLiveData<List<ArchiveItem>>()
+    val savedItemList = MutableLiveData<MutableList<ArchiveItem>>()
+    val likedItemList = MutableLiveData<MutableList<ArchiveItem>>()
 
     suspend fun fetchSavedItemList(init: Boolean = false) {
         viewModelScope.launch {
             val currentItemList = if (init) {
                 savedPage = 0
-                emptyList()
+                mutableListOf()
             } else {
-                savedItemList.value ?: emptyList()
+                savedItemList.value ?: mutableListOf()
             }
+
             val newItemList = archiveRepository.fetchPostList(savedPage, count)?.result?.map { it ->
                 ArchiveItem(
+                    id = it.id,
                     itemId = it.itemId,
                     imageUrl = it.imgUrl,
                     brand = it.brand,
                     name = it.itemName,
-                    discount = it.discountedPrice,
+                    discount = it.discountedRate,
                     price = it.originalPrice,
                     liked = it.liked
                 )
             }
 
+            Log.d("viewModel", "fetchSavedItemList: ${newItemList?.size}")
+
             if (!newItemList.isNullOrEmpty()) {
-                currentItemList.toMutableList().addAll(newItemList)
+                currentItemList.addAll(newItemList)
                 savedItemList.postValue(currentItemList)
                 savedPage++
             }
@@ -56,25 +61,28 @@ class ArchiveViewModel @Inject constructor(
         viewModelScope.launch {
             val currentItemList = if (init) {
                 likedPage = 0
-                emptyList()
+                mutableListOf()
             } else {
-                likedItemList.value ?: emptyList()
+                likedItemList.value ?: mutableListOf()
             }
+
             val newItemList = archiveRepository.fetchPostLikedList(likedPage, count)?.result?.map { it ->
                 ArchiveItem(
+                    id = it.id,
                     itemId = it.itemId,
                     imageUrl = it.imgUrl,
                     brand = it.brand,
                     name = it.itemName,
-                    discount = it.discountedPrice,
+                    discount = it.discountedRate,
                     price = it.originalPrice,
                     liked = it.liked
                 )
             }
+            Log.d("viewModel", "fetchLikedItemList: ${newItemList?.size}")
 
             if (!newItemList.isNullOrEmpty()) {
-                currentItemList.toMutableList().addAll(newItemList)
-                savedItemList.postValue(currentItemList)
+                currentItemList.addAll(newItemList)
+                likedItemList.postValue(currentItemList)
                 likedPage++
             }
         }
@@ -82,22 +90,27 @@ class ArchiveViewModel @Inject constructor(
 
     suspend fun patchArchiveItemDelete(archiveItemList: List<ArchiveItem>) {
         viewModelScope.launch {
-            val deleteArchiveReq = DeleteArchiveReq(ids = archiveItemList.mapNotNull { it.itemId })
-            archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq) ?: return@launch
-            when (tabIndex.value) {
-                0 -> fetchLikedItemList(true)
-                1 -> fetchSavedItemList(true)
-                else -> {}
+            val deleteArchiveReq = DeleteArchiveReq(ids = archiveItemList.mapNotNull { it.id })
+            val success = archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq)?.isSuccess
+            if (success == true) {
+                when (tabIndex.value) {
+                    0 -> fetchLikedItemList(true)
+                    1 -> fetchSavedItemList(true)
+                }
             }
         }
     }
 
     suspend fun patchArchiveItemLike(archiveItem: ArchiveItem) {
         viewModelScope.launch {
-            archiveItem.itemId?.let {
-                val result = archiveRepository.patchArchiveItemLike(it)?.result?.liked ?: return@launch
-                archiveItem.liked = result
-                fetchLikedItemList(true)
+            archiveItem.id?.let {
+                val success = archiveRepository.patchArchiveItemLike(it)?.isSuccess
+                if (success != null) {
+                    when (tabIndex.value) {
+                        0 -> fetchLikedItemList(true)
+                        1 -> fetchSavedItemList(true)
+                    }
+                }
             }
         }
     }

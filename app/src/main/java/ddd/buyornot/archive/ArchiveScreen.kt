@@ -18,16 +18,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -44,7 +39,6 @@ import com.ddd.component.BDSHeader
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSTab
 import com.ddd.component.BDSText
-import com.ddd.component.BottomNavigationItem
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.SlateGray900
@@ -62,23 +56,15 @@ fun ArchiveScreen(
 ) {
     val context = LocalContext.current
 
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
-    var selectedBottomNavigation: BottomNavigationItem by remember { mutableStateOf(BottomNavigationItem.bottomNavigationItems[2]) }
-    var isEmpty: Boolean by remember { mutableStateOf(false) }
-
     val tabIndex by viewModel.tabIndex.observeAsState(0)
 
     val likedItems by viewModel.likedItemList.observeAsState(emptyList())
     val savedItems by viewModel.savedItemList.observeAsState(emptyList())
 
-    val archiveItems by remember {
-        mutableStateOf(
-            when (tabIndex) {
-                0 -> likedItems
-                1 -> savedItems
-                else -> emptyList()
-            }
-        )
+    val archiveItems = when (tabIndex) {
+        0 -> likedItems
+        1 -> savedItems
+        else -> emptyList()
     }
 
     val state = rememberCollapsingToolbarScaffoldState()
@@ -88,8 +74,8 @@ fun ArchiveScreen(
     LaunchedEffect(key1 = tabIndex) {
         scope.launch {
             when (tabIndex) {
-                0 -> viewModel.fetchLikedItemList()
-                1 -> viewModel.fetchSavedItemList()
+                0 -> viewModel.fetchLikedItemList(true)
+                1 -> viewModel.fetchSavedItemList(true)
                 else -> {}
             }
         }
@@ -161,7 +147,10 @@ fun ArchiveScreen(
                 right = {
                     BDSBorderlessButton(
                         onClick = {
-                            context.startActivity(Intent(context, ArchiveEditActivity::class.java))
+                            context.startActivity(
+                                Intent(context, ArchiveEditActivity::class.java)
+                                    .putExtra("tabIndex", tabIndex)
+                            )
                         },
                         contentPadding = BDSButtonInnerPadding.XSMALL,
                         text = "편집",
