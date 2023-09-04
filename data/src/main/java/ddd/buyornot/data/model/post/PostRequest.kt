@@ -10,5 +10,7 @@ data class PostRequest(
     @SerializedName("publicStatus")
     val publicStatus: String? = null,
     @SerializedName("itemUrls")
-    val itemUrls: List<String>? = null
+    val itemUrls: List<String>? = null,
+    @SerializedName("published")
+    val published: Boolean = true,
 )

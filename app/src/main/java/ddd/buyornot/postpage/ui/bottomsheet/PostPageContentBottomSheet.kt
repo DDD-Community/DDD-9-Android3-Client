@@ -122,7 +122,7 @@ fun PostPageContentBottomSheet(
                         onClick = {
                             viewModel.setCurrentPostContent(content)
                             coroutineScope.launch() {
-                                viewModel.postNewPost()
+                                // viewModel.postPublishPost(viewModel.currentPost)
                             }
                             onClickNext()
                         },
@@ -139,7 +139,7 @@ fun PostPageContentBottomSheet(
                     BDSBorderlessButton(
                         onClick = {
                             coroutineScope.launch {
-                                viewModel.postNewPost()
+                                // viewModel.postPublishPost()
                             }
                             onClickNext()
                         },

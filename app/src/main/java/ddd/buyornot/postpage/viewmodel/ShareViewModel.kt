@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ddd.component.PostItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ddd.buyornot.data.model.post.PostRequest
+import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.data.repository.archive.ArchiveRepository
 import ddd.buyornot.data.repository.post.PostRepository
 import kotlinx.coroutines.launch
@@ -51,12 +52,13 @@ class ShareViewModel @Inject constructor(
     suspend fun fetchPostList() {
         viewModelScope.launch {
             val postResult = postRepository.fetchTemporaryPost()?.result ?: return@launch
-            postResult.map { it -> PostItem(
+            val postItemList = postResult.map { it -> PostItem(
                 postId = it.id,
                 imageUrl = it.pollItemResponseList?.first()?.imgUrl,
                 title = it.content,
-                isPublic = false // publicStatus로 변경 예정
+                isPublic = it.publicStatus == PostResult.PublicStatus.PUBLIC // publicStatus로 변경 예정
             ) }
+            _postList.postValue(postItemList)
         }
     }
 
@@ -78,11 +80,11 @@ class ShareViewModel @Inject constructor(
         }
     }
 
-    suspend fun postNewPost() {
+    suspend fun postPublishPost(postId: Int) {
         addPostItemUrl(sharedItemUrl)
         viewModelScope.launch {
             currentPost.value?.let {
-                postRepository.postNewVote(it)
+                postRepository.postPublishPost(postId, it)
             }
         }
     }
