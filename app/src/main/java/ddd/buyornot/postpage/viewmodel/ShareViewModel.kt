@@ -23,9 +23,7 @@ class ShareViewModel @Inject constructor(
     val postList: LiveData<List<PostItem>>
         get() = _postList
 
-    private val _currentPost = MutableLiveData(PostRequest())
-    val currentPost: LiveData<PostRequest>
-        get() = _currentPost
+    var currentPost = PostRequest()
 
     private val _selectedPost = MutableLiveData<PostItem?>(null)
     val selectedPost: LiveData<PostItem?>
@@ -34,15 +32,15 @@ class ShareViewModel @Inject constructor(
     var sharedItemUrl: String = ""
 
     fun setCurrentPostTitle(title: String) {
-        _currentPost.run {
-            postValue(value?.copy(title = title))
-        }
+        currentPost = currentPost.copy(title = title)
     }
 
     fun setCurrentPostContent(content: String) {
-        _currentPost.run {
-            postValue(value?.copy(content = content))
-        }
+        currentPost = currentPost.copy(content = content)
+    }
+
+    fun setCurrentPostPublic(isPrivate: Boolean) {
+        currentPost = currentPost.copy(publicStatus = if (isPrivate) PostResult.PublicStatus.PRIVATE.name else PostResult.PublicStatus.PUBLIC.name)
     }
 
     fun setSelectedPost(postItem: PostItem?) {
@@ -52,12 +50,14 @@ class ShareViewModel @Inject constructor(
     suspend fun fetchPostList() {
         viewModelScope.launch {
             val postResult = postRepository.fetchTemporaryPost()?.result ?: return@launch
-            val postItemList = postResult.map { it -> PostItem(
-                postId = it.id,
-                imageUrl = it.pollItemResponseList?.first()?.imgUrl,
-                title = it.content,
-                isPublic = it.publicStatus == PostResult.PublicStatus.PUBLIC // publicStatus로 변경 예정
-            ) }
+            val postItemList = postResult.map { it ->
+                PostItem(
+                    postId = it.id,
+                    imageUrl = it.pollItemResponseList?.first()?.imgUrl,
+                    title = it.content,
+                    isPublic = it.publicStatus == PostResult.PublicStatus.PUBLIC
+                )
+            }
             _postList.postValue(postItemList)
         }
     }
@@ -73,19 +73,23 @@ class ShareViewModel @Inject constructor(
     }
 
     private fun addPostItemUrl(itemUrl: String) {
-        _currentPost.run {
-            val currentItemUrls = value?.itemUrls?.toMutableList()
-            currentItemUrls?.add(itemUrl)
-            postValue(value?.copy(itemUrls = currentItemUrls?.toList()))
+        val currentItemUrls = currentPost.itemUrls?.toMutableList() ?: mutableListOf()
+        currentItemUrls.add(itemUrl)
+
+        currentPost = currentPost.copy(itemUrls = currentItemUrls.toList())
+    }
+
+    suspend fun postNewPost() {
+        addPostItemUrl(sharedItemUrl)
+        viewModelScope.launch {
+            postRepository.postNewPost(currentPost)
         }
     }
 
     suspend fun postPublishPost(postId: Int) {
         addPostItemUrl(sharedItemUrl)
         viewModelScope.launch {
-            currentPost.value?.let {
-                postRepository.postPublishPost(postId, it)
-            }
+            postRepository.postPublishPost(postId, currentPost)
         }
     }
 

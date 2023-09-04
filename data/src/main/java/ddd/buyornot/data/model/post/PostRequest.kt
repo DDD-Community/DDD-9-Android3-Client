@@ -8,7 +8,7 @@ data class PostRequest(
     @SerializedName("content")
     val content: String? = null,
     @SerializedName("publicStatus")
-    val publicStatus: String? = null,
+    val publicStatus: String = PostResult.PublicStatus.PUBLIC.name,
     @SerializedName("itemUrls")
     val itemUrls: List<String>? = null,
     @SerializedName("published")
