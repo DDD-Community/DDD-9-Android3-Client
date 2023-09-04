@@ -1,5 +1,6 @@
 package ddd.buyornot.archive.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,8 +33,10 @@ class ArchiveViewModel @Inject constructor(
             } else {
                 savedItemList.value ?: mutableListOf()
             }
+
             val newItemList = archiveRepository.fetchPostList(savedPage, count)?.result?.map { it ->
                 ArchiveItem(
+                    id = it.id,
                     itemId = it.itemId,
                     imageUrl = it.imgUrl,
                     brand = it.brand,
@@ -43,6 +46,8 @@ class ArchiveViewModel @Inject constructor(
                     liked = it.liked
                 )
             }
+
+            Log.d("viewModel", "fetchSavedItemList: ${newItemList?.size}")
 
             if (!newItemList.isNullOrEmpty()) {
                 currentItemList.addAll(newItemList)
@@ -60,8 +65,10 @@ class ArchiveViewModel @Inject constructor(
             } else {
                 likedItemList.value ?: mutableListOf()
             }
+
             val newItemList = archiveRepository.fetchPostLikedList(likedPage, count)?.result?.map { it ->
                 ArchiveItem(
+                    id = it.id,
                     itemId = it.itemId,
                     imageUrl = it.imgUrl,
                     brand = it.brand,
@@ -71,6 +78,7 @@ class ArchiveViewModel @Inject constructor(
                     liked = it.liked
                 )
             }
+            Log.d("viewModel", "fetchLikedItemList: ${newItemList?.size}")
 
             if (!newItemList.isNullOrEmpty()) {
                 currentItemList.addAll(newItemList)
@@ -82,22 +90,25 @@ class ArchiveViewModel @Inject constructor(
 
     suspend fun patchArchiveItemDelete(archiveItemList: List<ArchiveItem>) {
         viewModelScope.launch {
-            val deleteArchiveReq = DeleteArchiveReq(ids = archiveItemList.mapNotNull { it.itemId })
-            archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq) ?: return@launch
-            when (tabIndex.value) {
-                0 -> fetchLikedItemList(true)
-                1 -> fetchSavedItemList(true)
-                else -> {}
+            val deleteArchiveReq = DeleteArchiveReq(ids = archiveItemList.mapNotNull { it.id })
+            val success = archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq)?.isSuccess
+            if (success == true) {
+                when (tabIndex.value) {
+                    0 -> fetchLikedItemList(true)
+                    1 -> fetchSavedItemList(true)
+                }
             }
         }
     }
 
     suspend fun patchArchiveItemLike(archiveItem: ArchiveItem) {
         viewModelScope.launch {
-            archiveItem.itemId?.let {
-                val result = archiveRepository.patchArchiveItemLike(it)?.result?.liked ?: return@launch
-                archiveItem.liked = result
-                fetchLikedItemList(true)
+            archiveItem.id?.let {
+                val result = archiveRepository.patchArchiveItemLike(it)?.result?.liked
+                if (result != null) {
+                    archiveItem.liked = result
+                    fetchLikedItemList(true)
+                }
             }
         }
     }

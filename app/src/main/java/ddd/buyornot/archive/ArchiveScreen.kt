@@ -74,8 +74,8 @@ fun ArchiveScreen(
     LaunchedEffect(key1 = tabIndex) {
         scope.launch {
             when (tabIndex) {
-                0 -> viewModel.fetchLikedItemList()
-                1 -> viewModel.fetchSavedItemList()
+                0 -> viewModel.fetchLikedItemList(true)
+                1 -> viewModel.fetchSavedItemList(true)
                 else -> {}
             }
         }

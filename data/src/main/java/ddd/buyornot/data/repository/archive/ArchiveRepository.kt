@@ -8,9 +8,9 @@ interface ArchiveRepository {
 
     suspend fun postArchiveItem(itemUrl: String) : BaseApiResponse<ArchiveResponse>?
 
-    suspend fun postArchiveItem(itemId: Int) : BaseApiResponse<ArchiveResponse>?
+    suspend fun postArchiveItem(id: Int) : BaseApiResponse<ArchiveResponse>?
 
-    suspend fun patchArchiveItemLike(itemId: Int) : BaseApiResponse<ArchiveResponse>?
+    suspend fun patchArchiveItemLike(archiveId: Int) : BaseApiResponse<ArchiveResponse>?
 
     suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) : BaseApiResponse<Int>?
 

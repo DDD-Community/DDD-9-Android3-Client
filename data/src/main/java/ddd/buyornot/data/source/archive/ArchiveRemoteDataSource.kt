@@ -10,7 +10,7 @@ interface ArchiveRemoteDataSource {
 
     suspend fun postArchiveItem(itemId: Int) : BaseApiResponse<ArchiveResponse>?
 
-    suspend fun patchArchiveItemLike(itemId: Int) : BaseApiResponse<ArchiveResponse>?
+    suspend fun patchArchiveItemLike(archiveId: Int) : BaseApiResponse<ArchiveResponse>?
 
     suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) : BaseApiResponse<Int>?
 

@@ -80,9 +80,12 @@ fun ArchiveEditScreen(
     var showDeleteDialogState by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = viewModel.tabIndex.value) {
         scope.launch {
-            viewModel.fetchSavedItemList()
+            when (viewModel.tabIndex.value) {
+                0 -> viewModel.fetchLikedItemList()
+                1 -> viewModel.fetchSavedItemList()
+            }
         }
     }
 
