@@ -104,10 +104,12 @@ class ArchiveViewModel @Inject constructor(
     suspend fun patchArchiveItemLike(archiveItem: ArchiveItem) {
         viewModelScope.launch {
             archiveItem.id?.let {
-                val result = archiveRepository.patchArchiveItemLike(it)?.result?.liked
-                if (result != null) {
-                    archiveItem.liked = result
-                    fetchLikedItemList(true)
+                val success = archiveRepository.patchArchiveItemLike(it)?.isSuccess
+                if (success != null) {
+                    when (tabIndex.value) {
+                        0 -> fetchLikedItemList(true)
+                        1 -> fetchSavedItemList(true)
+                    }
                 }
             }
         }
