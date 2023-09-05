@@ -147,16 +147,17 @@ fun BDSHomeCard(
             fontWeight = Normal,
             color = Black
         )
+        Spacer(modifier = Modifier.height(20.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             BDSVoteCard(
                 archiveItem = ArchiveItem(
                     imageUrl = pollA.imgUrl,
                     brand = pollA.brand,
                     name = pollA.itemName,
-                    discount = pollA.discountedPrice,
+                    discount = pollA.discountedRate,
                     price = pollA.originalPrice
                 ),
                 title = "A",
@@ -173,7 +174,7 @@ fun BDSHomeCard(
                     imageUrl = pollB.imgUrl,
                     brand = pollB.brand,
                     name = pollB.itemName,
-                    discount = pollB.discountedPrice,
+                    discount = pollB.discountedRate,
                     price = pollB.originalPrice
                 ),
                 title = "B",
