@@ -119,6 +119,7 @@ fun BDSOutlinedButton(
     shape: Shape = CircleShape,
     containerColor: Color = White,
     contentColor: Color = Gray950,
+    borderColor: Color = SlateGray500,
     disabledContainerColor: Color = SlateGray500,
     disabledContentColor: Color = SlateGray500,
     contentPadding: PaddingValues = BDSButtonInnerPadding.LARGE,
@@ -132,7 +133,7 @@ fun BDSOutlinedButton(
     BDSButton(
         onClick = onClick,
         modifier = modifier,
-        border = BorderStroke(width = 1.dp, color = SlateGray500),
+        border = BorderStroke(width = 1.dp, color = borderColor),
         shape = shape,
         containerColor = containerColor,
         contentColor = contentColor,
