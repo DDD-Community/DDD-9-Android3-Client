@@ -8,8 +8,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -26,10 +28,10 @@ import com.ddd.component.BDSIconButton
 import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSPostCard
 import com.ddd.component.BDSText
-import com.ddd.component.PostItem
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
 import ddd.buyornot.postpage.viewmodel.ShareViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun WritePostPagePostListBottomSheet(
@@ -39,70 +41,14 @@ fun WritePostPagePostListBottomSheet(
     onClickNewPost: () -> Unit,
     onClickAddItem: () -> Unit,
 ) {
-    /*val postItemList by viewModel.postList.observeAsState(emptyList())
+    val postItemList by viewModel.postList.observeAsState(emptyList())
 
     LaunchedEffect(Unit) {
         viewModel.fetchPostList()
-    }*/
+    }
     val selectedPostItem by viewModel.selectedPost.observeAsState()
 
-    val postItemList = listOf(
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인",
-            isPublic = false
-        ),
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인부",
-            isPublic = false
-        ),
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인부츠",
-            isPublic = false
-        ),
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인부츠 ",
-            isPublic = false
-        ),
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인부츠 사",
-            isPublic = false
-        ),
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인부츠 사려",
-            isPublic = false
-        ),
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인부츠 사려는",
-            isPublic = false
-        ),
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인부츠 사려는데",
-            isPublic = false
-        ),
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인부츠 사려는데 ",
-            isPublic = false
-        ),
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인부츠 사려는데 어",
-            isPublic = false
-        ),
-        PostItem(
-            imageUrl = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            title = "이제 레인부츠 사려는데 어떤",
-            isPublic = false
-        )
-    )
+    val scope = rememberCoroutineScope()
 
     BDSBottomSheet(
         onDismissRequest = onDismissRequest,
@@ -161,8 +107,10 @@ fun WritePostPagePostListBottomSheet(
                         BDSFilledButton(
                             onClick = {
                                 // 현재 선택된 투표에서 itemUrl 가져와서 넣기
-                                // viewModel.fetchTemporaryPost(selectedPostItem.postId)
-                                onClickAddItem()
+                                scope.launch {
+                                    selectedPostItem?.postId?.let { viewModel.fetchTemporaryPost(it) }
+                                    onClickAddItem()
+                                }
                             },
                             text = "상품 추가하기",
                             modifier = Modifier
@@ -176,7 +124,11 @@ fun WritePostPagePostListBottomSheet(
                     },
                     cancelButton = {
                         BDSOutlinedButton(
-                            onClick = { onClickNewPost() }, text = "새 투표 만들기",
+                            onClick = {
+                                viewModel.setSelectedPost(null)
+                                onClickNewPost()
+                            },
+                            text = "새 투표 만들기",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),

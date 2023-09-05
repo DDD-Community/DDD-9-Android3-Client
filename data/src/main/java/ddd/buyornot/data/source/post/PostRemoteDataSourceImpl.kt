@@ -12,8 +12,8 @@ class PostRemoteDataSourceImpl @Inject constructor(
         postService.postPublishPost(postId, postRequest)
     }.getOrNull()
 
-    override suspend fun postNewVote(postRequest: PostRequest) = runCatching {
-        postService.postNewVote(postRequest)
+    override suspend fun postNewPost(postRequest: PostRequest) = runCatching {
+        postService.postNewPost(postRequest)
     }.getOrNull()
 
     override suspend fun postNewPostFromArchive(postRequest: PostRequest, itemId1: Int, itemId2: Int) = runCatching {

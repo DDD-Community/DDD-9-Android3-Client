@@ -91,7 +91,7 @@ fun PostPageNavHost(
                     navHostController.popBackStack()
                 },
                 onClickNext = {
-                    navHostController.navigate("${PostPageNavigationRoute.PostDone.route}/${if (title == "새 투표 만들기") "새로운 투표를 만들었어요!" else "투표가 완성됐어요!"}}")
+                    navHostController.navigate("${PostPageNavigationRoute.PostDone.route}/${if (title == "새 투표 만들기") "새로운 투표를 만들었어요!" else "투표가 완성됐어요!"}")
                 }
             )
         }

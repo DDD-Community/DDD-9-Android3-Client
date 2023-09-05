@@ -52,7 +52,7 @@ class AddNewVoteViewModel @Inject constructor(
                 publicStatus = (if (hideVote) PublicStatus.PRIVATE else PublicStatus.PUBLIC).name,
                 itemUrls = itemUrls.toList()
             )
-            postRepository.postNewVote(request)
+            postRepository.postNewPost(request)
         }
     }
 

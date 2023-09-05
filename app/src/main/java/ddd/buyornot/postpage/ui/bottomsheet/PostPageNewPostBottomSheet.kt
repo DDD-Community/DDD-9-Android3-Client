@@ -37,7 +37,8 @@ fun WritePostPageNewPostBottomSheet(
     onDismissRequest: () -> Unit,
     onClickNext: () -> Unit,
 ) {
-    val savedTitle = viewModel.currentPost.value?.title ?: ""
+    val savedTitle = viewModel.currentPost.title ?: ""
+    // val imageUrl = viewModel.postList.value?.itemUrls
     var title by remember { mutableStateOf(savedTitle) }
 
     var state: BDSTextFieldState by remember { mutableStateOf(BDSTextFieldState.UnFocus) }
