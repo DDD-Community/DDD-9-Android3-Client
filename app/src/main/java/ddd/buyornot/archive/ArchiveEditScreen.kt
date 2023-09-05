@@ -51,9 +51,9 @@ import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSSingleTextSnackbar
 import com.ddd.component.BDSText
 import com.ddd.component.R
+import ddd.buyornot.util.findActivity
 import com.ddd.component.theme.BDSColor
 import ddd.buyornot.archive.viewmodel.ArchiveViewModel
-import ddd.buyornot.findActivity
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api

@@ -9,7 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import ddd.buyornot.findActivity
+import ddd.buyornot.util.findActivity
 import ddd.buyornot.postpage.viewmodel.ShareViewModel
 import kotlinx.coroutines.launch
 
