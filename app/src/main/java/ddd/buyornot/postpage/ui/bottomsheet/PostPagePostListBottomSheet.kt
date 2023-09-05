@@ -124,7 +124,11 @@ fun WritePostPagePostListBottomSheet(
                     },
                     cancelButton = {
                         BDSOutlinedButton(
-                            onClick = { onClickNewPost() }, text = "새 투표 만들기",
+                            onClick = {
+                                viewModel.setSelectedPost(null)
+                                onClickNewPost()
+                            },
+                            text = "새 투표 만들기",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),

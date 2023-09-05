@@ -40,7 +40,8 @@ class ShareViewModel @Inject constructor(
     }
 
     fun setCurrentPostPublic(isPrivate: Boolean) {
-        currentPost = currentPost.copy(publicStatus = if (isPrivate) PostResult.PublicStatus.PRIVATE.name else PostResult.PublicStatus.PUBLIC.name)
+        currentPost =
+            currentPost.copy(publicStatus = if (isPrivate) PostResult.PublicStatus.PRIVATE.name else PostResult.PublicStatus.PUBLIC.name)
     }
 
     fun setSelectedPost(postItem: PostItem?) {
@@ -86,10 +87,10 @@ class ShareViewModel @Inject constructor(
         }
     }
 
-    suspend fun postPublishPost(postId: Int) {
+    suspend fun postPublishPost() {
         addPostItemUrl(sharedItemUrl)
         viewModelScope.launch {
-            postRepository.postPublishPost(postId, currentPost)
+            selectedPost.value?.postId?.let { postRepository.postPublishPost(it, currentPost) }
         }
     }
 
