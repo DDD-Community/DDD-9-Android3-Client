@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,12 +32,17 @@ import androidx.compose.ui.unit.sp
 import com.ddd.component.ArchiveItem
 import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSArchiveItemCard
+import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSIconButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor.Black
+import com.ddd.component.theme.BDSColor.Primary100
+import com.ddd.component.theme.BDSColor.Primary500
+import com.ddd.component.theme.BDSColor.Primary700
+import com.ddd.component.theme.BDSColor.SlateGray300
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray900
 import ddd.buyornot.R
@@ -135,7 +141,10 @@ fun BDSHomeCard(
             fontWeight = Normal,
             color = Black
         )
-        Row(horizontalArrangement = Arrangement.SpaceAround) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
             BDSVoteCard(
                 archiveItem = ArchiveItem(
                     imageUrl = pollA.imgUrl,
@@ -172,8 +181,16 @@ fun BDSHomeCard(
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
-        Row(horizontalArrangement = Arrangement.SpaceAround) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
             BDSFilledButton(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .size(width = 86.dp, height = 32.dp),
+                contentPadding = BDSButtonInnerPadding.XSMALL,
+                containerColor = SlateGray300,
+                contentColor = SlateGray900,
                 onClick = {
                     scope.launch {
                         post.id?.let {
@@ -181,9 +198,24 @@ fun BDSHomeCard(
                         }
                     }
                 },
-                text = "둘다 별로"
+                text = "둘다 별로",
+                fontSize = 12.sp,
+                lineHeight = 20.sp,
+                fontWeight = SemiBold
             )
-            BDSFilledButton(onClick = { /*TODO*/ }, text = "공유하기")
+            BDSFilledButton(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .size(width = 86.dp, height = 32.dp),
+                contentPadding = BDSButtonInnerPadding.XSMALL,
+                containerColor = Primary100,
+                contentColor = Primary700,
+                onClick = { /*TODO*/ },
+                text = "공유하기",
+                fontSize = 12.sp,
+                lineHeight = 20.sp,
+                fontWeight = SemiBold
+            )
         }
     }
 
@@ -202,6 +234,7 @@ private fun UserCard(
             BDSImage(
                 // url = userImage,
                 resId = com.ddd.component.R.drawable.ic_app_logo_sample,
+                modifier = Modifier.size(38.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {
@@ -251,8 +284,11 @@ private fun BDSVoteCard(
         )
         Spacer(modifier = Modifier.height(16.dp))
         BDSOutlinedButton(
+            modifier = Modifier.width(164.dp),
             text = title,
-            onClick = onClick
+            onClick = onClick,
+            contentColor = Primary500,
+            borderColor = SlateGray300,
         )
     }
 }

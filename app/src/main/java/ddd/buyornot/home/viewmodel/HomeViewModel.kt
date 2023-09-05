@@ -24,10 +24,10 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val newPostList = postRepository.fetchPostList(page, count)?.result
             if (!newPostList.isNullOrEmpty()) {
-                val currentList = postList.value ?: emptyList()
-                postList.value?.toMutableList()?.addAll(newPostList)
+                val currentList = postList.value?.toMutableList() ?: mutableListOf()
+                currentList.addAll(newPostList)
                 postList.postValue(currentList)
-                page++
+                // page++
             }
         }
     }
