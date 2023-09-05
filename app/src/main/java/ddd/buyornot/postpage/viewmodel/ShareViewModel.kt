@@ -44,6 +44,10 @@ class ShareViewModel @Inject constructor(
             currentPost.copy(publicStatus = if (isPrivate) PostResult.PublicStatus.PRIVATE.name else PostResult.PublicStatus.PUBLIC.name)
     }
 
+    private fun setCurrentPostIsPublish(isPublish: Boolean) {
+        currentPost = currentPost.copy(published = isPublish)
+    }
+
     fun setSelectedPost(postItem: PostItem?) {
         _selectedPost.postValue(postItem)
     }
@@ -55,7 +59,7 @@ class ShareViewModel @Inject constructor(
                 PostItem(
                     postId = it.id,
                     imageUrl = it.pollItemResponseList?.first()?.imgUrl,
-                    title = it.content,
+                    title = it.title,
                     isPublic = it.publicStatus == PostResult.PublicStatus.PUBLIC
                 )
             }
@@ -81,16 +85,20 @@ class ShareViewModel @Inject constructor(
     }
 
     suspend fun postNewPost() {
-        addPostItemUrl(sharedItemUrl)
         viewModelScope.launch {
+            addPostItemUrl(sharedItemUrl)
+            setCurrentPostIsPublish(false)
             postRepository.postNewPost(currentPost)
         }
     }
 
     suspend fun postPublishPost() {
-        addPostItemUrl(sharedItemUrl)
         viewModelScope.launch {
-            selectedPost.value?.postId?.let { postRepository.postPublishPost(it, currentPost) }
+            selectedPost.value?.postId?.let {
+                addPostItemUrl(sharedItemUrl)
+                setCurrentPostIsPublish(true)
+                postRepository.postPublishPost(it, currentPost)
+            }
         }
     }
 
