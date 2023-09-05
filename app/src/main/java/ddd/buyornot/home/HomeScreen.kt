@@ -74,19 +74,26 @@ fun HomeScreen(viewModel: HomeViewModel) {
                 BDSAppBar(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     left = {
-                        BDSImage(
-                            resId = R.drawable.ic_text_logo,
-                            modifier = Modifier.size(width = 116.dp, height = 23.dp),
-                            contentScale = ContentScale.Fit
-                        )
+                        Row {
+                            BDSImage(
+                                resId = com.ddd.component.R.drawable.ic_app_mini,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(9.dp))
+                            BDSImage(
+                                resId = R.drawable.ic_text_logo,
+                                modifier = Modifier.size(width = 116.dp, height = 23.dp),
+                                contentScale = ContentScale.Fit
+                            )
+                        }
                     },
                     right = {
                         Row {
                             BDSIconButton(
-                                resId = com.ddd.component.R.drawable.ic_archive_empty,
+                                resId = com.ddd.component.R.drawable.ic_archive,
                                 onClick = { context.startActivity(Intent(context, MyPostActivity::class.java)) }
                             )
-                            Spacer(modifier = Modifier.width(16.dp))
+                            Spacer(modifier = Modifier.width(9.dp))
                             BDSIconButton(
                                 // resId = user profile logo,
                                 resId = com.ddd.component.R.drawable.ic_add_in_circle,
@@ -104,10 +111,12 @@ fun HomeScreen(viewModel: HomeViewModel) {
                         post = post,
                         patchPollChoice = viewModel::patchPollChoice,
                     )
-                    Spacer(modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .background(color = SlateGray400))
+                    Spacer(
+                        modifier = Modifier
+                            .height(1.dp)
+                            .fillMaxWidth()
+                            .background(color = SlateGray400)
+                    )
                 }
             }
         }
