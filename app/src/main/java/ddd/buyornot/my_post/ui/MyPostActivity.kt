@@ -20,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -65,22 +66,25 @@ class MyPostActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            var selectedTabIndex by remember { mutableStateOf(0) }
+            val tabIndex by viewModel.tabIndex.observeAsState(0)
 
             val onGoingPostList by viewModel.onGoingPostList.observeAsState(emptyList())
             val closedPostList by viewModel.closedPostList.observeAsState(emptyList())
 
             // TODO: data fetch 로직 추가
+
+            LaunchedEffect(key1 = tabIndex) {
+                when (tabIndex) {
+                    0 -> viewModel.fetchOnGoingPostList()
+                    1 -> viewModel.fetchClosedPostList()
+                }
+            }
             // TODO: paging 추가
 
-            var postList by remember {
-                mutableStateOf(
-                    when (selectedTabIndex) {
-                        0 -> onGoingPostList
-                        1 -> closedPostList
-                        else -> emptyList()
-                    }
-                )
+            val postList = when (tabIndex) {
+                0 -> onGoingPostList
+                1 -> closedPostList
+                else -> emptyList()
             }
 
             Column(
@@ -97,12 +101,12 @@ class MyPostActivity : ComponentActivity() {
                 )
                 BDSTab(
                     titles = listOf("진행중인 투표", "종료된 투표"),
-                    selectedTabIndex = selectedTabIndex,
-                    onTabSelected = { selectedTabIndex = it }
+                    selectedTabIndex = tabIndex,
+                    onTabSelected = { viewModel.setTabIndex(it) }
                 )
                 MyPostScreen(
                     postList,
-                    selectedTabIndex,
+                    tabIndex,
                     viewModel
                 )
             }
@@ -123,8 +127,8 @@ fun MyPostScreen(
 
     var openBottomSheet by remember { mutableStateOf(false) }
     var openBottomDialog by remember { mutableStateOf(false) }
-    var selectedPostId: Int? = null
-    var selectedOption: Int? = null
+    var selectedPostId: Int? by remember { mutableStateOf(null) }
+    var selectedOption by remember { mutableStateOf(0) }
 
     val scope = rememberCoroutineScope()
 
@@ -135,7 +139,8 @@ fun MyPostScreen(
             Column(modifier = Modifier.align(Alignment.Center)) {
                 BDSImage(
                     resId = R.drawable.ic_archive_empty,
-                    modifier = Modifier.size(150.dp)
+                    modifier = Modifier
+                        .size(150.dp)
                         .align(Alignment.CenterHorizontally)
                 )
                 Spacer(modifier = Modifier.height(12.dp))
@@ -191,8 +196,9 @@ fun MyPostScreen(
                     BDSTextData(
                         text = "답변 그만받기",
                         modifier = Modifier.clickable {
-                            openBottomDialog = true
                             selectedOption = 1
+                            openBottomSheet = false
+                            openBottomDialog = true
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
@@ -202,8 +208,9 @@ fun MyPostScreen(
                     BDSTextData(
                         text = "투표 삭제하기",
                         modifier = Modifier.clickable {
-                            openBottomDialog = true
                             selectedOption = 2
+                            openBottomSheet = false
+                            openBottomDialog = true
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
@@ -216,8 +223,9 @@ fun MyPostScreen(
                     BDSTextData(
                         text = "투표 삭제하기",
                         modifier = Modifier.clickable {
-                            openBottomDialog = true
                             selectedOption = 2
+                            openBottomSheet = false
+                            openBottomDialog = true
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,

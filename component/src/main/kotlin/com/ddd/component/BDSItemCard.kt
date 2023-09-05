@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ddd.component.theme.BDSColor.Gray950
 import com.ddd.component.theme.BDSColor.Primary400
 import java.text.DecimalFormat
 
@@ -110,9 +110,10 @@ fun BDSArchiveItemCard(
                 )
                 BDSText(
                     text = archiveItem.brand,
-                    style = MaterialTheme.typography.labelMedium,
+                    fontSize = 12.sp,
                     lineHeight = 14.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Gray950
                 )
             }
             if (archiveItem.name != null) {
@@ -123,9 +124,11 @@ fun BDSArchiveItemCard(
                 )
                 BDSText(
                     text = archiveItem.name,
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Gray950,
                     maxLines = 2,
-                    style = MaterialTheme.typography.bodySmall,
-                    lineHeight = 20.sp
                 )
             }
             Spacer(
@@ -139,7 +142,7 @@ fun BDSArchiveItemCard(
                         text = "${archiveItem.discount}% ",
                         modifier = modifier.offset(0.dp, 2.dp),
                         color = Primary400,
-                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         lineHeight = 20.sp
                     )
@@ -147,7 +150,9 @@ fun BDSArchiveItemCard(
                 if (archiveItem.price != null) {
                     BDSText(
                         text = archiveItem.price.toPriceFormat(),
-                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        color = Gray950,
                         fontWeight = FontWeight.Bold
                     )
                 }

@@ -1,6 +1,5 @@
 package ddd.buyornot.archive.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,8 +46,6 @@ class ArchiveViewModel @Inject constructor(
                 )
             }
 
-            Log.d("viewModel", "fetchSavedItemList: ${newItemList?.size}")
-
             if (!newItemList.isNullOrEmpty()) {
                 currentItemList.addAll(newItemList)
                 savedItemList.postValue(currentItemList)
@@ -78,7 +75,6 @@ class ArchiveViewModel @Inject constructor(
                     liked = it.liked
                 )
             }
-            Log.d("viewModel", "fetchLikedItemList: ${newItemList?.size}")
 
             if (!newItemList.isNullOrEmpty()) {
                 currentItemList.addAll(newItemList)
