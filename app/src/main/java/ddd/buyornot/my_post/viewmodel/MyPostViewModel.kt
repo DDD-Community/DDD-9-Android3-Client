@@ -18,6 +18,8 @@ class MyPostViewModel @Inject constructor(
     private var closedPage = 0
     private val count = 20
 
+    val tabIndex = MutableLiveData<Int>()
+
     val onGoingPostList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
     val closedPostList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
 
@@ -25,10 +27,10 @@ class MyPostViewModel @Inject constructor(
         viewModelScope.launch {
             val newPostList = postRepository.fetchOnGoingPostList(page, count)?.result
             if (!newPostList.isNullOrEmpty()) {
-                val currentList = onGoingPostList.value ?: emptyList()
-                onGoingPostList.value?.toMutableList()?.addAll(newPostList)
+                val currentList = onGoingPostList.value?.toMutableList() ?: mutableListOf()
+                currentList.addAll(newPostList)
                 onGoingPostList.postValue(currentList)
-                onGoingPage++
+                // onGoingPage++
             }
         }
     }
@@ -37,10 +39,10 @@ class MyPostViewModel @Inject constructor(
         viewModelScope.launch {
             val newPostList = postRepository.fetchClosedPostList(page, count)?.result
             if (!newPostList.isNullOrEmpty()) {
-                val currentList = closedPostList.value ?: emptyList()
-                closedPostList.value?.toMutableList()?.addAll(newPostList)
+                val currentList = closedPostList.value?.toMutableList() ?: mutableListOf()
+                currentList.addAll(newPostList)
                 closedPostList.postValue(currentList)
-                closedPage++
+                // closedPage++
             }
         }
     }
@@ -61,5 +63,9 @@ class MyPostViewModel @Inject constructor(
             onGoingPostList.value?.toMutableList()?.removeIf { it.id == postId }
             closedPostList.value?.toMutableList()?.removeIf { it.id == postId }
         }
+    }
+
+    fun setTabIndex(index: Int) {
+        tabIndex.value = index
     }
 }
