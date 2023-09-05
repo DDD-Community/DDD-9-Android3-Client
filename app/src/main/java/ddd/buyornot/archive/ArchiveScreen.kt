@@ -43,6 +43,7 @@ import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.SlateGray900
 import ddd.buyornot.archive.viewmodel.ArchiveViewModel
+import ddd.buyornot.util.openWeb
 import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -210,6 +211,7 @@ fun ArchiveScreen(
                             archiveItem = archiveItem,
                             isEditMode = false,
                             isLike = archiveItem.liked,
+                            onClick = { archiveItem.itemUrl?.let { context.openWeb(it) } },
                             onClickLike = {
                                 scope.launch {
                                     viewModel.patchArchiveItemLike(archiveItem)

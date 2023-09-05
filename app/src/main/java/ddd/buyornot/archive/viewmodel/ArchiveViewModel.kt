@@ -37,6 +37,7 @@ class ArchiveViewModel @Inject constructor(
                 ArchiveItem(
                     id = it.id,
                     itemId = it.itemId,
+                    itemUrl = it.itemUrl,
                     imageUrl = it.imgUrl,
                     brand = it.brand,
                     name = it.itemName,
@@ -67,6 +68,7 @@ class ArchiveViewModel @Inject constructor(
                 ArchiveItem(
                     id = it.id,
                     itemId = it.itemId,
+                    itemUrl = it.itemUrl,
                     imageUrl = it.imgUrl,
                     brand = it.brand,
                     name = it.itemName,

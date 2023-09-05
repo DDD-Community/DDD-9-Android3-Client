@@ -52,6 +52,7 @@ import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.viewmodel.HomeViewModel
 import ddd.buyornot.my_post.ui.MyPostActivity
 import ddd.buyornot.profile.ui.ProfileActivity
+import ddd.buyornot.util.openWeb
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
@@ -110,6 +111,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                     BDSHomeCard(
                         post = post,
                         patchPollChoice = viewModel::patchPollChoice,
+                        onClick = { itemUrl -> context.openWeb(itemUrl) }
                     )
                     Spacer(
                         modifier = Modifier
@@ -128,6 +130,7 @@ fun BDSHomeCard(
     post: PostResult,
     patchPollChoice: (Int, Int) -> Unit = { _, _ -> },
     isMyPost: Boolean = false,
+    onClick: (String) -> Unit = {},
     onClickDots: () -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
@@ -171,6 +174,9 @@ fun BDSHomeCard(
                 ),
                 title = "A",
                 onClick = {
+                    post.pollItemResponseList?.get(0)?.itemUrl?.let { onClick(it) }
+                },
+                onClickPoll = {
                     scope.launch {
                         post.id?.let {
                             patchPollChoice(it, 1)
@@ -188,6 +194,9 @@ fun BDSHomeCard(
                 ),
                 title = "B",
                 onClick = {
+                    post.pollItemResponseList?.get(1)?.itemUrl?.let { onClick(it) }
+                },
+                onClickPoll = {
                     scope.launch {
                         post.id?.let {
                             patchPollChoice(it, 2)
@@ -287,22 +296,24 @@ private fun BDSVoteCard(
     archiveItem: ArchiveItem,
     modifier: Modifier = Modifier,
     isLike: Boolean = false,
+    onClick: () -> Unit = {},
     onClickLike: () -> Unit = {},
     title: String,
-    onClick: () -> Unit = {}
+    onClickPoll: () -> Unit = {}
 ) {
     Column {
         BDSArchiveItemCard(
             archiveItem = archiveItem,
             modifier = modifier,
             isLike = isLike,
+            onClick = onClick,
             onClickLike = onClickLike,
         )
         Spacer(modifier = Modifier.height(16.dp))
         BDSOutlinedButton(
             modifier = Modifier.width(164.dp),
             text = title,
-            onClick = onClick,
+            onClick = onClickPoll,
             contentColor = Primary500,
             borderColor = SlateGray300,
         )
