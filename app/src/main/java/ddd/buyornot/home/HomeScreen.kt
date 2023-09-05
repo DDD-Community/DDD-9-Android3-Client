@@ -245,7 +245,7 @@ private fun UserCard(
     isVisible: Boolean = false,
     onClick: () -> Unit
 ) {
-    Box {
+    Box(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.align(Alignment.CenterStart)) {
             BDSImage(
                 // url = userImage,
