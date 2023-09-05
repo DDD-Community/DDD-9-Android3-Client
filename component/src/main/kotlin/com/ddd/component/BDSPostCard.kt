@@ -24,6 +24,7 @@ data class PostItem(
     val postId: Int? = null,
     val imageUrl: String? = null,
     val title: String? = null,
+    val content: String? = null,
     val isPublic: Boolean = false,
 )
 

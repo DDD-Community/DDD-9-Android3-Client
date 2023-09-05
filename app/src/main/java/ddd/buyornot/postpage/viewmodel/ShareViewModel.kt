@@ -60,6 +60,7 @@ class ShareViewModel @Inject constructor(
                     postId = it.id,
                     imageUrl = it.pollItemResponseList?.first()?.imgUrl,
                     title = it.title,
+                    content = it.content,
                     isPublic = it.publicStatus == PostResult.PublicStatus.PUBLIC
                 )
             }
