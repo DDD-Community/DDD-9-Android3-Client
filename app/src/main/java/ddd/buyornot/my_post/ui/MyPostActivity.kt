@@ -127,8 +127,8 @@ fun MyPostScreen(
 
     var openBottomSheet by remember { mutableStateOf(false) }
     var openBottomDialog by remember { mutableStateOf(false) }
-    var selectedPostId: Int? = null
-    var selectedOption: Int? = null
+    var selectedPostId: Int? by remember { mutableStateOf(null) }
+    var selectedOption by remember { mutableStateOf(0) }
 
     val scope = rememberCoroutineScope()
 
@@ -196,8 +196,9 @@ fun MyPostScreen(
                     BDSTextData(
                         text = "답변 그만받기",
                         modifier = Modifier.clickable {
-                            openBottomDialog = true
                             selectedOption = 1
+                            openBottomSheet = false
+                            openBottomDialog = true
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
@@ -207,8 +208,9 @@ fun MyPostScreen(
                     BDSTextData(
                         text = "투표 삭제하기",
                         modifier = Modifier.clickable {
-                            openBottomDialog = true
                             selectedOption = 2
+                            openBottomSheet = false
+                            openBottomDialog = true
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
@@ -221,8 +223,9 @@ fun MyPostScreen(
                     BDSTextData(
                         text = "투표 삭제하기",
                         modifier = Modifier.clickable {
-                            openBottomDialog = true
                             selectedOption = 2
+                            openBottomSheet = false
+                            openBottomDialog = true
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,

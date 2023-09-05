@@ -23,11 +23,16 @@ class MyPostViewModel @Inject constructor(
     val onGoingPostList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
     val closedPostList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
 
-    suspend fun fetchOnGoingPostList(page: Int = onGoingPage) {
+    suspend fun fetchOnGoingPostList(init: Boolean = true, page: Int = onGoingPage) {
         viewModelScope.launch {
             val newPostList = postRepository.fetchOnGoingPostList(page, count)?.result
             if (!newPostList.isNullOrEmpty()) {
-                val currentList = onGoingPostList.value?.toMutableList() ?: mutableListOf()
+                val currentList = if (init) {
+                    onGoingPage = 0
+                    mutableListOf()
+                } else {
+                    onGoingPostList.value?.toMutableList() ?: mutableListOf()
+                }
                 currentList.addAll(newPostList)
                 onGoingPostList.postValue(currentList)
                 // onGoingPage++
@@ -35,11 +40,16 @@ class MyPostViewModel @Inject constructor(
         }
     }
 
-    suspend fun fetchClosedPostList(page: Int = closedPage) {
+    suspend fun fetchClosedPostList(init: Boolean = true, page: Int = closedPage) {
         viewModelScope.launch {
             val newPostList = postRepository.fetchClosedPostList(page, count)?.result
             if (!newPostList.isNullOrEmpty()) {
-                val currentList = closedPostList.value?.toMutableList() ?: mutableListOf()
+                val currentList = if (init) {
+                    closedPage = 0
+                    mutableListOf()
+                } else {
+                    closedPostList.value?.toMutableList() ?: mutableListOf()
+                }
                 currentList.addAll(newPostList)
                 closedPostList.postValue(currentList)
                 // closedPage++
@@ -50,18 +60,22 @@ class MyPostViewModel @Inject constructor(
     suspend fun patchPostFinish(postId: Int) {
         viewModelScope.launch {
             postRepository.patchPostFinish(postId)
-            val closedPost = onGoingPostList.value?.find { it.id == postId } ?: return@launch
+            /*val closedPost = onGoingPostList.value?.find { it.id == postId } ?: return@launch
             onGoingPostList.value?.toMutableList()?.remove(closedPost)
-            closedPostList.value?.toMutableList()?.add(closedPost)
-
+            closedPostList.value?.toMutableList()?.add(closedPost)*/
+            fetchOnGoingPostList()
         }
     }
 
     suspend fun patchPostDelete(postId: Int) {
         viewModelScope.launch {
             postRepository.patchPostDelete(postId)
-            onGoingPostList.value?.toMutableList()?.removeIf { it.id == postId }
-            closedPostList.value?.toMutableList()?.removeIf { it.id == postId }
+            /*onGoingPostList.value?.toMutableList()?.removeIf { it.id == postId }
+            closedPostList.value?.toMutableList()?.removeIf { it.id == postId }*/
+            when (tabIndex.value) {
+                0 -> fetchOnGoingPostList()
+                1 -> fetchClosedPostList()
+            }
         }
     }
 
