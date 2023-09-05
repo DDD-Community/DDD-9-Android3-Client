@@ -45,6 +45,7 @@ import com.ddd.component.BDSTab
 import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.data.BDSTextData
+import ddd.buyornot.util.openWeb
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Red
 import com.ddd.component.theme.BDSColor.SlateGray800
@@ -173,7 +174,8 @@ fun MyPostScreen(
                     onClickDots = {
                         selectedPostId = postResult.id
                         openBottomSheet = true
-                    }
+                    },
+                    onClick = { itemUrl -> context.openWeb(itemUrl) }
                 )
             }
         }

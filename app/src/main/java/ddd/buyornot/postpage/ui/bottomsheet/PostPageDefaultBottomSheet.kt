@@ -41,7 +41,7 @@ import com.ddd.component.theme.BDSColor.SlateGray100
 import com.ddd.component.theme.BDSColor.SlateGray300
 import com.ddd.component.theme.BDSColor.SlateGray600
 import com.ddd.component.theme.BDSColor.SlateGray900
-import ddd.buyornot.findActivity
+import ddd.buyornot.util.findActivity
 
 @Composable
 fun WritePostPageDefaultBottomSheet(
@@ -72,9 +72,10 @@ fun WritePostPageDefaultBottomSheet(
             )
         },
         bodyContent = {
-            Column(modifier = Modifier
-                .padding(top = 16.dp)
-                .padding(horizontal = 18.dp),
+            Column(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .padding(horizontal = 18.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 SelectionButton(
@@ -136,9 +137,10 @@ fun SelectionButton(
                 color = SlateGray600
             )
         }
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(38.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(38.dp)
         ) {
             Icon(
                 modifier = Modifier.align(Alignment.CenterEnd),

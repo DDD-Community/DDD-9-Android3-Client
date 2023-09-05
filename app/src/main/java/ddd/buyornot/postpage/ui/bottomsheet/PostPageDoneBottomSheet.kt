@@ -25,7 +25,7 @@ import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
-import ddd.buyornot.findActivity
+import ddd.buyornot.util.findActivity
 
 @Composable
 fun WritePostPageDoneBottomSheet(

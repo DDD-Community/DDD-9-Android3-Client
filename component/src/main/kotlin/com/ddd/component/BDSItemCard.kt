@@ -31,6 +31,7 @@ import java.text.DecimalFormat
 data class ArchiveItem(
     val id: Int? = null,
     val itemId: Int? = null,
+    val itemUrl: String? = null,
     val imageUrl: String? = null,
     val brand: String? = null,
     val name: String? = null,
@@ -55,13 +56,13 @@ fun BDSArchiveItemCard(
     Box(
         modifier
             .size(164.dp, 260.dp)
+            .clickable { onClick() }
     ) {
         Column {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(4.dp))
                     .size(164.dp, 164.dp)
-                    .clickable { onClick() }
             ) {
                 BDSImage(
                     url = archiveItem.imageUrl,
