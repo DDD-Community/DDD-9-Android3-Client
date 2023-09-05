@@ -1,6 +1,7 @@
 package ddd.buyornot.home
 
 import android.content.Intent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +44,7 @@ import com.ddd.component.theme.BDSColor.Primary100
 import com.ddd.component.theme.BDSColor.Primary500
 import com.ddd.component.theme.BDSColor.Primary700
 import com.ddd.component.theme.BDSColor.SlateGray300
+import com.ddd.component.theme.BDSColor.SlateGray400
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray900
 import ddd.buyornot.R
@@ -102,6 +104,10 @@ fun HomeScreen(viewModel: HomeViewModel) {
                         post = post,
                         patchPollChoice = viewModel::patchPollChoice,
                     )
+                    Spacer(modifier = Modifier
+                        .height(1.dp)
+                        .fillMaxWidth()
+                        .background(color = SlateGray400))
                 }
             }
         }
