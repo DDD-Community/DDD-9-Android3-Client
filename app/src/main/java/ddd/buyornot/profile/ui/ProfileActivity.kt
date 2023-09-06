@@ -78,7 +78,7 @@ class ProfileActivity : ComponentActivity() {
         }
 
         setContent {
-            BuyOrNotTheme {
+            BuyOrNotTheme(darkStatusBar = true) {
 
                 val scope = rememberCoroutineScope()
                 var showLogoutDialogState by remember { mutableStateOf(false) }
