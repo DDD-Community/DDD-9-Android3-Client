@@ -57,11 +57,12 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            BuyOrNotTheme {
+            var selectedBottomNavigation: BottomNavigationItem by remember {
+                mutableStateOf(BottomNavigationItem.bottomNavigationItems.first())
+            }
+
+            BuyOrNotTheme(darkStatusBar = selectedBottomNavigation == BottomNavigationItem.Archive) {
                 val navHostController = rememberNavController()
-                var selectedBottomNavigation: BottomNavigationItem by remember {
-                    mutableStateOf(BottomNavigationItem.bottomNavigationItems.first())
-                }
 
                 BDSBottomNavigationLayout(
                     selectedNavigationItem = selectedBottomNavigation,
