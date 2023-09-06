@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -23,14 +26,18 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Gray950
+import com.ddd.component.theme.BDSColor.Primary100
 import com.ddd.component.theme.BDSColor.Primary400
+import com.ddd.component.theme.BDSColor.SlateGray300
 import com.ddd.component.theme.BDSColor.SlateGray500
+import com.ddd.component.theme.BDSColor.SlateGray700
 import com.ddd.component.theme.BDSColor.White
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -131,6 +138,77 @@ fun BDSIconButton(
                 lineHeight = lineHeight,
                 fontWeight = fontWeight,
             )
+        }
+    }
+}
+
+@Composable
+fun BDSPollButton(
+    text: String,
+    modifier: Modifier = Modifier,
+    isSelect: Boolean = false,
+    pollRate: Float = 0f,
+    shape: Shape = RoundedCornerShape(50.dp),
+    containerColor: Color = White,
+    contentColor: Color = if (isSelect) BDSColor.Primary500 else SlateGray700,
+    borderColor: Color = if (isSelect) Primary400 else SlateGray500,
+    pollColor: Color = if (isSelect) Primary100 else SlateGray300,
+    disabledContainerColor: Color = SlateGray500,
+    disabledContentColor: Color = White,
+    contentPadding: PaddingValues = PaddingValues(vertical = 13.dp, horizontal = if (isSelect) 43.dp else 53.dp),
+    fontSize: TextUnit = TextUnit.Unspecified,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    fontWeight: FontWeight? = FontWeight.Normal,
+    enabled: Boolean = true,
+    withoutRipple: Boolean = true,
+    onClick: () -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Box(
+        modifier = modifier
+            .clickable(
+                interactionSource = if (withoutRipple) NoRippleInteractionSource() else interactionSource,
+                indication = null,
+                enabled = enabled,
+                onClick = onClick
+            )
+            .background(
+                color = Color.Transparent,
+                shape = shape
+            )
+            .border(border = BorderStroke(1.dp, borderColor), shape = shape)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .background(color = pollColor, shape = shape)
+                .align(Alignment.CenterStart)
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(fraction = 1 - pollRate)
+                .fillMaxHeight()
+                .background(color = White)
+                .align(Alignment.CenterEnd)
+        )
+        Row(
+            modifier = Modifier.padding(contentPadding)) {
+            BDSText(
+                text = text,
+                color = if (enabled) contentColor else disabledContentColor,
+                fontSize = fontSize,
+                lineHeight = lineHeight,
+                fontWeight = fontWeight,
+            )
+            if (isSelect) {
+                Spacer(modifier = Modifier.width(8.dp))
+                BDSImage(
+                    resId = R.drawable.ic_check_true,
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    size = ImageSize(12.dp),
+                )
+            }
         }
     }
 }
@@ -274,4 +352,30 @@ class NoRippleInteractionSource : MutableInteractionSource {
     override val interactions: Flow<Interaction> = emptyFlow()
     override suspend fun emit(interaction: Interaction) {}
     override fun tryEmit(interaction: Interaction) = true
+}
+
+@Preview
+@Composable
+fun PreviewPollSelectButton() {
+    BDSPollButton(
+        text = "A | 60%",
+        modifier = Modifier.width(164.dp)
+            .height(46.dp),
+        isSelect = true,
+        pollRate = 0.6f,
+        onClick = {}
+    )
+}
+
+@Preview
+@Composable
+fun PreviewPollNoSelectButton() {
+    BDSPollButton(
+        text = "B | 40%",
+        modifier = Modifier.width(164.dp)
+            .height(46.dp),
+        isSelect = false,
+        pollRate = 0.4f,
+        onClick = {}
+    )
 }
