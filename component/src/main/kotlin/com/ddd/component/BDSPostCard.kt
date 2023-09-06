@@ -78,8 +78,8 @@ fun BDSPostCard(
         Spacer(modifier = Modifier.width(34.dp))
         BDSCheckbox(
             modifier = Modifier.align(Alignment.CenterVertically),
-            checkedImage = R.drawable.ic_check,
-            uncheckedImage = R.drawable.ic_uncheck,
+            checkedImage = R.drawable.ic_check_true,
+            uncheckedImage = R.drawable.ic_check_false,
             onClick = {
                 if (onCheck != null) {
                     onCheck()

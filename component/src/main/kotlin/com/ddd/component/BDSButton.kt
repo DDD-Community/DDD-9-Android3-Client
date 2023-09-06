@@ -8,7 +8,10 @@ import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -78,6 +81,61 @@ fun BDSButton(
 }
 
 @Composable
+fun BDSIconButton(
+    text: String,
+    resId: Int,
+    modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(50.dp),
+    border: BorderStroke = BorderStroke(0.dp, Color.Transparent),
+    containerColor: Color = BDSColor.Primary500,
+    contentColor: Color = White,
+    disabledContainerColor: Color = BDSColor.SlateGray500,
+    disabledContentColor: Color = White,
+    contentPadding: PaddingValues = PaddingValues(vertical = 7.dp, horizontal = 20.dp),
+    fontSize: TextUnit = TextUnit.Unspecified,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    fontWeight: FontWeight? = FontWeight.Normal,
+    enabled: Boolean = true,
+    withoutRipple: Boolean = true,
+    onClick: () -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Box(
+        modifier = modifier
+            .clickable(
+                interactionSource = if (withoutRipple) NoRippleInteractionSource() else interactionSource,
+                indication = null,
+                enabled = enabled,
+                onClick = onClick
+            )
+            .background(
+                color = if (enabled) containerColor else disabledContainerColor,
+                shape = shape
+            )
+            .border(border = border, shape = shape)
+            .padding(contentPadding),
+        contentAlignment = Alignment.Center,
+    ) {
+        Row {
+            BDSImage(
+                resId = resId,
+                modifier = Modifier.align(Alignment.CenterVertically),
+                size = ImageSize(12.dp),
+                tintColor = contentColor,
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            BDSText(
+                text = text,
+                color = if (enabled) contentColor else disabledContentColor,
+                fontSize = fontSize,
+                lineHeight = lineHeight,
+                fontWeight = fontWeight,
+            )
+        }
+    }
+}
+
+@Composable
 fun BDSFilledButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -88,28 +146,49 @@ fun BDSFilledButton(
     disabledContentColor: Color = White,
     contentPadding: PaddingValues = BDSButtonInnerPadding.LARGE,
     text: String,
+    resId: Int? = null,
     fontSize: TextUnit = 18.sp,
     lineHeight: TextUnit = 24.sp,
     fontWeight: FontWeight = SemiBold,
     enabled: Boolean = true,
     withoutRipple: Boolean = false
 ) {
-    BDSButton(
-        onClick = onClick,
-        modifier = modifier,
-        shape = shape,
-        containerColor = containerColor,
-        contentColor = contentColor,
-        disabledContainerColor = disabledContainerColor,
-        disabledContentColor = disabledContentColor,
-        contentPadding = contentPadding,
-        text = text,
-        fontSize = fontSize,
-        lineHeight = lineHeight,
-        fontWeight = fontWeight,
-        enabled = enabled,
-        withoutRipple = withoutRipple
-    )
+    if (resId != null) {
+        BDSIconButton(
+            onClick = onClick,
+            modifier = modifier,
+            shape = shape,
+            containerColor = containerColor,
+            contentColor = contentColor,
+            disabledContainerColor = disabledContainerColor,
+            disabledContentColor = disabledContentColor,
+            contentPadding = contentPadding,
+            text = text,
+            resId = resId,
+            fontSize = fontSize,
+            lineHeight = lineHeight,
+            fontWeight = fontWeight,
+            enabled = enabled,
+            withoutRipple = withoutRipple
+        )
+    } else {
+        BDSButton(
+            onClick = onClick,
+            modifier = modifier,
+            shape = shape,
+            containerColor = containerColor,
+            contentColor = contentColor,
+            disabledContainerColor = disabledContainerColor,
+            disabledContentColor = disabledContentColor,
+            contentPadding = contentPadding,
+            text = text,
+            fontSize = fontSize,
+            lineHeight = lineHeight,
+            fontWeight = fontWeight,
+            enabled = enabled,
+            withoutRipple = withoutRipple
+        )
+    }
 }
 
 @Composable

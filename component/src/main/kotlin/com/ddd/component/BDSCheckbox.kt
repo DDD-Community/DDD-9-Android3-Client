@@ -83,8 +83,8 @@ fun BDSCheckbox(
 @Composable
 fun PreviewBDSCheckbox() {
     BDSCheckbox(
-        checkedImage = R.drawable.ic_check,
-        uncheckedImage = R.drawable.ic_uncheck,
+        checkedImage = R.drawable.ic_check_true,
+        uncheckedImage = R.drawable.ic_check_false,
         onClick = { /*TODO*/ },
         enabled = false
     )

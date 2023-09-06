@@ -122,8 +122,8 @@ class SignOutActivity : ComponentActivity() {
                         Row {
                             Spacer(modifier = Modifier.width(20.dp))
                             BDSCheckbox(
-                                checkedImage = R.drawable.ic_check,
-                                uncheckedImage = R.drawable.ic_uncheck,
+                                checkedImage = R.drawable.ic_check_true,
+                                uncheckedImage = R.drawable.ic_check_false,
                                 checked = allChecked,
                                 onClick = {
                                     allChecked = !allChecked
@@ -194,8 +194,8 @@ class SignOutActivity : ComponentActivity() {
                 .padding(start = 20.dp)
         ) {
             BDSCheckbox(
-                checkedImage = R.drawable.ic_check,
-                uncheckedImage = R.drawable.ic_uncheck,
+                checkedImage = R.drawable.ic_check_true,
+                uncheckedImage = R.drawable.ic_check_false,
                 checked = checked,
                 onClick = onClick
             )

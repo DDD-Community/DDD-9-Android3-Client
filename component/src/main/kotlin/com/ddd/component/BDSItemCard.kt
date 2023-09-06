@@ -82,8 +82,8 @@ fun BDSArchiveItemCard(
                             .padding(top = 10.dp, end = 10.dp)
                     ) {
                         BDSCheckbox(
-                            checkedImage = R.drawable.ic_check,
-                            uncheckedImage = R.drawable.ic_uncheck,
+                            checkedImage = R.drawable.ic_check_true,
+                            uncheckedImage = R.drawable.ic_check_false,
                             checked = isSelected,
                             onClick = onClick
                         )
