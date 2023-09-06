@@ -19,6 +19,7 @@ class MyPostViewModel @Inject constructor(
     private val count = 20
 
     val tabIndex = MutableLiveData<Int>()
+    var selectedPostId: Int? = null
 
     val onGoingPostList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
     val closedPostList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())

@@ -53,6 +53,7 @@ import ddd.buyornot.home.viewmodel.HomeViewModel
 import ddd.buyornot.my_post.ui.MyPostActivity
 import ddd.buyornot.profile.ui.ProfileActivity
 import ddd.buyornot.util.openWeb
+import ddd.buyornot.util.sharePostWeb
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
@@ -134,6 +135,7 @@ fun BDSHomeCard(
     onClickDots: () -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     val pollA = post.pollItemResponseList?.getOrNull(0) ?: return
     val pollB = post.pollItemResponseList?.getOrNull(1) ?: return
 
@@ -236,7 +238,7 @@ fun BDSHomeCard(
                 contentPadding = BDSButtonInnerPadding.XSMALL,
                 containerColor = Primary100,
                 contentColor = Primary700,
-                onClick = { /*TODO*/ },
+                onClick = { post.id?.let { context.sharePostWeb(postId = it) } },
                 text = "공유하기",
                 resId = com.ddd.component.R.drawable.ic_share,
                 fontSize = 12.sp,
