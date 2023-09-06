@@ -31,17 +31,8 @@ fun DemoNavHost(navController: NavHostController) {
         composable(DemoNavigationRoute.Theme.route) {
             ThemeTestScreen()
         }
-        composable(DemoNavigationRoute.ItemCard.route) {
-            ItemCardTestScreen()
-        }
         composable(DemoNavigationRoute.PostCard.route) {
             PostCardTestScreen()
-        }
-        composable(DemoNavigationRoute.ArchiveScreen.route) {
-            ArchiveScreen()
-        }
-        composable(DemoNavigationRoute.ArchiveEditScreen.route) {
-            ArchiveEditScreen()
         }
         composable(DemoNavigationRoute.Button.route) {
             ButtonTestScreen()
