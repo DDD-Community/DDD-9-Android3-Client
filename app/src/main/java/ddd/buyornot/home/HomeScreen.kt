@@ -142,6 +142,7 @@ fun BDSHomeCard(
     Column(modifier = Modifier.padding(vertical = 24.dp, horizontal = 14.dp)) {
         UserCard(
             userNickname = post.userNickname,
+            userImage = post.userProfile,
             isVisible = isMyPost,
             onClick = onClickDots
         )
@@ -166,7 +167,7 @@ fun BDSHomeCard(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            BDSVoteCard(
+            BDSPollCard(
                 archiveItem = ArchiveItem(
                     imageUrl = pollA.imgUrl,
                     brand = pollA.brand,
@@ -174,6 +175,7 @@ fun BDSHomeCard(
                     discount = pollA.discountedRate,
                     price = pollA.originalPrice
                 ),
+                pollStatus = post.pollStatus,
                 title = "A",
                 onClick = {
                     post.pollItemResponseList?.get(0)?.itemUrl?.let { onClick(it) }
@@ -186,7 +188,7 @@ fun BDSHomeCard(
                     }
                 }
             )
-            BDSVoteCard(
+            BDSPollCard(
                 archiveItem = ArchiveItem(
                     imageUrl = pollB.imgUrl,
                     brand = pollB.brand,
@@ -194,6 +196,7 @@ fun BDSHomeCard(
                     discount = pollB.discountedRate,
                     price = pollB.originalPrice
                 ),
+                pollStatus = post.pollStatus,
                 title = "B",
                 onClick = {
                     post.pollItemResponseList?.get(1)?.itemUrl?.let { onClick(it) }
@@ -253,7 +256,7 @@ fun BDSHomeCard(
 @Composable
 private fun UserCard(
     userNickname: String?,
-    // userImage: String?,
+    userImage: String?,
     // until: String?
     isVisible: Boolean = false,
     onClick: () -> Unit
@@ -261,8 +264,7 @@ private fun UserCard(
     Box(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.align(Alignment.CenterStart)) {
             BDSImage(
-                // url = userImage,
-                resId = com.ddd.component.R.drawable.ic_app_logo_sample,
+                url = userImage,
                 modifier = Modifier.size(38.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -296,10 +298,11 @@ private fun UserCard(
 }
 
 @Composable
-private fun BDSVoteCard(
+private fun BDSPollCard(
     archiveItem: ArchiveItem,
     modifier: Modifier = Modifier,
     isLike: Boolean = false,
+    pollStatus: PostResult.PollStatus? = PostResult.PollStatus.ONGOING,
     onClick: () -> Unit = {},
     onClickLike: () -> Unit = {},
     title: String,
@@ -320,6 +323,7 @@ private fun BDSVoteCard(
             onClick = onClickPoll,
             contentColor = Primary500,
             borderColor = SlateGray300,
+            enabled = pollStatus == PostResult.PollStatus.ONGOING
         )
     }
 }
