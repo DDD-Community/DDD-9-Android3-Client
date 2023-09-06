@@ -55,6 +55,7 @@ import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.BDSHomeCard
 import ddd.buyornot.my_post.viewmodel.MyPostViewModel
 import ddd.buyornot.util.openWeb
+import ddd.buyornot.util.sharePostWeb
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
@@ -128,7 +129,6 @@ fun MyPostScreen(
 
     var openBottomSheet by remember { mutableStateOf(false) }
     var openBottomDialog by remember { mutableStateOf(false) }
-    var selectedPostId: Int? by remember { mutableStateOf(null) }
     var selectedOption by remember { mutableStateOf(0) }
 
     val scope = rememberCoroutineScope()
@@ -172,7 +172,7 @@ fun MyPostScreen(
                     post = postResult,
                     isMyPost = true,
                     onClickDots = {
-                        selectedPostId = postResult.id
+                        viewModel.selectedPostId = postResult.id
                         openBottomSheet = true
                     },
                     onClick = { itemUrl -> context.openWeb(itemUrl) }
@@ -189,7 +189,7 @@ fun MyPostScreen(
                 0 -> listOf(
                     BDSTextData(
                         text = "투표 공유하기",
-                        modifier = Modifier.clickable { selectedOption = 0 },
+                        modifier = Modifier.clickable { viewModel.selectedPostId?.let { context.sharePostWeb(postId = it) } },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -277,7 +277,7 @@ fun MyPostScreen(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         scope.launch {
-                            selectedPostId?.let {
+                            viewModel.selectedPostId?.let {
                                 when (selectedOption) {
                                     1 -> viewModel.patchPostFinish(it)
                                     2 -> viewModel.patchPostDelete(it)

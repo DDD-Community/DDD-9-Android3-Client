@@ -17,5 +17,18 @@ fun Context.findActivity(): Activity {
 
 fun Context.openWeb(itemUrl: String) {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(itemUrl))
-    this.findActivity().startActivity(intent)
+    startActivity(intent)
+}
+
+fun Context.sharePostWeb(postId: Int) {
+    val webDomain = "https://buy-or-not-web.vercel.app/"
+
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, webDomain + postId)
+        type = "text/plain"
+    }
+
+    val shareIntent = Intent.createChooser(sendIntent, "투표 공유하기")
+    startActivity(shareIntent)
 }
