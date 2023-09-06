@@ -65,7 +65,7 @@ fun WritePostPageDefaultBottomSheet(
                 },
                 right = {
                     BDSIconButton(
-                        resId = R.drawable.ic_ic_round_close,
+                        resId = R.drawable.ic_round_close,
                         onClick = onClickClose
                     )
                 }

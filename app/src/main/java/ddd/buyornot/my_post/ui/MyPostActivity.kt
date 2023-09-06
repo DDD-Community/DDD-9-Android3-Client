@@ -45,7 +45,6 @@ import com.ddd.component.BDSTab
 import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.data.BDSTextData
-import ddd.buyornot.util.openWeb
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Red
 import com.ddd.component.theme.BDSColor.SlateGray800
@@ -55,6 +54,7 @@ import ddd.buyornot.add_vote.ui.AddNewVoteActivity
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.BDSHomeCard
 import ddd.buyornot.my_post.viewmodel.MyPostViewModel
+import ddd.buyornot.util.openWeb
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
@@ -139,7 +139,7 @@ fun MyPostScreen(
         ) {
             Column(modifier = Modifier.align(Alignment.Center)) {
                 BDSImage(
-                    resId = R.drawable.ic_archive_empty,
+                    resId = R.drawable.ic_content_empty,
                     modifier = Modifier
                         .size(150.dp)
                         .align(Alignment.CenterHorizontally)
