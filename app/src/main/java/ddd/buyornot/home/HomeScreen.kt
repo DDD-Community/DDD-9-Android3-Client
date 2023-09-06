@@ -224,6 +224,7 @@ fun BDSHomeCard(
                     }
                 },
                 text = "둘다 별로",
+                resId = com.ddd.component.R.drawable.ic_cloud_thunder,
                 fontSize = 12.sp,
                 lineHeight = 20.sp,
                 fontWeight = SemiBold
@@ -237,6 +238,7 @@ fun BDSHomeCard(
                 contentColor = Primary700,
                 onClick = { /*TODO*/ },
                 text = "공유하기",
+                resId = com.ddd.component.R.drawable.ic_share,
                 fontSize = 12.sp,
                 lineHeight = 20.sp,
                 fontWeight = SemiBold
