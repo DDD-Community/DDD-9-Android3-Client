@@ -66,6 +66,14 @@ data class PostResult(
         CLOSED
     }
 
+    private val a = pollResponse?.firstItem ?: 0
+    private val b = pollResponse?.secondItem ?: 0
+
+    val pollARate = a.calculatePollRate(b)
+    val pollBRate = b.calculatePollRate(a)
+
+    val unrecommended = pollResponse?.unrecommended ?: 0
+
     val updateUntil: String
         get() = when {
             years > 0 -> "${years}년 전"
@@ -74,6 +82,12 @@ data class PostResult(
             hours > 0 -> "${hours}시간 전"
             minutes > 0 -> "${minutes}분 전"
             else -> "방금 전"
+        }
+
+    private fun Int.calculatePollRate(other: Int): Float = when {
+            this <= 0 && other <= 0 -> 0f
+            other <= 0 -> 1f
+            else -> this / (this + other).toFloat()
         }
 }
 

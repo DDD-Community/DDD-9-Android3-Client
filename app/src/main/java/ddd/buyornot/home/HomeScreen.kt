@@ -147,11 +147,9 @@ fun BDSHomeCard(
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+
     val pollA = post.pollItemResponseList?.getOrNull(0) ?: return
     val pollB = post.pollItemResponseList?.getOrNull(1) ?: return
-    val a = post.pollResponse?.firstItem ?: 0
-    val b = post.pollResponse?.secondItem ?: 0
-    val x = post.pollResponse?.unrecommended ?: 0
 
     Column(modifier = Modifier.padding(vertical = 24.dp, horizontal = 14.dp)) {
         UserCard(
@@ -192,14 +190,14 @@ fun BDSHomeCard(
                 ),
                 pollStatus = post.pollStatus,
                 title = if (post.participateStatus || post.pollStatus == PostResult.PollStatus.CLOSED) {
-                    "A | ${(a.calculatePollRate(b) * 100).toInt()}%"
+                    "A | ${(post.pollARate * 100).toInt()}%"
                 } else {
                     "A"
                 },
                 participateStatus = post.participateStatus,
-                pollRate = a.calculatePollRate(b),
+                pollRate = post.pollARate,
                 onClick = {
-                    post.pollItemResponseList?.get(0)?.itemUrl?.let { onClick(it) }
+                    pollA.itemUrl?.let { onClick(it) }
                 },
                 onClickPoll = {
                     scope.launch {
@@ -219,14 +217,14 @@ fun BDSHomeCard(
                 ),
                 pollStatus = post.pollStatus,
                 title = if (post.participateStatus || post.pollStatus == PostResult.PollStatus.CLOSED) {
-                    "B | ${(b.calculatePollRate(a) * 100).toInt()}%"
+                    "B | ${(post.pollBRate * 100).toInt()}%"
                 } else {
                     "B"
                 },
                 participateStatus = post.participateStatus,
-                pollRate = b.calculatePollRate(a),
+                pollRate = post.pollBRate,
                 onClick = {
-                    post.pollItemResponseList?.get(1)?.itemUrl?.let { onClick(it) }
+                    pollB.itemUrl?.let { onClick(it) }
                 },
                 onClickPoll = {
                     scope.launch {
@@ -277,7 +275,6 @@ fun BDSHomeCard(
             )
         }
     }
-
 }
 
 @Composable
@@ -348,7 +345,8 @@ private fun BDSPollCard(
         Spacer(modifier = Modifier.height(16.dp))
         if (participateStatus || pollStatus == PostResult.PollStatus.CLOSED) {
             BDSPollButton(
-                modifier = Modifier.width(164.dp)
+                modifier = Modifier
+                    .width(164.dp)
                     .height(46.dp),
                 text = title,
                 // isSelect = isSelect, // 사용자가 투표한 상품을 알아야할듯
