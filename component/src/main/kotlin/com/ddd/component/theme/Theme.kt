@@ -32,8 +32,8 @@ private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40,
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
+    background = Color.White,
+    surface = Color.White,
     onPrimary = Color.White,
     onSecondary = Color.White,
     onTertiary = Color.White,
@@ -45,7 +45,7 @@ private val LightColorScheme = lightColorScheme(
 fun BuyOrNotTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     darkStatusBar: Boolean = false,
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
