@@ -48,6 +48,7 @@ import com.ddd.component.R
 import com.ddd.component.data.BDSTextData
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Red
+import com.ddd.component.theme.BDSColor.SlateGray600
 import com.ddd.component.theme.BDSColor.SlateGray800
 import com.ddd.component.theme.BDSColor.SlateGray900
 import com.ddd.component.theme.BuyOrNotTheme
@@ -144,32 +145,64 @@ fun MyPostScreen(
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            Column(modifier = Modifier.align(Alignment.Center)) {
-                BDSImage(
-                    resId = R.drawable.ic_content_empty,
-                    modifier = Modifier
-                        .size(150.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                BDSText(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    text = "앗, 만들어진 투표가 없어요!",
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = SlateGray900,
-                )
-                Spacer(modifier = Modifier.height(54.dp))
-                BDSFilledButton(
-                    modifier = Modifier
-                        .height(50.dp)
-                        .fillMaxWidth()
-                        .padding(horizontal = 32.dp),
-                    onClick = { context.startActivity(Intent(context, AddNewVoteActivity::class.java)) },
-                    text = "투표 만들러 가기",
-                    contentPadding = BDSButtonInnerPadding.MEDIUM
-                )
+            when (selectedTabIndex) {
+                0 -> {
+                    Column(modifier = Modifier.align(Alignment.Center)) {
+                        BDSImage(
+                            resId = R.drawable.ic_content_empty,
+                            modifier = Modifier
+                                .size(150.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        BDSText(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            text = "앗, 만들어진 투표가 없어요!",
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = SlateGray900,
+                        )
+                        Spacer(modifier = Modifier.height(54.dp))
+                        BDSFilledButton(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = 32.dp),
+                            onClick = { context.startActivity(Intent(context, AddNewVoteActivity::class.java)) },
+                            text = "투표 만들러 가기",
+                            contentPadding = BDSButtonInnerPadding.MEDIUM
+                        )
+                    }
+                }
+                1 -> {
+                    Column(modifier = Modifier.align(Alignment.Center)) {
+                        BDSImage(
+                            resId = R.drawable.ic_content_empty,
+                            modifier = Modifier
+                                .size(150.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        BDSText(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            text = "앗, 만들어진 투표가 없어요!",
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = SlateGray900,
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        BDSText(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            text = "진행중인 투표를 눌러 투표 현황을 확인해보세요!",
+                            fontSize = 14.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = SlateGray600
+                        )
+                    }
+                }
             }
         }
     } else {
