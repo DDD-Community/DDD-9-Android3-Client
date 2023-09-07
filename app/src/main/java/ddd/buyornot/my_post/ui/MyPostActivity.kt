@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -49,6 +50,7 @@ import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Red
 import com.ddd.component.theme.BDSColor.SlateGray800
 import com.ddd.component.theme.BDSColor.SlateGray900
+import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.add_vote.ui.AddNewVoteActivity
 import ddd.buyornot.data.model.post.PostResult
@@ -68,49 +70,54 @@ class MyPostActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val tabIndex by viewModel.tabIndex.observeAsState(0)
+            BuyOrNotTheme {
+                val tabIndex by viewModel.tabIndex.observeAsState(0)
 
-            val onGoingPostList by viewModel.onGoingPostList.observeAsState(emptyList())
-            val closedPostList by viewModel.closedPostList.observeAsState(emptyList())
+                val onGoingPostList by viewModel.onGoingPostList.observeAsState(emptyList())
+                val closedPostList by viewModel.closedPostList.observeAsState(emptyList())
 
-            // TODO: data fetch 로직 추가
+                // TODO: data fetch 로직 추가
 
-            LaunchedEffect(key1 = tabIndex) {
-                when (tabIndex) {
-                    0 -> viewModel.fetchOnGoingPostList()
-                    1 -> viewModel.fetchClosedPostList()
+                LaunchedEffect(key1 = tabIndex) {
+                    when (tabIndex) {
+                        0 -> viewModel.fetchOnGoingPostList()
+                        1 -> viewModel.fetchClosedPostList()
+                    }
                 }
-            }
-            // TODO: paging 추가
+                // TODO: paging 추가
 
-            val postList = when (tabIndex) {
-                0 -> onGoingPostList
-                1 -> closedPostList
-                else -> emptyList()
-            }
+                val postList = when (tabIndex) {
+                    0 -> onGoingPostList
+                    1 -> closedPostList
+                    else -> emptyList()
+                }
 
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                BDSAppBar(
-                    modifier = Modifier
-                        .height(54.dp)
-                        .fillMaxWidth(),
-                    left = {
-                        BDSIconButton(resId = R.drawable.ic_back, onClick = { finish() })
-                    },
-                    title = "내 투표 아카이브"
-                )
-                BDSTab(
-                    titles = listOf("진행중인 투표", "종료된 투표"),
-                    selectedTabIndex = tabIndex,
-                    onTabSelected = { viewModel.setTabIndex(it) }
-                )
-                MyPostScreen(
-                    postList,
-                    tabIndex,
-                    viewModel
-                )
+                Scaffold(
+                    topBar = {
+                        BDSAppBar(
+                            modifier = Modifier
+                                .height(54.dp)
+                                .fillMaxWidth(),
+                            left = {
+                                BDSIconButton(resId = R.drawable.ic_back, onClick = { finish() })
+                            },
+                            title = "내 투표 아카이브"
+                        )
+                    }
+                ) { paddingValues ->
+                    Column(modifier = Modifier.padding(paddingValues)) {
+                        BDSTab(
+                            titles = listOf("진행중인 투표", "종료된 투표"),
+                            selectedTabIndex = tabIndex,
+                            onTabSelected = { viewModel.setTabIndex(it) }
+                        )
+                        MyPostScreen(
+                            postList,
+                            tabIndex,
+                            viewModel
+                        )
+                    }
+                }
             }
         }
     }

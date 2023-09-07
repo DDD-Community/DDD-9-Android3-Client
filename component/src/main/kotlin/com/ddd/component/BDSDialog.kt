@@ -1,8 +1,6 @@
 package com.ddd.component
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,7 +14,6 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -57,7 +54,7 @@ fun BDSConfirmDialog(
         topStart = 16.dp,
         topEnd = 16.dp
     ),
-    containerColor: Color = BottomSheetDefaults.ContainerColor,
+    containerColor: Color = Color.White,
     contentColor: Color = contentColorFor(containerColor),
     tonalElevation: Dp = BottomSheetDefaults.Elevation,
     scrimColor: Color = BottomSheetDefaults.ScrimColor,
@@ -122,7 +119,7 @@ fun BDSAlertDialog(
         topStart = 16.dp,
         topEnd = 16.dp
     ),
-    containerColor: Color = BottomSheetDefaults.ContainerColor,
+    containerColor: Color = Color.White,
     contentColor: Color = contentColorFor(containerColor),
     tonalElevation: Dp = BottomSheetDefaults.Elevation,
     scrimColor: Color = BottomSheetDefaults.ScrimColor,
