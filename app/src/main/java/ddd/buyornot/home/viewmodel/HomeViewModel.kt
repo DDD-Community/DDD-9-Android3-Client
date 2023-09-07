@@ -20,11 +20,16 @@ class HomeViewModel @Inject constructor(
     private val count = 20
     val postList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
 
-    fun fetchPostList() {
+    fun fetchPostList(init: Boolean = true) {
         viewModelScope.launch {
+            val currentList = if (init) {
+                mutableListOf()
+            } else {
+                postList.value?.toMutableList() ?: mutableListOf()
+            }
             val newPostList = postRepository.fetchPostList(page, count)?.result
+
             if (!newPostList.isNullOrEmpty()) {
-                val currentList = postList.value?.toMutableList() ?: mutableListOf()
                 currentList.addAll(newPostList)
                 postList.postValue(currentList)
                 // page++
@@ -34,7 +39,11 @@ class HomeViewModel @Inject constructor(
 
     fun patchPollChoice(postId: Int, choice: Int) {
         viewModelScope.launch {
-            pollRepository.patchPollChoice(postId, choice)
+            val isSuccess = pollRepository.patchPollChoice(postId, choice)?.isSuccess
+
+            if (isSuccess == true) {
+                fetchPostList()
+            }
         }
     }
 }
