@@ -191,7 +191,7 @@ fun BDSHomeCard(
                 archiveItem = ArchiveItem(
                     imageUrl = pollA.imgUrl,
                     brand = pollA.brand,
-                    name = pollA.itemName,정
+                    name = pollA.itemName,
                     discount = pollA.discountedRate,
                     price = pollA.originalPrice
                 ),
@@ -374,6 +374,7 @@ private fun BDSPollCard(
                 lineHeight = 20.sp,
                 contentColor = Primary500,
                 borderColor = SlateGray300,
+                contentPadding = BDSButtonInnerPadding.MEDIUM,
                 enabled = pollStatus == PostResult.PollStatus.ONGOING
             )
         }
