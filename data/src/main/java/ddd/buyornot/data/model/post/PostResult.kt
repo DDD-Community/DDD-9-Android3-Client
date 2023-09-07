@@ -32,7 +32,10 @@ data class PostResult(
     val userId: String? = null,
 
     @SerializedName("userNickname")
-    val userNickname: String? = null
+    val userNickname: String? = null,
+
+    @SerializedName("userProfile")
+    val userProfile: String? = null,
 ) {
     enum class PublicStatus {
         PUBLIC,             // 전체 공개

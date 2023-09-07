@@ -38,6 +38,7 @@ import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSIconButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSOutlinedButton
+import com.ddd.component.BDSPollButton
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Primary100
@@ -49,6 +50,7 @@ import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray700
 import com.ddd.component.theme.BDSColor.SlateGray900
 import ddd.buyornot.R
+import ddd.buyornot.data.model.poll.PollResponse
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.viewmodel.HomeViewModel
 import ddd.buyornot.my_post.ui.MyPostActivity
@@ -128,6 +130,13 @@ fun HomeScreen(viewModel: HomeViewModel) {
     }
 }
 
+private fun Int.calculatePollRate(other: Int): Float =
+    when {
+        this <= 0 && other <= 0 -> 0f
+        other <= 0 -> 1f
+        else -> this / (this + other).toFloat()
+    }
+
 @Composable
 fun BDSHomeCard(
     post: PostResult,
@@ -140,10 +149,14 @@ fun BDSHomeCard(
     val context = LocalContext.current
     val pollA = post.pollItemResponseList?.getOrNull(0) ?: return
     val pollB = post.pollItemResponseList?.getOrNull(1) ?: return
+    val a = post.pollResponse?.firstItem ?: 0
+    val b = post.pollResponse?.secondItem ?: 0
+    val x = post.pollResponse?.unrecommended ?: 0
 
     Column(modifier = Modifier.padding(vertical = 24.dp, horizontal = 14.dp)) {
         UserCard(
             userNickname = post.userNickname,
+            userImage = post.userProfile,
             isVisible = isMyPost,
             onClick = onClickDots
         )
@@ -168,7 +181,7 @@ fun BDSHomeCard(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            BDSVoteCard(
+            BDSPollCard(
                 archiveItem = ArchiveItem(
                     imageUrl = pollA.imgUrl,
                     brand = pollA.brand,
@@ -176,19 +189,26 @@ fun BDSHomeCard(
                     discount = pollA.discountedRate,
                     price = pollA.originalPrice
                 ),
-                title = "A",
+                pollStatus = post.pollStatus,
+                title = if (post.participateStatus || post.pollStatus == PostResult.PollStatus.CLOSED) {
+                    "A | ${(a.calculatePollRate(b) * 100).toInt()}%"
+                } else {
+                    "A"
+                },
+                participateStatus = post.participateStatus,
+                pollRate = a.calculatePollRate(b),
                 onClick = {
                     post.pollItemResponseList?.get(0)?.itemUrl?.let { onClick(it) }
                 },
                 onClickPoll = {
                     scope.launch {
                         post.id?.let {
-                            patchPollChoice(it, 1)
+                            pollA.id?.let { it1 -> patchPollChoice(it, it1) }
                         }
                     }
                 }
             )
-            BDSVoteCard(
+            BDSPollCard(
                 archiveItem = ArchiveItem(
                     imageUrl = pollB.imgUrl,
                     brand = pollB.brand,
@@ -196,14 +216,21 @@ fun BDSHomeCard(
                     discount = pollB.discountedRate,
                     price = pollB.originalPrice
                 ),
-                title = "B",
+                pollStatus = post.pollStatus,
+                title = if (post.participateStatus || post.pollStatus == PostResult.PollStatus.CLOSED) {
+                    "B | ${(b.calculatePollRate(a) * 100).toInt()}%"
+                } else {
+                    "B"
+                },
+                participateStatus = post.participateStatus,
+                pollRate = b.calculatePollRate(a),
                 onClick = {
                     post.pollItemResponseList?.get(1)?.itemUrl?.let { onClick(it) }
                 },
                 onClickPoll = {
                     scope.launch {
                         post.id?.let {
-                            patchPollChoice(it, 2)
+                            pollB.id?.let { it1 -> patchPollChoice(it, it1) }
                         }
                     }
                 }
@@ -255,7 +282,7 @@ fun BDSHomeCard(
 @Composable
 private fun UserCard(
     userNickname: String?,
-    // userImage: String?,
+    userImage: String?,
     // until: String?
     isVisible: Boolean = false,
     onClick: () -> Unit
@@ -263,8 +290,7 @@ private fun UserCard(
     Box(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.align(Alignment.CenterStart)) {
             BDSImage(
-                // url = userImage,
-                resId = com.ddd.component.R.drawable.ic_app_logo_sample,
+                url = userImage,
                 modifier = Modifier.size(38.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -298,10 +324,14 @@ private fun UserCard(
 }
 
 @Composable
-private fun BDSVoteCard(
+private fun BDSPollCard(
     archiveItem: ArchiveItem,
     modifier: Modifier = Modifier,
     isLike: Boolean = false,
+    participateStatus: Boolean = false,
+    pollStatus: PostResult.PollStatus? = PostResult.PollStatus.ONGOING,
+    pollResponse: PollResponse? = null,
+    pollRate: Float = 0f,
     onClick: () -> Unit = {},
     onClickLike: () -> Unit = {},
     title: String,
@@ -316,12 +346,29 @@ private fun BDSVoteCard(
             onClickLike = onClickLike,
         )
         Spacer(modifier = Modifier.height(16.dp))
-        BDSOutlinedButton(
-            modifier = Modifier.width(164.dp),
-            text = title,
-            onClick = onClickPoll,
-            contentColor = Primary500,
-            borderColor = SlateGray300,
-        )
+        if (participateStatus || pollStatus == PostResult.PollStatus.CLOSED) {
+            BDSPollButton(
+                modifier = Modifier.width(164.dp)
+                    .height(46.dp),
+                text = title,
+                // isSelect = isSelect, // 사용자가 투표한 상품을 알아야할듯
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                onClick = onClickPoll,
+                pollRate = pollRate,
+                enabled = pollStatus == PostResult.PollStatus.ONGOING
+            )
+        } else {
+            BDSOutlinedButton(
+                modifier = Modifier.width(164.dp),
+                text = title,
+                onClick = onClickPoll,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                contentColor = Primary500,
+                borderColor = SlateGray300,
+                enabled = pollStatus == PostResult.PollStatus.ONGOING
+            )
+        }
     }
 }
