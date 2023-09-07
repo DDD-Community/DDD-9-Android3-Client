@@ -104,7 +104,9 @@ class LoginActivity : ComponentActivity() {
     }
 
     private fun startMainActivityAndFinish() {
-        Toast.makeText(this, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+        runOnUiThread {
+            Toast.makeText(this, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+        }
         startActivity(Intent(applicationContext, MainActivity::class.java))
         finish()
     }
