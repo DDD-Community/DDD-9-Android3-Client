@@ -21,7 +21,7 @@ fun Context.openWeb(itemUrl: String) {
 }
 
 fun Context.sharePostWeb(postId: Int) {
-    val webDomain = "https://buy-or-not-web.vercel.app/"
+    val webDomain = "https://web.buyornot.shop/"
 
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND

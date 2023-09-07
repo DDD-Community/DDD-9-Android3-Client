@@ -213,7 +213,7 @@ class SignOutActivity : ComponentActivity() {
 
     private fun handleSignOutError() {
         lifecycleScope.launch(Dispatchers.Main) {
-            Toast.makeText(this@SignOutActivity, "로그인에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@SignOutActivity, "계정 삭제에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
 }
