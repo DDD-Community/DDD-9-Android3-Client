@@ -151,6 +151,13 @@ fun BDSHomeCard(
     val pollA = post.pollItemResponseList?.getOrNull(0) ?: return
     val pollB = post.pollItemResponseList?.getOrNull(1) ?: return
 
+
+    val a = post.pollResponse?.firstItem ?: 0
+    val b = post.pollResponse?.secondItem ?: 0
+
+    val pollARate = a.calculatePollRate(b)
+    val pollBRate = b.calculatePollRate(a)
+
     Column(modifier = Modifier.padding(vertical = 24.dp, horizontal = 14.dp)) {
         UserCard(
             userNickname = post.userNickname,
@@ -188,14 +195,16 @@ fun BDSHomeCard(
                     discount = pollA.discountedRate,
                     price = pollA.originalPrice
                 ),
-                pollStatus = post.pollStatus,
                 title = if (post.participateStatus || post.pollStatus == PostResult.PollStatus.CLOSED) {
-                    "A | ${(post.pollARate * 100).toInt()}%"
+                    "A | ${(pollARate * 100).toInt()}%"
                 } else {
                     "A"
                 },
+                pollId = pollA.id,
+                pollStatus = post.pollStatus,
+                pollResponse = post.pollResponse,
                 participateStatus = post.participateStatus,
-                pollRate = post.pollARate,
+                pollRate = pollARate,
                 onClick = {
                     pollA.itemUrl?.let { onClick(it) }
                 },
@@ -215,14 +224,16 @@ fun BDSHomeCard(
                     discount = pollB.discountedRate,
                     price = pollB.originalPrice
                 ),
-                pollStatus = post.pollStatus,
                 title = if (post.participateStatus || post.pollStatus == PostResult.PollStatus.CLOSED) {
-                    "B | ${(post.pollBRate * 100).toInt()}%"
+                    "B | ${(pollBRate * 100).toInt()}%"
                 } else {
                     "B"
                 },
+                pollId = pollB.id,
+                pollStatus = post.pollStatus,
+                pollResponse = post.pollResponse,
+                pollRate = pollBRate,
                 participateStatus = post.participateStatus,
-                pollRate = post.pollBRate,
                 onClick = {
                     pollB.itemUrl?.let { onClick(it) }
                 },
@@ -324,14 +335,15 @@ private fun UserCard(
 private fun BDSPollCard(
     archiveItem: ArchiveItem,
     modifier: Modifier = Modifier,
-    isLike: Boolean = false,
-    participateStatus: Boolean = false,
+    title: String,
+    pollId: Int?,
     pollStatus: PostResult.PollStatus? = PostResult.PollStatus.ONGOING,
-    pollResponse: PollResponse? = null,
+    pollResponse: PollResponse?,
     pollRate: Float = 0f,
+    participateStatus: Boolean = false,
+    isLike: Boolean = false,
     onClick: () -> Unit = {},
     onClickLike: () -> Unit = {},
-    title: String,
     onClickPoll: () -> Unit = {}
 ) {
     Column {
@@ -349,7 +361,7 @@ private fun BDSPollCard(
                     .width(164.dp)
                     .height(46.dp),
                 text = title,
-                // isSelect = isSelect, // 사용자가 투표한 상품을 알아야할듯
+                isSelect = pollId == pollResponse?.polled, // 사용자가 투표한 상품을 알아야할듯
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
                 onClick = onClickPoll,
