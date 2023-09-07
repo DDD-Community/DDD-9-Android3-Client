@@ -191,11 +191,11 @@ fun BDSHomeCard(
                 archiveItem = ArchiveItem(
                     imageUrl = pollA.imgUrl,
                     brand = pollA.brand,
-                    name = pollA.itemName,
+                    name = pollA.itemName,정
                     discount = pollA.discountedRate,
                     price = pollA.originalPrice
                 ),
-                title = if (post.participateStatus || post.pollStatus == PostResult.PollStatus.CLOSED) {
+                title = if (post.pollResponse != null || post.pollStatus == PostResult.PollStatus.CLOSED) {
                     "A | ${(pollARate * 100).toInt()}%"
                 } else {
                     "A"
@@ -203,7 +203,6 @@ fun BDSHomeCard(
                 pollId = pollA.id,
                 pollStatus = post.pollStatus,
                 pollResponse = post.pollResponse,
-                participateStatus = post.participateStatus,
                 pollRate = pollARate,
                 onClick = {
                     pollA.itemUrl?.let { onClick(it) }
@@ -233,7 +232,6 @@ fun BDSHomeCard(
                 pollStatus = post.pollStatus,
                 pollResponse = post.pollResponse,
                 pollRate = pollBRate,
-                participateStatus = post.participateStatus,
                 onClick = {
                     pollB.itemUrl?.let { onClick(it) }
                 },
@@ -340,7 +338,6 @@ private fun BDSPollCard(
     pollStatus: PostResult.PollStatus? = PostResult.PollStatus.ONGOING,
     pollResponse: PollResponse?,
     pollRate: Float = 0f,
-    participateStatus: Boolean = false,
     isLike: Boolean = false,
     onClick: () -> Unit = {},
     onClickLike: () -> Unit = {},
@@ -355,7 +352,7 @@ private fun BDSPollCard(
             onClickLike = onClickLike,
         )
         Spacer(modifier = Modifier.height(16.dp))
-        if (participateStatus || pollStatus == PostResult.PollStatus.CLOSED) {
+        if (pollResponse != null || pollStatus == PostResult.PollStatus.CLOSED) {
             BDSPollButton(
                 modifier = Modifier
                     .width(164.dp)
