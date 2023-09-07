@@ -46,6 +46,7 @@ import com.ddd.component.theme.BDSColor.Primary700
 import com.ddd.component.theme.BDSColor.SlateGray300
 import com.ddd.component.theme.BDSColor.SlateGray400
 import com.ddd.component.theme.BDSColor.SlateGray500
+import com.ddd.component.theme.BDSColor.SlateGray700
 import com.ddd.component.theme.BDSColor.SlateGray900
 import ddd.buyornot.R
 import ddd.buyornot.data.model.post.PostResult
@@ -93,7 +94,8 @@ fun HomeScreen(viewModel: HomeViewModel) {
                         Row {
                             BDSIconButton(
                                 resId = com.ddd.component.R.drawable.ic_archive,
-                                onClick = { context.startActivity(Intent(context, MyPostActivity::class.java)) }
+                                onClick = { context.startActivity(Intent(context, MyPostActivity::class.java)) },
+                                tint = SlateGray700
                             )
                             Spacer(modifier = Modifier.width(9.dp))
                             BDSIconButton(
