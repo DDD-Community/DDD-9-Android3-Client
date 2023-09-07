@@ -38,6 +38,7 @@ import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSIconButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSOutlinedButton
+import com.ddd.component.BDSPollButton
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Primary100
@@ -48,6 +49,7 @@ import com.ddd.component.theme.BDSColor.SlateGray400
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray900
 import ddd.buyornot.R
+import ddd.buyornot.data.model.poll.PollResponse
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.viewmodel.HomeViewModel
 import ddd.buyornot.my_post.ui.MyPostActivity
@@ -126,6 +128,13 @@ fun HomeScreen(viewModel: HomeViewModel) {
     }
 }
 
+private fun Int.calculatePollRate(other: Int): Float =
+    if (other <= 0) {
+        1f
+    } else {
+        this / (this + other).toFloat()
+    }
+
 @Composable
 fun BDSHomeCard(
     post: PostResult,
@@ -138,6 +147,9 @@ fun BDSHomeCard(
     val context = LocalContext.current
     val pollA = post.pollItemResponseList?.getOrNull(0) ?: return
     val pollB = post.pollItemResponseList?.getOrNull(1) ?: return
+    val a = post.pollResponse?.firstItem ?: 5
+    val b = post.pollResponse?.secondItem ?: 3
+    val x = post.pollResponse?.unrecommended ?: 0
 
     Column(modifier = Modifier.padding(vertical = 24.dp, horizontal = 14.dp)) {
         UserCard(
@@ -176,7 +188,12 @@ fun BDSHomeCard(
                     price = pollA.originalPrice
                 ),
                 pollStatus = post.pollStatus,
-                title = "A",
+                title = if (post.participateStatus || post.pollStatus == PostResult.PollStatus.CLOSED) {
+                    "A | ${(a.calculatePollRate(b) * 100).toInt()}%"
+                } else {
+                    "A"
+                },
+                pollRate = a.calculatePollRate(b),
                 onClick = {
                     post.pollItemResponseList?.get(0)?.itemUrl?.let { onClick(it) }
                 },
@@ -197,7 +214,12 @@ fun BDSHomeCard(
                     price = pollB.originalPrice
                 ),
                 pollStatus = post.pollStatus,
-                title = "B",
+                title = if (post.participateStatus || post.pollStatus == PostResult.PollStatus.CLOSED) {
+                    "B | ${(b.calculatePollRate(a) * 100).toInt()}%"
+                } else {
+                    "B"
+                },
+                pollRate = b.calculatePollRate(a),
                 onClick = {
                     post.pollItemResponseList?.get(1)?.itemUrl?.let { onClick(it) }
                 },
@@ -302,7 +324,10 @@ private fun BDSPollCard(
     archiveItem: ArchiveItem,
     modifier: Modifier = Modifier,
     isLike: Boolean = false,
+    participateStatus: Boolean = false,
     pollStatus: PostResult.PollStatus? = PostResult.PollStatus.ONGOING,
+    pollResponse: PollResponse? = null,
+    pollRate: Float = 0f,
     onClick: () -> Unit = {},
     onClickLike: () -> Unit = {},
     title: String,
@@ -317,13 +342,25 @@ private fun BDSPollCard(
             onClickLike = onClickLike,
         )
         Spacer(modifier = Modifier.height(16.dp))
-        BDSOutlinedButton(
-            modifier = Modifier.width(164.dp),
-            text = title,
-            onClick = onClickPoll,
-            contentColor = Primary500,
-            borderColor = SlateGray300,
-            enabled = pollStatus == PostResult.PollStatus.ONGOING
-        )
+        if (participateStatus || pollStatus == PostResult.PollStatus.CLOSED) {
+            BDSPollButton(
+                modifier = Modifier.width(164.dp)
+                    .height(46.dp),
+                text = title,
+                // isSelect = isSelect, // 사용자가 투표한 상품을 알아야할듯
+                onClick = onClickPoll,
+                pollRate = pollRate,
+                enabled = pollStatus == PostResult.PollStatus.ONGOING
+            )
+        } else {
+            BDSOutlinedButton(
+                modifier = Modifier.width(164.dp),
+                text = title,
+                onClick = onClickPoll,
+                contentColor = Primary500,
+                borderColor = SlateGray300,
+                enabled = pollStatus == PostResult.PollStatus.ONGOING
+            )
+        }
     }
 }

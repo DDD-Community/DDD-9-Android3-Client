@@ -98,7 +98,7 @@ fun BDSIconButton(
     contentColor: Color = White,
     disabledContainerColor: Color = BDSColor.SlateGray500,
     disabledContentColor: Color = White,
-    contentPadding: PaddingValues = PaddingValues(vertical = 7.dp, horizontal = 20.dp),
+    contentPadding: PaddingValues = PaddingValues(vertical = 7.dp),
     fontSize: TextUnit = TextUnit.Unspecified,
     lineHeight: TextUnit = TextUnit.Unspecified,
     fontWeight: FontWeight? = FontWeight.Normal,
@@ -119,11 +119,13 @@ fun BDSIconButton(
                 color = if (enabled) containerColor else disabledContainerColor,
                 shape = shape
             )
-            .border(border = border, shape = shape)
-            .padding(contentPadding),
-        contentAlignment = Alignment.Center,
+            .border(border = border, shape = shape),
     ) {
-        Row {
+        Row(
+            modifier = Modifier
+                .padding(contentPadding)
+                .align(Alignment.Center)
+        ) {
             BDSImage(
                 resId = resId,
                 modifier = Modifier.align(Alignment.CenterVertically),
@@ -153,9 +155,8 @@ fun BDSPollButton(
     contentColor: Color = if (isSelect) BDSColor.Primary500 else SlateGray700,
     borderColor: Color = if (isSelect) Primary400 else SlateGray500,
     pollColor: Color = if (isSelect) Primary100 else SlateGray300,
-    disabledContainerColor: Color = SlateGray500,
-    disabledContentColor: Color = White,
-    contentPadding: PaddingValues = PaddingValues(vertical = 13.dp, horizontal = if (isSelect) 43.dp else 53.dp),
+    disabledContentColor: Color = SlateGray700,
+    contentPadding: PaddingValues = PaddingValues(vertical = 13.dp),
     fontSize: TextUnit = TextUnit.Unspecified,
     lineHeight: TextUnit = TextUnit.Unspecified,
     fontWeight: FontWeight? = FontWeight.Normal,
@@ -176,7 +177,8 @@ fun BDSPollButton(
                 color = Color.Transparent,
                 shape = shape
             )
-            .border(border = BorderStroke(1.dp, borderColor), shape = shape)
+            .border(border = BorderStroke(1.dp, borderColor), shape = shape),
+        contentAlignment = Alignment.Center
     ) {
         Box(
             modifier = Modifier
@@ -193,7 +195,9 @@ fun BDSPollButton(
                 .align(Alignment.CenterEnd)
         )
         Row(
-            modifier = Modifier.padding(contentPadding)) {
+            modifier = Modifier
+                .padding(contentPadding)
+        ) {
             BDSText(
                 text = text,
                 color = if (enabled) contentColor else disabledContentColor,
@@ -359,7 +363,8 @@ class NoRippleInteractionSource : MutableInteractionSource {
 fun PreviewPollSelectButton() {
     BDSPollButton(
         text = "A | 60%",
-        modifier = Modifier.width(164.dp)
+        modifier = Modifier
+            .width(164.dp)
             .height(46.dp),
         isSelect = true,
         pollRate = 0.6f,
@@ -372,7 +377,8 @@ fun PreviewPollSelectButton() {
 fun PreviewPollNoSelectButton() {
     BDSPollButton(
         text = "B | 40%",
-        modifier = Modifier.width(164.dp)
+        modifier = Modifier
+            .width(164.dp)
             .height(46.dp),
         isSelect = false,
         pollRate = 0.4f,
