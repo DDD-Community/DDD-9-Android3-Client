@@ -157,6 +157,7 @@ fun BDSHomeCard(
         UserCard(
             userNickname = post.userNickname,
             userImage = post.userProfile,
+            until = post.updateUntil,
             isVisible = isMyPost,
             onClick = onClickDots
         )
@@ -283,7 +284,7 @@ fun BDSHomeCard(
 private fun UserCard(
     userNickname: String?,
     userImage: String?,
-    // until: String?
+    until: String?,
     isVisible: Boolean = false,
     onClick: () -> Unit
 ) {
@@ -304,8 +305,7 @@ private fun UserCard(
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 BDSText(
-                    // text = until,
-                    text = "1시간 전",
+                    text = until,
                     fontSize = 12.sp,
                     lineHeight = 18.sp,
                     fontWeight = Normal,

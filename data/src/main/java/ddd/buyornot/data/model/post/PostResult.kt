@@ -36,6 +36,24 @@ data class PostResult(
 
     @SerializedName("userProfile")
     val userProfile: String? = null,
+
+    @SerializedName("years")
+    val years: Int = 0,
+
+    @SerializedName("months")
+    val months: Int = 0,
+
+    @SerializedName("days")
+    val days: Int = 0,
+
+    @SerializedName("hours")
+    val hours: Int = 0,
+
+    @SerializedName("minutes")
+    val minutes: Int = 0,
+
+    @SerializedName("seconds")
+    val seconds: Int = 0,
 ) {
     enum class PublicStatus {
         PUBLIC,             // 전체 공개
@@ -47,6 +65,16 @@ data class PostResult(
         ONGOING,
         CLOSED
     }
+
+    val updateUntil: String
+        get() = when {
+            years > 0 -> "${years}년 전"
+            months > 0 -> "${months}달 전"
+            days > 0 -> "${days}일 전"
+            hours > 0 -> "${hours}시간 전"
+            minutes > 0 -> "${minutes}분 전"
+            else -> "방금 전"
+        }
 }
 
 data class PollItemResponse(
