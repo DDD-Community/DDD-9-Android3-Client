@@ -129,10 +129,10 @@ fun HomeScreen(viewModel: HomeViewModel) {
 }
 
 private fun Int.calculatePollRate(other: Int): Float =
-    if (other <= 0) {
-        1f
-    } else {
-        this / (this + other).toFloat()
+    when {
+        this <= 0 && other <= 0 -> 0f
+        other <= 0 -> 1f
+        else -> this / (this + other).toFloat()
     }
 
 @Composable
@@ -147,8 +147,8 @@ fun BDSHomeCard(
     val context = LocalContext.current
     val pollA = post.pollItemResponseList?.getOrNull(0) ?: return
     val pollB = post.pollItemResponseList?.getOrNull(1) ?: return
-    val a = post.pollResponse?.firstItem ?: 5
-    val b = post.pollResponse?.secondItem ?: 3
+    val a = post.pollResponse?.firstItem ?: 0
+    val b = post.pollResponse?.secondItem ?: 0
     val x = post.pollResponse?.unrecommended ?: 0
 
     Column(modifier = Modifier.padding(vertical = 24.dp, horizontal = 14.dp)) {
@@ -193,6 +193,7 @@ fun BDSHomeCard(
                 } else {
                     "A"
                 },
+                participateStatus = post.participateStatus,
                 pollRate = a.calculatePollRate(b),
                 onClick = {
                     post.pollItemResponseList?.get(0)?.itemUrl?.let { onClick(it) }
@@ -200,7 +201,7 @@ fun BDSHomeCard(
                 onClickPoll = {
                     scope.launch {
                         post.id?.let {
-                            patchPollChoice(it, 1)
+                            pollA.id?.let { it1 -> patchPollChoice(it, it1) }
                         }
                     }
                 }
@@ -219,6 +220,7 @@ fun BDSHomeCard(
                 } else {
                     "B"
                 },
+                participateStatus = post.participateStatus,
                 pollRate = b.calculatePollRate(a),
                 onClick = {
                     post.pollItemResponseList?.get(1)?.itemUrl?.let { onClick(it) }
@@ -226,7 +228,7 @@ fun BDSHomeCard(
                 onClickPoll = {
                     scope.launch {
                         post.id?.let {
-                            patchPollChoice(it, 2)
+                            pollB.id?.let { it1 -> patchPollChoice(it, it1) }
                         }
                     }
                 }
@@ -348,6 +350,8 @@ private fun BDSPollCard(
                     .height(46.dp),
                 text = title,
                 // isSelect = isSelect, // 사용자가 투표한 상품을 알아야할듯
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
                 onClick = onClickPoll,
                 pollRate = pollRate,
                 enabled = pollStatus == PostResult.PollStatus.ONGOING
@@ -357,6 +361,8 @@ private fun BDSPollCard(
                 modifier = Modifier.width(164.dp),
                 text = title,
                 onClick = onClickPoll,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
                 contentColor = Primary500,
                 borderColor = SlateGray300,
                 enabled = pollStatus == PostResult.PollStatus.ONGOING
