@@ -1,6 +1,8 @@
 package ddd.buyornot.postpage.ui.bottomsheet
 
+import android.content.Intent
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,9 +28,11 @@ import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
+import ddd.buyornot.MainActivity
 import ddd.buyornot.postpage.viewmodel.ShareViewModel
 import ddd.buyornot.util.findActivity
 
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WritePostPageDoneBottomSheet(
     title: String,
@@ -122,7 +127,10 @@ fun WritePostPageDoneBottomSheet(
             BDSBottomSheetVerticalDualButton(
                 confirmButton = {
                     BDSFilledButton(
-                        onClick = { /*TODO*/ }, text = "앱에서 투표 완성하기",
+                        onClick = {
+                            context.startActivity(Intent(context, MainActivity::class.java))
+                            context.findActivity().finish()
+                        }, text = "앱에서 확인하기",
                         modifier = Modifier
                             .height(50.dp)
                             .fillMaxWidth(),
