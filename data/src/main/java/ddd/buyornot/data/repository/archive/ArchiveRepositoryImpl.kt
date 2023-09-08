@@ -19,6 +19,4 @@ class ArchiveRepositoryImpl @Inject constructor(
     override suspend fun fetchPostList(page: Int, count: Int) = archiveRemoteDataSource.fetchPostList(page, count)
 
     override suspend fun fetchPostLikedList(page: Int, count: Int) = archiveRemoteDataSource.fetchLikedPostList(page, count)
-
-    override suspend fun fetchItem(url: String) = archiveRemoteDataSource.fetchItem(url)
 }

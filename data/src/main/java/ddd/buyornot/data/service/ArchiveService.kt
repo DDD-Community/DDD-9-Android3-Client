@@ -45,10 +45,4 @@ interface ArchiveService {
         @Query("page") page: Int,
         @Query("count") count: Int,
     ): BaseApiResponse<List<ArchiveResponse>>
-
-    // 급하니까 일단 여기 넣고 나중에 다른 데로 옮기자
-    @GET("/api/item")
-    suspend fun fetchItem(
-        @Query("url") url: String
-    ): BaseApiResponse<ArchiveResponse>
 }

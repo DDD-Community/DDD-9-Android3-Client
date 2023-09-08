@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ddd.buyornot.data.model.post.PostRequest
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.data.repository.archive.ArchiveRepository
+import ddd.buyornot.data.repository.item.ItemRepository
 import ddd.buyornot.data.repository.post.PostRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ShareViewModel @Inject constructor(
     private val postRepository: PostRepository,
-    private val archiveRepository: ArchiveRepository
+    private val archiveRepository: ArchiveRepository,
+    private val itemRepository: ItemRepository,
 ) : ViewModel() {
 
     private val _postList = MutableLiveData<List<PostItem>>()
@@ -118,11 +120,11 @@ class ShareViewModel @Inject constructor(
 
     suspend fun fetchItem(url: String, isCurrentItem: Boolean = false) {
         viewModelScope.launch {
-            val result = archiveRepository.fetchItem(url)?.result?.let {
+            val result = itemRepository.fetchItem(url)?.result?.let {
                 if (isCurrentItem) {
-                    currentPostItemImageUrl = it.imgUrl
+                    currentPostItemImageUrl = it.imageUrl
                 } else {
-                    sharedItemImageUrl = it.imgUrl
+                    sharedItemImageUrl = it.imageUrl
                 }
             }
         }
