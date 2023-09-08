@@ -31,6 +31,9 @@ class ShareViewModel @Inject constructor(
 
     var sharedItemUrl: String = ""
 
+    var sharedItemImageUrl: String? = null
+    var currentItemImageUrl: String? = null
+
     fun setCurrentPostTitle(title: String) {
         currentPost = currentPost.copy(title = title)
     }
@@ -75,6 +78,7 @@ class ShareViewModel @Inject constructor(
             setCurrentPostTitle(postResult.title ?: throw NullPointerException())
             setCurrentPostContent(postResult.content ?: "")
             addPostItemUrl(postResult.pollItemResponseList?.first()?.itemUrl ?: throw NullPointerException())
+            currentItemImageUrl = postResult.pollItemResponseList?.first()?.imgUrl
         }
     }
 
@@ -106,7 +110,11 @@ class ShareViewModel @Inject constructor(
     suspend fun postArchiveItem() {
         viewModelScope.launch {
             if (sharedItemUrl.isNotEmpty()) {
-                val result = archiveRepository.postArchiveItem(sharedItemUrl)
+                archiveRepository.postArchiveItem(sharedItemUrl).let {
+                    if (it?.isSuccess == true) {
+                        sharedItemImageUrl = it.result?.imgUrl
+                    }
+                }
             }
         }
     }
