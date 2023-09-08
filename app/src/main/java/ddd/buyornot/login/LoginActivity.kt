@@ -27,7 +27,9 @@ import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.MainActivity
 import ddd.buyornot.R
+import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.repository.login.AuthRepository
+import ddd.buyornot.data.repository.user.UserRepository
 import ddd.buyornot.data.util.KakaoLogin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +42,14 @@ class LoginActivity : ComponentActivity() {
 
     @Inject
     lateinit var authRepository: AuthRepository
+
+    @Inject
+    lateinit var userRepository: UserRepository
+
+    @Inject
+    lateinit var sharedPreferenceWrapper: SharedPreferenceWrapper
+
+    // val pref = SharedPreferenceWrapper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +66,12 @@ class LoginActivity : ComponentActivity() {
                 authRepository.issueAuthorizationCode(token)
                     .onSuccess { response ->
                         if (response.isSuccess) {
+                            lifecycleScope.launch {
+                                val result = userRepository.fetchProfile()?.result?.let {
+                                    sharedPreferenceWrapper.nickname = it.nickname ?: ""
+                                    sharedPreferenceWrapper.profile = it.profile ?:""
+                                }
+                            }
                             startMainActivityAndFinish()
                         } else {
                             handleLoginError()

@@ -44,6 +44,7 @@ import com.ddd.component.clickableWithoutRipple
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
+import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.util.KakaoLogin
 import ddd.buyornot.my_post.ui.MyPostActivity
@@ -58,6 +59,9 @@ class ProfileActivity : ComponentActivity() {
 
     @Inject
     lateinit var authRepository: AuthRepository
+
+    @Inject
+    lateinit var sharedPreferenceWrapper: SharedPreferenceWrapper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,7 +108,7 @@ class ProfileActivity : ComponentActivity() {
                         )
                     }
                     BDSText(
-                        text = "익명의티셔츠234",
+                        text = sharedPreferenceWrapper.nickname,
                         modifier = Modifier
                             .padding(horizontal = 20.dp)
                             .padding(top = 42.dp, bottom = 34.dp),
@@ -168,14 +172,25 @@ class ProfileActivity : ComponentActivity() {
                         color = BDSColor.Red
                     )
                 }
-                BDSImage(
-                    resId = R.drawable.ic_app_logo_sample,
-                    modifier = Modifier
-                        .offset(32.dp, 153.dp)
-                        .clip(CircleShape)
-                        .size(56.dp)
-                        .border(2.dp, BDSColor.White, CircleShape)
-                )
+                if (sharedPreferenceWrapper.profile.isNotEmpty()) {
+                    BDSImage(
+                        url = sharedPreferenceWrapper.profile,
+                        modifier = Modifier
+                            .offset(32.dp, 153.dp)
+                            .clip(CircleShape)
+                            .size(56.dp)
+                            .border(2.dp, BDSColor.White, CircleShape)
+                    )
+                } else {
+                    BDSImage(
+                        resId = R.drawable.ic_app_logo_sample,
+                        modifier = Modifier
+                            .offset(32.dp, 153.dp)
+                            .clip(CircleShape)
+                            .size(56.dp)
+                            .border(2.dp, BDSColor.White, CircleShape)
+                    )
+                }
 
                 if (showLogoutDialogState) {
                     val sheetState: SheetState = rememberModalBottomSheetState()

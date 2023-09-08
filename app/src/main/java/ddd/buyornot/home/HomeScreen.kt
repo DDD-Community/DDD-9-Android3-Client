@@ -2,6 +2,7 @@ package ddd.buyornot.home
 
 import android.content.Intent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -100,10 +101,14 @@ fun HomeScreen(viewModel: HomeViewModel) {
                                 tint = SlateGray700
                             )
                             Spacer(modifier = Modifier.width(9.dp))
-                            BDSIconButton(
-                                // resId = user profile logo,
-                                resId = com.ddd.component.R.drawable.ic_add_in_circle,
-                                onClick = { context.startActivity(Intent(context, ProfileActivity::class.java)) }
+                            BDSImage(
+                                url = viewModel.profile,
+                                modifier = Modifier
+                                    .align(Alignment.CenterVertically)
+                                    .size(30.dp)
+                                    .clickable {
+                                    context.startActivity(Intent(context, ProfileActivity::class.java))
+                                }
                             )
                         }
                     },
