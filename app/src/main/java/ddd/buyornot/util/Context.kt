@@ -21,11 +21,12 @@ fun Context.openWeb(itemUrl: String) {
 }
 
 fun Context.sharePostWeb(postId: Int) {
+    val description = "바이올낫 - 어떤 걸 사지? 고민될 때, 바이올낫에서 투표를 올리고 사람들의 의견을 들어보세요! "
     val webDomain = "https://web.buyornot.shop/"
 
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, webDomain + postId)
+        putExtra(Intent.EXTRA_TEXT, description + webDomain + postId)
         type = "text/plain"
     }
 
