@@ -31,4 +31,8 @@ class ArchiveRemoteDataSourceImpl @Inject constructor(
     override suspend fun fetchLikedPostList(page: Int, count: Int) = runCatching {
         archiveService.fetchArchiveLikedPostList(page, count)
     }.getOrNull()
+
+    override suspend fun fetchItem(url: String) = runCatching {
+        archiveService.fetchItem(url)
+    }.getOrNull()
 }

@@ -1,6 +1,5 @@
 package ddd.buyornot.postpage.ui.bottomsheet
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,7 +37,6 @@ fun WritePostPageNewPostBottomSheet(
     onClickNext: () -> Unit,
 ) {
     val savedTitle = viewModel.currentPost.title ?: ""
-    // val imageUrl = viewModel.postList.value?.itemUrls
     var title by remember { mutableStateOf(savedTitle) }
 
     var state: BDSTextFieldState by remember { mutableStateOf(BDSTextFieldState.UnFocus) }
@@ -67,13 +65,20 @@ fun WritePostPageNewPostBottomSheet(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(12.dp))
-                BDSImage(
-                    url = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                    modifier = Modifier
-                        .size(91.dp, 91.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .border(width = 1.dp, color = BDSColor.SlateGray900)
-                )
+                if (viewModel.sharedItemImageUrl != null) {
+                    BDSImage(
+                        url = viewModel.sharedItemImageUrl,
+                        modifier = Modifier
+                            .size(91.dp, 91.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                    )
+                } else {
+                    BDSImage(
+                        resId = com.ddd.component.R.drawable.ic_unknown_item,
+                        modifier = Modifier
+                            .size(91.dp, 91.dp)
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 BDSTextField(
                     modifier = Modifier.padding(8.dp),
