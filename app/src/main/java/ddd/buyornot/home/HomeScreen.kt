@@ -358,7 +358,7 @@ private fun BDSPollCard(
                     .width(164.dp)
                     .height(46.dp),
                 text = title,
-                isSelect = pollId == pollResponse?.polled, // 사용자가 투표한 상품을 알아야할듯
+                isSelect = pollId == pollResponse?.polled,
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
                 onClick = onClickPoll,
