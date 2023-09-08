@@ -30,6 +30,7 @@ import com.ddd.component.BDSPostCard
 import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
+import com.ddd.component.theme.BDSColor.SlateGray400
 import ddd.buyornot.postpage.viewmodel.ShareViewModel
 import kotlinx.coroutines.launch
 
@@ -75,7 +76,12 @@ fun WritePostPagePostListBottomSheet(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.height(23.5.dp))
-                    Icon(painter = painterResource(id = R.drawable.ic_content_empty), contentDescription = "")
+                    Icon(
+                        painter = painterResource(
+                        id = R.drawable.ic_content_empty),
+                        tint = SlateGray400,
+                        contentDescription = ""
+                    )
                     Spacer(modifier = Modifier.height(23.5.dp))
                     BDSText(
                         text = "앗, 만들어진 투표가 없어요!",
