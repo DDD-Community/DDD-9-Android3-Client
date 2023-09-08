@@ -3,6 +3,9 @@ package com.ddd.component.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -75,4 +78,24 @@ fun BuyOrNotTheme(
             }
         },
     )
+}
+
+object ColorRippleTheme : RippleTheme {
+    @Composable
+    override fun defaultColor(): Color = BDSColor.Primary50
+
+    @Composable
+    override fun rippleAlpha() = RippleAlpha(
+        draggedAlpha = 1.0f,
+        focusedAlpha = 1.0f,
+        hoveredAlpha = 1.0f,
+        pressedAlpha = 1.0f,
+    )
+}
+
+@Composable
+fun ColorRipple(content: @Composable () -> Unit) {
+    CompositionLocalProvider(LocalRippleTheme provides ColorRippleTheme) {
+        content()
+    }
 }
