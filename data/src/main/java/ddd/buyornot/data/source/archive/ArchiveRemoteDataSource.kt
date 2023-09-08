@@ -17,4 +17,6 @@ interface ArchiveRemoteDataSource {
     suspend fun fetchPostList(page: Int, count: Int) : BaseApiResponse<List<ArchiveResponse>>?
 
     suspend fun fetchLikedPostList(page: Int, count: Int) : BaseApiResponse<List<ArchiveResponse>>?
+
+    suspend fun fetchItem(url: String) : BaseApiResponse<ArchiveResponse>?
 }

@@ -1,6 +1,5 @@
 package ddd.buyornot.postpage.ui.bottomsheet
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -72,7 +71,6 @@ fun WritePostPageNewPostBottomSheet(
                         modifier = Modifier
                             .size(91.dp, 91.dp)
                             .clip(RoundedCornerShape(8.dp))
-                            .border(width = 1.dp, color = BDSColor.SlateGray900)
                     )
                 } else {
                     BDSImage(

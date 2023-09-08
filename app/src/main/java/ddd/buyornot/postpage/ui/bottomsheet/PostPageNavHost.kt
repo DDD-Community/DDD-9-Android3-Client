@@ -9,8 +9,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import ddd.buyornot.util.findActivity
 import ddd.buyornot.postpage.viewmodel.ShareViewModel
+import ddd.buyornot.util.findActivity
 import kotlinx.coroutines.launch
 
 @Composable
@@ -35,6 +35,9 @@ fun PostPageNavHost(
                     navHostController.navigate(PostPageNavigationRoute.Close.route)
                 },
                 onClickPoll = {
+                    scope.launch {
+                        viewModel.fetchItem(viewModel.sharedItemUrl)
+                    }
                     navHostController.navigate(PostPageNavigationRoute.Post.route)
                 },
                 onClickArchive = {
@@ -108,6 +111,7 @@ fun PostPageNavHost(
 
             WritePostPageDoneBottomSheet(
                 title = it.arguments?.getString("title") ?: "새로운 투표를 만들었어요!",
+                viewModel = viewModel,
                 onDismissRequest = {
                     context.findActivity().finish()
                 }

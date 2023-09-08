@@ -15,7 +15,7 @@ data class ArchiveResponse(
     @SerializedName("id")
     val id: Int? = null,
 
-    @SerializedName("imgUrl")
+    @SerializedName(value = "imgUrl", alternate = ["imageUrl"])
     val imgUrl: String? = null,
 
     @SerializedName("itemId")

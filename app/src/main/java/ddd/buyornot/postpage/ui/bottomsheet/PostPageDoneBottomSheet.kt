@@ -25,11 +25,13 @@ import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
+import ddd.buyornot.postpage.viewmodel.ShareViewModel
 import ddd.buyornot.util.findActivity
 
 @Composable
 fun WritePostPageDoneBottomSheet(
     title: String,
+    viewModel: ShareViewModel,
     onDismissRequest: () -> Unit
 ) {
     val context = LocalContext.current
@@ -61,22 +63,58 @@ fun WritePostPageDoneBottomSheet(
                         .align(Alignment.Center),
                     contentAlignment = Alignment.Center
                 ) {
-                    BDSImage(
-                        url = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                        modifier = Modifier
-                            .size(91.dp, 91.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .border(width = 1.dp, color = BDSColor.SlateGray900)
-                            .align(Alignment.TopStart)
-                    )
-                    BDSImage(
-                        url = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                        modifier = Modifier
-                            .size(91.dp, 91.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .border(width = 1.dp, color = BDSColor.SlateGray900)
-                            .align(Alignment.BottomEnd)
-                    )
+                    if (viewModel.currentPostItemImageUrl != null) {
+                        BDSImage(
+                            url = viewModel.currentPostItemImageUrl,
+                            modifier = Modifier
+                                .size(91.dp, 91.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .align(Alignment.TopStart)
+                        )
+                        if (viewModel.sharedItemImageUrl != null) {
+                            BDSImage(
+                                url = viewModel.sharedItemImageUrl,
+                                modifier = Modifier
+                                    .size(91.dp, 91.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .align(Alignment.BottomEnd)
+                            )
+                        } else {
+                            BDSImage(
+                                resId = com.ddd.component.R.drawable.ic_unknown_item,
+                                modifier = Modifier
+                                    .size(91.dp, 91.dp)
+                                    .align(Alignment.BottomEnd)
+                            )
+                        }
+                    } else if (viewModel.sharedItemImageUrl != null) {
+                        BDSImage(
+                            url = viewModel.sharedItemImageUrl,
+                            modifier = Modifier
+                                .size(91.dp, 91.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .align(Alignment.TopStart)
+                        )
+                        BDSImage(
+                            resId = com.ddd.component.R.drawable.ic_unknown_item,
+                            modifier = Modifier
+                                .size(91.dp, 91.dp)
+                                .align(Alignment.BottomEnd)
+                        )
+                    } else {
+                        BDSImage(
+                            resId = com.ddd.component.R.drawable.ic_unknown_item,
+                            modifier = Modifier
+                                .size(91.dp, 91.dp)
+                                .align(Alignment.TopStart)
+                        )
+                        BDSImage(
+                            resId = com.ddd.component.R.drawable.ic_unknown_item,
+                            modifier = Modifier
+                                .size(91.dp, 91.dp)
+                                .align(Alignment.BottomEnd)
+                        )
+                    }
                 }
             }
         },
