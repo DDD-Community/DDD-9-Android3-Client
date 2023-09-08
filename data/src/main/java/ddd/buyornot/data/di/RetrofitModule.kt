@@ -9,6 +9,7 @@ import ddd.buyornot.data.service.ArchiveService
 import ddd.buyornot.data.service.LoginService
 import ddd.buyornot.data.service.PollService
 import ddd.buyornot.data.service.PostService
+import ddd.buyornot.data.service.UserService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -87,6 +88,13 @@ class RetrofitModule {
         retrofit: Retrofit
     ): ArchiveService =
         retrofit.create(ArchiveService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserService(
+        retrofit: Retrofit
+    ): UserService =
+        retrofit.create(UserService::class.java)
 
     @Provides
     @Singleton
