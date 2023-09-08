@@ -228,7 +228,7 @@ fun BDSHomeCard(
                     discount = pollB.discountedRate,
                     price = pollB.originalPrice
                 ),
-                title = if (post.participateStatus || post.pollStatus == PostResult.PollStatus.CLOSED) {
+                title = if (post.pollResponse != null || post.pollStatus == PostResult.PollStatus.CLOSED) {
                     "B | ${(pollBRate * 100).toInt()}%"
                 } else {
                     "B"
