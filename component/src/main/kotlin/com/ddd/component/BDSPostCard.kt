@@ -1,5 +1,6 @@
 package com.ddd.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,12 +33,13 @@ data class PostItem(
 fun BDSPostCard(
     postItem: PostItem,
     checked: Boolean = false,
-    onCheck: (() -> Unit)? = null,
+    onCheck: (() -> Unit) = {},
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(84.dp)
+            .clickable { onCheck() }
     ) {
         Spacer(
             modifier = Modifier
@@ -80,11 +82,7 @@ fun BDSPostCard(
             modifier = Modifier.align(Alignment.CenterVertically),
             checkedImage = R.drawable.ic_check_true,
             uncheckedImage = R.drawable.ic_check_false,
-            onClick = {
-                if (onCheck != null) {
-                    onCheck()
-                }
-            },
+            onClick = { onCheck() },
             checked = checked
         )
     }
