@@ -112,7 +112,6 @@ fun WritePostPagePostListBottomSheet(
                     acceptButton = {
                         BDSFilledButton(
                             onClick = {
-                                // 현재 선택된 투표에서 itemUrl 가져와서 넣기
                                 scope.launch {
                                     selectedPostItem?.postId?.let { viewModel.fetchTemporaryPost(it) }
                                     onClickAddItem()

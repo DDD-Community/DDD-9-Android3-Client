@@ -1,5 +1,7 @@
 package com.ddd.component
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,11 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ddd.component.theme.BDSColor.Primary50
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray900
+import com.ddd.component.theme.ColorRipple
 
 // TODO: data class 위치 변경
 data class PostItem(
@@ -32,12 +37,14 @@ data class PostItem(
 fun BDSPostCard(
     postItem: PostItem,
     checked: Boolean = false,
-    onCheck: (() -> Unit)? = null,
+    onCheck: (() -> Unit) = {},
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(84.dp)
+            .background(color = if (checked) Primary50 else Color.Transparent)
+            .clickable { onCheck() }
     ) {
         Spacer(
             modifier = Modifier
@@ -80,11 +87,7 @@ fun BDSPostCard(
             modifier = Modifier.align(Alignment.CenterVertically),
             checkedImage = R.drawable.ic_check_true,
             uncheckedImage = R.drawable.ic_check_false,
-            onClick = {
-                if (onCheck != null) {
-                    onCheck()
-                }
-            },
+            onClick = { onCheck() },
             checked = checked
         )
     }
