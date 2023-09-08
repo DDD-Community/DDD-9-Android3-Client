@@ -17,6 +17,4 @@ interface ArchiveRepository {
     suspend fun fetchPostList(page: Int, count: Int) : BaseApiResponse<List<ArchiveResponse>>?
 
     suspend fun fetchPostLikedList(page: Int, count: Int) : BaseApiResponse<List<ArchiveResponse>>?
-
-    suspend fun fetchItem(url: String) : BaseApiResponse<ArchiveResponse>?
 }
