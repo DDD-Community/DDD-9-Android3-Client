@@ -184,7 +184,7 @@ fun BDSPollButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(color = Primary100, shape = shape)
+                .background(color = pollColor, shape = shape)
                 .align(Alignment.CenterStart)
         )
         Box(
