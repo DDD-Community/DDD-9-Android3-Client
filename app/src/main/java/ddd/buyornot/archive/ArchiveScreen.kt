@@ -56,9 +56,7 @@ fun ArchiveScreen(
 ) {
     val context = LocalContext.current
 
-    val savedItems by viewModel.savedItemList.observeAsState(emptyList())
-
-    val archiveItems = savedItems
+    val archiveItems by viewModel.savedItemList.observeAsState(emptyList())
 
     val state = rememberCollapsingToolbarScaffoldState()
     val scope = rememberCoroutineScope()
