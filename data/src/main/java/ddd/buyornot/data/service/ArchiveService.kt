@@ -40,6 +40,7 @@ interface ArchiveService {
         @Query("count") count: Int,
     ): BaseApiResponse<List<ArchiveResponse>>
 
+    // 좋아요 화면 spec out 으로 제거 예정
     @GET("/api/archive/liked-list")
     suspend fun fetchArchiveLikedPostList(
         @Query("page") page: Int,
