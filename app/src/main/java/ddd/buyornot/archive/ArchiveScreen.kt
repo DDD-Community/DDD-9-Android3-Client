@@ -37,7 +37,6 @@ import com.ddd.component.BDSBorderlessButton
 import com.ddd.component.BDSButtonInnerPadding
 import com.ddd.component.BDSHeader
 import com.ddd.component.BDSImage
-import com.ddd.component.BDSTab
 import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
@@ -57,28 +56,17 @@ fun ArchiveScreen(
 ) {
     val context = LocalContext.current
 
-    val tabIndex by viewModel.tabIndex.observeAsState(0)
-
-    val likedItems by viewModel.likedItemList.observeAsState(emptyList())
     val savedItems by viewModel.savedItemList.observeAsState(emptyList())
 
-    val archiveItems = when (tabIndex) {
-        0 -> likedItems
-        1 -> savedItems
-        else -> emptyList()
-    }
+    val archiveItems = savedItems
 
     val state = rememberCollapsingToolbarScaffoldState()
     val scope = rememberCoroutineScope()
 
     // TODO: fetch 조건 변경
-    LaunchedEffect(key1 = tabIndex) {
+    LaunchedEffect(key1 = Unit) {
         scope.launch {
-            when (tabIndex) {
-                0 -> viewModel.fetchLikedItemList(true)
-                1 -> viewModel.fetchSavedItemList(true)
-                else -> {}
-            }
+            viewModel.fetchSavedItemList(true)
         }
     }
 
@@ -97,8 +85,6 @@ fun ArchiveScreen(
                     BDSColor.Gray900
                 }
             )
-
-
 
             Box(
                 modifier = Modifier
@@ -128,13 +114,6 @@ fun ArchiveScreen(
         }
     ) {
         Column {
-            BDSTab(
-                titles = listOf("좋아요한 상품", "저장한 상품"),
-                selectedTabIndex = tabIndex,
-                onTabSelected = {
-                    viewModel.setTabIndex(it)
-                }
-            )
             BDSHeader(
                 modifier = Modifier.padding(top = 14.dp, bottom = 8.dp),
                 left = {
@@ -152,7 +131,6 @@ fun ArchiveScreen(
                         onClick = {
                             context.startActivity(
                                 Intent(context, ArchiveEditActivity::class.java)
-                                    .putExtra("tabIndex", tabIndex)
                             )
                         },
                         contentPadding = BDSButtonInnerPadding.XSMALL,
@@ -189,11 +167,12 @@ fun ArchiveScreen(
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 BDSText(
-                    text = when (tabIndex) {
+                    /*text = when (tabIndex) {
                         0 -> "좋아요를 눌러 아카이브함을 채워보세요!"
                         1 -> "공유하기를 통해 바로 상품을 저장할 수 있어요!"
                         else -> null
-                    },
+                    }*/
+                    text = "좋아요를 눌러 아카이브함을 채워보세요!",
                     modifier = Modifier.fillMaxWidth(),
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
