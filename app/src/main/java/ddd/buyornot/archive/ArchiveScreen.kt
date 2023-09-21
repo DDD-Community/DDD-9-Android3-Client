@@ -56,7 +56,7 @@ fun ArchiveScreen(
 ) {
     val context = LocalContext.current
 
-    val archiveItems by viewModel.savedItemList.observeAsState(emptyList())
+    val archiveItems by viewModel.archiveItemList.observeAsState(emptyList())
 
     val state = rememberCollapsingToolbarScaffoldState()
     val scope = rememberCoroutineScope()
@@ -189,11 +189,11 @@ fun ArchiveScreen(
                         BDSArchiveItemCard(
                             archiveItem = archiveItem,
                             isEditMode = false,
-                            isLike = archiveItem.liked,
+                            isLike = true,
                             onClick = { archiveItem.itemUrl?.let { context.openWeb(it) } },
                             onClickLike = {
                                 scope.launch {
-                                    viewModel.patchArchiveItemLike(archiveItem)
+                                    viewModel.patchArchiveItemDelete(listOf(archiveItem))
                                 }
                             }
                         )

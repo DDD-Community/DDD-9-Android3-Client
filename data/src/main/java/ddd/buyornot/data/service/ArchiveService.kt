@@ -35,7 +35,7 @@ interface ArchiveService {
     ): BaseApiResponse<Int>
 
     @GET("/api/archive/list")
-    suspend fun fetchArchivePostList(
+    suspend fun fetchArchiveList(
         @Query("page") page: Int,
         @Query("count") count: Int,
     ): BaseApiResponse<List<ArchiveResponse>>
