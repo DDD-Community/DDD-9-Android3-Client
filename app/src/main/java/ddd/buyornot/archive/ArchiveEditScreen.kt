@@ -63,7 +63,7 @@ fun ArchiveEditScreen(
 ) {
     val context = LocalContext.current
 
-    val archiveItems by viewModel.savedItemList.observeAsState(emptyList())
+    val archiveItems by viewModel.archiveItemList.observeAsState(emptyList())
 
     val selectItems = remember { mutableStateListOf<ArchiveItem>() }
     val scope = rememberCoroutineScope()
@@ -72,7 +72,7 @@ fun ArchiveEditScreen(
 
     LaunchedEffect(key1 = Unit) {
         scope.launch {
-            viewModel.fetchSavedItemList()
+            viewModel.fetchArchiveItemList()
         }
     }
 

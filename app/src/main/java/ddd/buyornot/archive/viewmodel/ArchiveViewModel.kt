@@ -15,21 +15,21 @@ class ArchiveViewModel @Inject constructor(
     private val archiveRepository: ArchiveRepository
 ) : ViewModel() {
 
-    private var savedPage = 0
+    private var page = 0
     private val count = 20
 
-    val savedItemList = MutableLiveData<MutableList<ArchiveItem>>()
+    val archiveItemList = MutableLiveData<MutableList<ArchiveItem>>()
 
-    suspend fun fetchSavedItemList(init: Boolean = false) {
+    suspend fun fetchArchiveItemList(init: Boolean = false) {
         viewModelScope.launch {
             val currentItemList = if (init) {
-                savedPage = 0
+                page = 0
                 mutableListOf()
             } else {
-                savedItemList.value ?: mutableListOf()
+                archiveItemList.value ?: mutableListOf()
             }
 
-            val newItemList = archiveRepository.fetchPostList(savedPage, count)?.result?.map { it ->
+            val newItemList = archiveRepository.fetchArchiveList(page, count)?.result?.map { it ->
                 ArchiveItem(
                     id = it.id,
                     itemId = it.itemId,
@@ -45,29 +45,18 @@ class ArchiveViewModel @Inject constructor(
 
             if (!newItemList.isNullOrEmpty()) {
                 currentItemList.addAll(newItemList)
-                savedItemList.postValue(currentItemList)
-                savedPage++
+                archiveItemList.postValue(currentItemList)
+                page++
             }
         }
     }
-
 
     suspend fun patchArchiveItemDelete(archiveItemList: List<ArchiveItem>) {
         viewModelScope.launch {
             val deleteArchiveReq = DeleteArchiveReq(ids = archiveItemList.mapNotNull { it.id })
-            val success = archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq)?.isSuccess
-            if (success == true) {
-                fetchSavedItemList(true)
-            }
-        }
-    }
-
-    suspend fun patchArchiveItemLike(archiveItem: ArchiveItem) {
-        viewModelScope.launch {
-            archiveItem.id?.let {
-                val success = archiveRepository.patchArchiveItemLike(it)?.isSuccess
-                if (success != null) {
-                    fetchSavedItemList(true)
+            archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq)?.run {
+                if (isSuccess) {
+                    fetchArchiveItemList(true)
                 }
             }
         }
