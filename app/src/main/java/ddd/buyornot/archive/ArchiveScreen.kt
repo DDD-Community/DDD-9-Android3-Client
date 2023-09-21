@@ -64,7 +64,7 @@ fun ArchiveScreen(
     // TODO: fetch 조건 변경
     LaunchedEffect(key1 = Unit) {
         scope.launch {
-            viewModel.fetchSavedItemList(true)
+            viewModel.fetchArchiveItemList(true)
         }
     }
 

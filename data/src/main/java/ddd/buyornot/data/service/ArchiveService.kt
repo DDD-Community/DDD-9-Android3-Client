@@ -32,7 +32,7 @@ interface ArchiveService {
     @PATCH("/api/archive/deletion")
     suspend fun patchArchiveItemDelete(
         @Body deleteArchiveReq: DeleteArchiveReq
-    ): BaseApiResponse<Int>
+    ): BaseApiResponse<String>
 
     @GET("/api/archive/list")
     suspend fun fetchArchiveList(

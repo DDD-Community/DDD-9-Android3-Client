@@ -12,7 +12,7 @@ interface ArchiveRepository {
 
     suspend fun patchArchiveItemLike(archiveId: Int) : BaseApiResponse<ArchiveResponse>?
 
-    suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) : BaseApiResponse<Int>?
+    suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) : BaseApiResponse<String>?
 
     suspend fun fetchArchiveList(page: Int, count: Int) : BaseApiResponse<List<ArchiveResponse>>?
 
