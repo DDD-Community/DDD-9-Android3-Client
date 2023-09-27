@@ -32,14 +32,15 @@ interface ArchiveService {
     @PATCH("/api/archive/deletion")
     suspend fun patchArchiveItemDelete(
         @Body deleteArchiveReq: DeleteArchiveReq
-    ): BaseApiResponse<Int>
+    ): BaseApiResponse<String>
 
     @GET("/api/archive/list")
-    suspend fun fetchArchivePostList(
+    suspend fun fetchArchiveList(
         @Query("page") page: Int,
         @Query("count") count: Int,
     ): BaseApiResponse<List<ArchiveResponse>>
 
+    // 좋아요 화면 spec out 으로 제거 예정
     @GET("/api/archive/liked-list")
     suspend fun fetchArchiveLikedPostList(
         @Query("page") page: Int,

@@ -24,8 +24,8 @@ class ArchiveRemoteDataSourceImpl @Inject constructor(
         archiveService.patchArchiveItemDelete(deleteArchiveReq)
     }.getOrNull()
 
-    override suspend fun fetchPostList(page: Int, count: Int) = runCatching {
-        archiveService.fetchArchivePostList(page, count)
+    override suspend fun fetchArchiveList(page: Int, count: Int) = runCatching {
+        archiveService.fetchArchiveList(page, count)
     }.getOrNull()
 
     override suspend fun fetchLikedPostList(page: Int, count: Int) = runCatching {

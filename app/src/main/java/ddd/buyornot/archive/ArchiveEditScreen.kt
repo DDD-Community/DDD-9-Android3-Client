@@ -51,41 +51,28 @@ import com.ddd.component.BDSOutlinedButton
 import com.ddd.component.BDSSingleTextSnackbar
 import com.ddd.component.BDSText
 import com.ddd.component.R
-import ddd.buyornot.util.findActivity
 import com.ddd.component.theme.BDSColor
 import ddd.buyornot.archive.viewmodel.ArchiveViewModel
+import ddd.buyornot.util.findActivity
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @Composable
 fun ArchiveEditScreen(
-    viewModel: ArchiveViewModel,
-    mode: Int
+    viewModel: ArchiveViewModel
 ) {
     val context = LocalContext.current
 
-    val likedItems by viewModel.likedItemList.observeAsState(emptyList())
-    val savedItems by viewModel.savedItemList.observeAsState(emptyList())
-
-    viewModel.setTabIndex(mode)
-
-    val archiveItems = when (viewModel.tabIndex.value) {
-        0 -> likedItems
-        1 -> savedItems
-        else -> emptyList()
-    }
+    val archiveItems by viewModel.archiveItemList.observeAsState(emptyList())
 
     val selectItems = remember { mutableStateListOf<ArchiveItem>() }
     val scope = rememberCoroutineScope()
     var showDeleteDialogState by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(key1 = viewModel.tabIndex.value) {
+    LaunchedEffect(key1 = Unit) {
         scope.launch {
-            when (viewModel.tabIndex.value) {
-                0 -> viewModel.fetchLikedItemList()
-                1 -> viewModel.fetchSavedItemList()
-            }
+            viewModel.fetchArchiveItemList()
         }
     }
 

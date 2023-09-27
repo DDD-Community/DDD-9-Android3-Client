@@ -15,25 +15,21 @@ class ArchiveViewModel @Inject constructor(
     private val archiveRepository: ArchiveRepository
 ) : ViewModel() {
 
-    private var savedPage = 0
-    private var likedPage = 0
+    private var page = 0
     private val count = 20
 
-    val tabIndex = MutableLiveData<Int>()
+    val archiveItemList = MutableLiveData<MutableList<ArchiveItem>>()
 
-    val savedItemList = MutableLiveData<MutableList<ArchiveItem>>()
-    val likedItemList = MutableLiveData<MutableList<ArchiveItem>>()
-
-    suspend fun fetchSavedItemList(init: Boolean = false) {
+    suspend fun fetchArchiveItemList(init: Boolean = false) {
         viewModelScope.launch {
             val currentItemList = if (init) {
-                savedPage = 0
+                page = 0
                 mutableListOf()
             } else {
-                savedItemList.value ?: mutableListOf()
+                archiveItemList.value ?: mutableListOf()
             }
 
-            val newItemList = archiveRepository.fetchPostList(savedPage, count)?.result?.map { it ->
+            val newItemList = archiveRepository.fetchArchiveList(page, count)?.result?.map { it ->
                 ArchiveItem(
                     id = it.id,
                     itemId = it.itemId,
@@ -49,39 +45,8 @@ class ArchiveViewModel @Inject constructor(
 
             if (!newItemList.isNullOrEmpty()) {
                 currentItemList.addAll(newItemList)
-                savedItemList.postValue(currentItemList)
-                savedPage++
-            }
-        }
-    }
-
-    suspend fun fetchLikedItemList(init: Boolean = false) {
-        viewModelScope.launch {
-            val currentItemList = if (init) {
-                likedPage = 0
-                mutableListOf()
-            } else {
-                likedItemList.value ?: mutableListOf()
-            }
-
-            val newItemList = archiveRepository.fetchPostLikedList(likedPage, count)?.result?.map { it ->
-                ArchiveItem(
-                    id = it.id,
-                    itemId = it.itemId,
-                    itemUrl = it.itemUrl,
-                    imageUrl = it.imgUrl,
-                    brand = it.brand,
-                    name = it.itemName,
-                    discount = it.discountedRate,
-                    price = it.originalPrice,
-                    liked = it.liked
-                )
-            }
-
-            if (!newItemList.isNullOrEmpty()) {
-                currentItemList.addAll(newItemList)
-                likedItemList.postValue(currentItemList)
-                likedPage++
+                archiveItemList.postValue(currentItemList)
+                page++
             }
         }
     }
@@ -89,31 +54,11 @@ class ArchiveViewModel @Inject constructor(
     suspend fun patchArchiveItemDelete(archiveItemList: List<ArchiveItem>) {
         viewModelScope.launch {
             val deleteArchiveReq = DeleteArchiveReq(ids = archiveItemList.mapNotNull { it.id })
-            val success = archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq)?.isSuccess
-            if (success == true) {
-                when (tabIndex.value) {
-                    0 -> fetchLikedItemList(true)
-                    1 -> fetchSavedItemList(true)
+            archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq)?.run {
+                if (isSuccess) {
+                    fetchArchiveItemList(true)
                 }
             }
         }
-    }
-
-    suspend fun patchArchiveItemLike(archiveItem: ArchiveItem) {
-        viewModelScope.launch {
-            archiveItem.id?.let {
-                val success = archiveRepository.patchArchiveItemLike(it)?.isSuccess
-                if (success != null) {
-                    when (tabIndex.value) {
-                        0 -> fetchLikedItemList(true)
-                        1 -> fetchSavedItemList(true)
-                    }
-                }
-            }
-        }
-    }
-
-    fun setTabIndex(index: Int) {
-        tabIndex.value = index
     }
 }
