@@ -16,6 +16,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -60,7 +64,7 @@ import ddd.buyornot.util.openWeb
 import ddd.buyornot.util.sharePostWeb
 import kotlinx.coroutines.launch
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
     val context = LocalContext.current
@@ -73,6 +77,10 @@ fun HomeScreen(viewModel: HomeViewModel) {
             viewModel.fetchPostList()
         }
     }
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = viewModel.isRefresh.value,
+        onRefresh = viewModel::refresh
+    )
 
     Column(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -107,8 +115,8 @@ fun HomeScreen(viewModel: HomeViewModel) {
                                     .align(Alignment.CenterVertically)
                                     .size(30.dp)
                                     .clickable {
-                                    context.startActivity(Intent(context, ProfileActivity::class.java))
-                                }
+                                        context.startActivity(Intent(context, ProfileActivity::class.java))
+                                    }
                             )
                         }
                     },
@@ -116,20 +124,32 @@ fun HomeScreen(viewModel: HomeViewModel) {
                 )
             }
         ) { paddingValues ->
-            LazyColumn(modifier = Modifier.padding(paddingValues)) {
-                items(postList) { post ->
-                    BDSHomeCard(
-                        post = post,
-                        patchPollChoice = viewModel::patchPollChoice,
-                        onClick = { itemUrl -> context.openWeb(itemUrl) }
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .height(1.dp)
-                            .fillMaxWidth()
-                            .background(color = SlateGray400)
-                    )
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .pullRefresh(pullRefreshState)
+            ) {
+                LazyColumn() {
+                    items(postList) { post ->
+                        BDSHomeCard(
+                            post = post,
+                            patchPollChoice = viewModel::patchPollChoice,
+                            onClick = { itemUrl -> context.openWeb(itemUrl) }
+                        )
+                        Spacer(
+                            modifier = Modifier
+                                .height(1.dp)
+                                .fillMaxWidth()
+                                .background(color = SlateGray400)
+                        )
+                    }
                 }
+                PullRefreshIndicator(
+                    refreshing = viewModel.isRefresh.value,
+                    state = pullRefreshState,
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    // backgroundColor = if (viewModel.isRefresh.value) BDSColor.Red else BDSColor.Green,
+                )
             }
         }
     }
@@ -145,7 +165,7 @@ private fun Int.calculatePollRate(other: Int): Float =
 @Composable
 fun BDSHomeCard(
     post: PostResult,
-    patchPollChoice: (Int, Int) -> Unit = { _, _ -> },
+    patchPollChoice: suspend (Int, Int) -> Unit = { _, _ -> },
     isMyPost: Boolean = false,
     onClick: (String) -> Unit = {},
     onClickDots: () -> Unit = {}

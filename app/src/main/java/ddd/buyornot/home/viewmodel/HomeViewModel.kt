@@ -1,5 +1,7 @@
 package ddd.buyornot.home.viewmodel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,7 +25,18 @@ class HomeViewModel @Inject constructor(
     val postList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
     val profile = sharedPreferenceWrapper.profile
 
-    fun fetchPostList(init: Boolean = true) {
+    private val _isRefresh = mutableStateOf(false)
+    val isRefresh: State<Boolean> = _isRefresh
+
+    fun refresh() {
+        viewModelScope.launch {
+            _isRefresh.value = true
+            fetchPostList()
+            _isRefresh.value = false
+        }
+    }
+
+    suspend fun fetchPostList(init: Boolean = true) {
         viewModelScope.launch {
             val currentList = if (init) {
                 mutableListOf()
@@ -40,7 +53,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun patchPollChoice(postId: Int, choice: Int) {
+    suspend fun patchPollChoice(postId: Int, choice: Int) {
         viewModelScope.launch {
             val isSuccess = pollRepository.patchPollChoice(postId, choice)?.isSuccess
 
