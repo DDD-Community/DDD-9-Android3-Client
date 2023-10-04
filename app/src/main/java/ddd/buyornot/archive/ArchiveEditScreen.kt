@@ -54,6 +54,7 @@ import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
 import ddd.buyornot.archive.viewmodel.ArchiveViewModel
 import ddd.buyornot.util.findActivity
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
@@ -99,8 +100,8 @@ fun ArchiveEditScreen(
                 )
             },
             snackbarHost = {
-                SnackbarHost(snackbarHostState) {
-                    BDSSingleTextSnackbar(text = "아카이브함에서 상품을 삭제했어요")
+                SnackbarHost(snackbarHostState) { snackbarData ->
+                    BDSSingleTextSnackbar(text = snackbarData.visuals.message)
                 }
             }
         ) { paddingValues ->
@@ -179,6 +180,19 @@ fun ArchiveEditScreen(
         }
     }
 
+    LaunchedEffect(key1 = Unit) {
+        scope.launch {
+            viewModel.uiEvent.collectLatest { event ->
+                event.message?.let {
+                    snackbarHostState.showSnackbar(
+                        message = it,
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            }
+        }
+    }
+
     if (showDeleteDialogState) {
         val sheetState: SheetState = rememberModalBottomSheetState()
         BDSConfirmDialog(
@@ -212,12 +226,12 @@ fun ArchiveEditScreen(
                         }.invokeOnCompletion {
                             if (!sheetState.isVisible) {
                                 showDeleteDialogState = false
-                                scope.launch {
+                                /*scope.launch {
                                     snackbarHostState.showSnackbar(
-                                        message = "Delete Archive Items",
+                                        message = "아카이브 상품",
                                         duration = SnackbarDuration.Short
                                     )
-                                }
+                                }*/
                             }
                         }
                     },
