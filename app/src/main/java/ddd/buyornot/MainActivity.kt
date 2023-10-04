@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +19,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.component.BDSBottomNavigationLayout
 import com.ddd.component.BottomNavigationItem
+import com.ddd.component.data.UiEvent
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.add_vote.ui.AddNewVoteActivity
@@ -41,7 +43,6 @@ class MainActivity : ComponentActivity() {
     private val homeViewModel by viewModels<HomeViewModel>()
     private val archiveViewModel by viewModels<ArchiveViewModel>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -57,6 +58,8 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
+            val uiEvent = archiveViewModel.uiEvent.collectAsState(initial = UiEvent.NONE)
+
             var selectedBottomNavigation: BottomNavigationItem by remember {
                 mutableStateOf(BottomNavigationItem.bottomNavigationItems.first())
             }
@@ -69,7 +72,8 @@ class MainActivity : ComponentActivity() {
                     onClickNavigationItem = {
                         selectedBottomNavigation = it
                         handleNavigationEvent(navHostController, it)
-                    }
+                    },
+                    uiEvent = uiEvent.value
                 ) {
                     BackHandler {
                         onBackPressed(navHostController)

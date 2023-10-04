@@ -4,9 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ddd.component.ArchiveItem
+import com.ddd.component.data.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ddd.buyornot.data.model.archive.DeleteArchiveReq
 import ddd.buyornot.data.repository.archive.ArchiveRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,6 +22,10 @@ class ArchiveViewModel @Inject constructor(
     private val count = 20
 
     val archiveItemList = MutableLiveData<MutableList<ArchiveItem>>()
+
+    private val _uiEvent = MutableSharedFlow<UiEvent>()
+    val uiEvent : SharedFlow<UiEvent>
+        get() = _uiEvent
 
     suspend fun fetchArchiveItemList(init: Boolean = false) {
         viewModelScope.launch {
@@ -57,6 +64,7 @@ class ArchiveViewModel @Inject constructor(
             archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq)?.run {
                 if (isSuccess) {
                     fetchArchiveItemList(true)
+                    _uiEvent.emit(UiEvent.DELETE_ITEM)
                 }
             }
         }
