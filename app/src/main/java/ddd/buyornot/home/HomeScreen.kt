@@ -135,6 +135,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                         BDSHomeCard(
                             post = post,
                             patchPollChoice = viewModel::patchPollChoice,
+                            postArchiveItem = viewModel::postArchiveItem,
                             onClick = { itemUrl -> context.openWeb(itemUrl) }
                         )
                         Spacer(
@@ -167,6 +168,7 @@ private fun Int.calculatePollRate(other: Int): Float =
 fun BDSHomeCard(
     post: PostResult,
     patchPollChoice: suspend (Int, Int) -> Unit = { _, _ -> },
+    postArchiveItem: suspend () -> Unit = {},
     isMyPost: Boolean = false,
     onClick: (String) -> Unit = {},
     onClickDots: () -> Unit = {}
@@ -239,6 +241,11 @@ fun BDSHomeCard(
                             pollA.id?.let { it1 -> patchPollChoice(it, it1) }
                         }
                     }
+                },
+                onClickLike = {
+                    scope.launch {
+                        postArchiveItem.invoke()
+                    }
                 }
             )
             BDSPollCard(
@@ -266,6 +273,11 @@ fun BDSHomeCard(
                         post.id?.let {
                             pollB.id?.let { it1 -> patchPollChoice(it, it1) }
                         }
+                    }
+                },
+                onClickLike = {
+                    scope.launch {
+                        postArchiveItem.invoke()
                     }
                 }
             )

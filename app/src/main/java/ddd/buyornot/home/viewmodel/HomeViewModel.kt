@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ddd.component.data.UiEvent
+import com.ddd.component.data.SnackbarUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
@@ -28,8 +28,8 @@ class HomeViewModel @Inject constructor(
     val postList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
     val profile = sharedPreferenceWrapper.profile
 
-    private val _uiEvent = MutableSharedFlow<UiEvent>()
-    val uiEvent : SharedFlow<UiEvent>
+    private val _uiEvent = MutableSharedFlow<SnackbarUi>()
+    val uiEvent : SharedFlow<SnackbarUi>
         get() = _uiEvent
 
     private val _isRefresh = mutableStateOf(false)
@@ -66,7 +66,19 @@ class HomeViewModel @Inject constructor(
 
             if (isSuccess == true) {
                 fetchPostList()
+                _uiEvent.emit(SnackbarUi.POLL)
             }
+        }
+    }
+
+    suspend fun postArchiveItem() {
+        viewModelScope.launch {
+            // TODO: 아카이브함 상품 담기 추가 
+            /*if (sharedItemUrl.isNotEmpty()) {
+                val result = archiveRepository.postArchiveItem(sharedItemUrl)
+                archiveRepository.postArchiveItem(sharedItemUrl)
+            }*/
+            _uiEvent.emit(SnackbarUi.POST_ARCHIVE)
         }
     }
 }

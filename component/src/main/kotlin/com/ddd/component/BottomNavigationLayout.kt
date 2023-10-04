@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.BottomNavigationItem.Companion.bottomNavigationItems
-import com.ddd.component.data.UiEvent
+import com.ddd.component.data.SnackbarUi
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.Gray800
 import com.ddd.component.theme.BDSColor.Primary400
@@ -52,7 +52,7 @@ fun BDSBottomNavigationLayout(
     modifier: Modifier = Modifier,
     selectedNavigationItem: BottomNavigationItem,
     onClickNavigationItem: (BottomNavigationItem) -> Unit,
-    uiEvent: SharedFlow<UiEvent>,
+    uiEvent: SharedFlow<SnackbarUi>,
     content: @Composable () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
