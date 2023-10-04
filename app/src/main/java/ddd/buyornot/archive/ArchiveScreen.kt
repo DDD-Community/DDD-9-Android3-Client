@@ -75,7 +75,7 @@ fun ArchiveScreen(
         toolbar = {
             val textSize = (18 + (36 - 18) * state.toolbarState.progress).sp
             val verticalPadding = (20 + (32 - 20) * state.toolbarState.progress).dp
-            val imageAlpha = (1 * state.toolbarState.progress)
+            val imageAlpha = state.toolbarState.progress
             val color: Color by animateColorAsState(
                 if (state.toolbarState.progress > 0.5f) {
                     BDSColor.SlateGray100
@@ -165,12 +165,7 @@ fun ArchiveScreen(
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 BDSText(
-                    /*text = when (tabIndex) {
-                        0 -> "좋아요를 눌러 아카이브함을 채워보세요!"
-                        1 -> "공유하기를 통해 바로 상품을 저장할 수 있어요!"
-                        else -> null
-                    }*/
-                    text = "좋아요를 눌러 아카이브함을 채워보세요!",
+                    text = "하트를 눌러 아카이브함을 채워보세요!",
                     modifier = Modifier.fillMaxWidth(),
                     fontSize = 14.sp,
                     lineHeight = 20.sp,

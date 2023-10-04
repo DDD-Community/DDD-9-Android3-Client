@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
     private val homeViewModel by viewModels<HomeViewModel>()
     private val archiveViewModel by viewModels<ArchiveViewModel>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -69,7 +68,8 @@ class MainActivity : ComponentActivity() {
                     onClickNavigationItem = {
                         selectedBottomNavigation = it
                         handleNavigationEvent(navHostController, it)
-                    }
+                    },
+                    uiEvent = archiveViewModel.uiEvent
                 ) {
                     BackHandler {
                         onBackPressed(navHostController)
