@@ -226,12 +226,6 @@ fun ArchiveEditScreen(
                         }.invokeOnCompletion {
                             if (!sheetState.isVisible) {
                                 showDeleteDialogState = false
-                                /*scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        message = "아카이브 상품",
-                                        duration = SnackbarDuration.Short
-                                    )
-                                }*/
                             }
                         }
                     },
