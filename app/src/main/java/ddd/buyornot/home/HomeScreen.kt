@@ -47,6 +47,7 @@ import com.ddd.component.BDSPollButton
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Primary100
+import com.ddd.component.theme.BDSColor.Primary400
 import com.ddd.component.theme.BDSColor.Primary500
 import com.ddd.component.theme.BDSColor.Primary700
 import com.ddd.component.theme.BDSColor.SlateGray300
@@ -148,7 +149,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                     refreshing = viewModel.isRefresh.value,
                     state = pullRefreshState,
                     modifier = Modifier.align(Alignment.TopCenter),
-                    // backgroundColor = if (viewModel.isRefresh.value) BDSColor.Red else BDSColor.Green,
+                    backgroundColor = Primary400,
                 )
             }
         }
