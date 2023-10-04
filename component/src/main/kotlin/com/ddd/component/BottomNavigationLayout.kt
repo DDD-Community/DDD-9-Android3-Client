@@ -37,6 +37,8 @@ import com.ddd.component.theme.BDSColor.Gray800
 import com.ddd.component.theme.BDSColor.Primary400
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray600
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -50,7 +52,7 @@ fun BDSBottomNavigationLayout(
     modifier: Modifier = Modifier,
     selectedNavigationItem: BottomNavigationItem,
     onClickNavigationItem: (BottomNavigationItem) -> Unit,
-    uiEvent: UiEvent = UiEvent.NONE,
+    uiEvent: SharedFlow<UiEvent>,
     content: @Composable () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -124,21 +126,17 @@ fun BDSBottomNavigationLayout(
                 .padding(padding)
                 .fillMaxSize()
         ) {
-            when (uiEvent) {
-                UiEvent.DELETE_ITEM -> {
-                    LaunchedEffect(key1 = Unit) {
-                        scope.launch {
-                            uiEvent.message?.let {
-                                snackbarHostState.showSnackbar(
-                                    message = it,
-                                    duration = SnackbarDuration.Short
-                                )
-                            }
+            LaunchedEffect(key1 = Unit) {
+                scope.launch {
+                    uiEvent.collectLatest { event ->
+                        event.message?.let {
+                            snackbarHostState.showSnackbar(
+                                message = it,
+                                duration = SnackbarDuration.Short
+                            )
                         }
                     }
                 }
-
-                else -> {}
             }
             content()
         }
