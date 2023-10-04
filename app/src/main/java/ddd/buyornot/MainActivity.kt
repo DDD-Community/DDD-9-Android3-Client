@@ -56,8 +56,6 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            // val uiEvent = archiveViewModel.uiEvent.collectAsState(initial = UiEvent.NONE)
-
             var selectedBottomNavigation: BottomNavigationItem by remember {
                 mutableStateOf(BottomNavigationItem.bottomNavigationItems.first())
             }
