@@ -281,8 +281,8 @@ fun BDSHomeCard(
                     .align(Alignment.CenterStart)
                     .size(width = 86.dp, height = 32.dp),
                 contentPadding = BDSButtonInnerPadding.XSMALL,
-                containerColor = SlateGray300,
-                contentColor = SlateGray900,
+                containerColor = if (post.pollResponse?.polled == -1) SlateGray900 else SlateGray300,
+                contentColor = if (post.pollResponse?.polled == -1) Primary100 else SlateGray900,
                 onClick = {
                     scope.launch {
                         post.id?.let {
