@@ -63,7 +63,7 @@ class ArchiveViewModel @Inject constructor(
                 )
             }
 
-            if (!newItemList.isNullOrEmpty()) {
+            if (newItemList != null) {
                 currentItemList.addAll(newItemList)
                 archiveItemList.postValue(currentItemList)
                 page++
