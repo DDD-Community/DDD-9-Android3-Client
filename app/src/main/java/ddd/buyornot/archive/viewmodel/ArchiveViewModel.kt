@@ -1,5 +1,7 @@
 package ddd.buyornot.archive.viewmodel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,6 +28,17 @@ class ArchiveViewModel @Inject constructor(
     private val _uiEvent = MutableSharedFlow<SnackbarUi>()
     val uiEvent : SharedFlow<SnackbarUi>
         get() = _uiEvent
+
+    private val _isRefresh = mutableStateOf(false)
+    val isRefresh: State<Boolean> = _isRefresh
+
+    fun refresh() {
+        viewModelScope.launch {
+            _isRefresh.value = true
+            fetchArchiveItemList()
+            _isRefresh.value = false
+        }
+    }
 
     suspend fun fetchArchiveItemList(init: Boolean = false) {
         viewModelScope.launch {
