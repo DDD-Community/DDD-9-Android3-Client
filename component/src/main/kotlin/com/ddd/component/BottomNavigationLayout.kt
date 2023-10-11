@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.BottomNavigationItem.Companion.bottomNavigationItems
-import com.ddd.component.data.UiEvent
+import com.ddd.component.data.SnackbarUi
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.Gray800
 import com.ddd.component.theme.BDSColor.Primary400
@@ -39,7 +39,6 @@ import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray600
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**
  * @param selectedNavigationItem 선택된 탭
@@ -52,7 +51,7 @@ fun BDSBottomNavigationLayout(
     modifier: Modifier = Modifier,
     selectedNavigationItem: BottomNavigationItem,
     onClickNavigationItem: (BottomNavigationItem) -> Unit,
-    uiEvent: SharedFlow<UiEvent>,
+    uiEvent: SharedFlow<SnackbarUi>? = null,
     content: @Composable () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -126,19 +125,17 @@ fun BDSBottomNavigationLayout(
                 .padding(padding)
                 .fillMaxSize()
         ) {
-            LaunchedEffect(key1 = Unit) {
-                scope.launch {
-                    uiEvent.collectLatest { event ->
-                        event.message?.let {
-                            snackbarHostState.showSnackbar(
-                                message = it,
-                                duration = SnackbarDuration.Short
-                            )
-                        }
+            content()
+            LaunchedEffect(key1 = uiEvent) {
+                uiEvent?.collectLatest { event ->
+                    event.message?.let {
+                        snackbarHostState.showSnackbar(
+                            message = it,
+                            duration = SnackbarDuration.Short
+                        )
                     }
                 }
             }
-            content()
         }
     }
 }

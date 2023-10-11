@@ -69,7 +69,7 @@ class MainActivity : ComponentActivity() {
                         selectedBottomNavigation = it
                         handleNavigationEvent(navHostController, it)
                     },
-                    uiEvent = archiveViewModel.uiEvent
+                    uiEvent = if (selectedBottomNavigation == BottomNavigationItem.Home) homeViewModel.uiEvent else archiveViewModel.uiEvent,
                 ) {
                     BackHandler {
                         onBackPressed(navHostController)

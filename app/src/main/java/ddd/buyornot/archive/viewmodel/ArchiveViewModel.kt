@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ddd.component.ArchiveItem
-import com.ddd.component.data.UiEvent
+import com.ddd.component.data.SnackbarUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ddd.buyornot.data.model.archive.DeleteArchiveReq
 import ddd.buyornot.data.repository.archive.ArchiveRepository
@@ -23,8 +23,8 @@ class ArchiveViewModel @Inject constructor(
 
     val archiveItemList = MutableLiveData<MutableList<ArchiveItem>>()
 
-    private val _uiEvent = MutableSharedFlow<UiEvent>()
-    val uiEvent : SharedFlow<UiEvent>
+    private val _uiEvent = MutableSharedFlow<SnackbarUi>()
+    val uiEvent : SharedFlow<SnackbarUi>
         get() = _uiEvent
 
     suspend fun fetchArchiveItemList(init: Boolean = false) {
@@ -64,9 +64,10 @@ class ArchiveViewModel @Inject constructor(
             archiveRepository.patchArchiveItemDelete(deleteArchiveReq = deleteArchiveReq)?.run {
                 if (isSuccess) {
                     fetchArchiveItemList(true)
-                    _uiEvent.emit(UiEvent.DELETE_ITEM)
+                    _uiEvent.emit(SnackbarUi.DELETE_ITEM)
                 }
             }
+            _uiEvent.emit(SnackbarUi.DELETE_ITEM)
         }
     }
 }
