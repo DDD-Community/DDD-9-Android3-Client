@@ -200,14 +200,16 @@ fun BDSHomeCard(
             fontWeight = SemiBold,
             color = Black
         )
-        Spacer(modifier = Modifier.height(10.dp))
-        BDSText(
-            text = post.content,
-            fontSize = 14.sp,
-            lineHeight = 20.sp,
-            fontWeight = Normal,
-            color = Black
-        )
+        if (!post.content.isNullOrEmpty()) {
+            Spacer(modifier = Modifier.height(10.dp))
+            BDSText(
+                text = post.content,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                fontWeight = Normal,
+                color = Black
+            )
+        }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
