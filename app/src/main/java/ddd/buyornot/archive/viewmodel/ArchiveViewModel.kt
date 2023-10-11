@@ -67,6 +67,7 @@ class ArchiveViewModel @Inject constructor(
                     _uiEvent.emit(SnackbarUi.DELETE_ITEM)
                 }
             }
+            _uiEvent.emit(SnackbarUi.DELETE_ITEM)
         }
     }
 }

@@ -39,7 +39,6 @@ import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray600
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**
  * @param selectedNavigationItem 선택된 탭
@@ -52,7 +51,7 @@ fun BDSBottomNavigationLayout(
     modifier: Modifier = Modifier,
     selectedNavigationItem: BottomNavigationItem,
     onClickNavigationItem: (BottomNavigationItem) -> Unit,
-    uiEvent: SharedFlow<SnackbarUi>,
+    uiEvent: SharedFlow<SnackbarUi>? = null,
     content: @Composable () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -126,19 +125,17 @@ fun BDSBottomNavigationLayout(
                 .padding(padding)
                 .fillMaxSize()
         ) {
-            LaunchedEffect(key1 = Unit) {
-                scope.launch {
-                    uiEvent.collectLatest { event ->
-                        event.message?.let {
-                            snackbarHostState.showSnackbar(
-                                message = it,
-                                duration = SnackbarDuration.Short
-                            )
-                        }
+            content()
+            LaunchedEffect(key1 = uiEvent) {
+                uiEvent?.collectLatest { event ->
+                    event.message?.let {
+                        snackbarHostState.showSnackbar(
+                            message = it,
+                            duration = SnackbarDuration.Short
+                        )
                     }
                 }
             }
-            content()
         }
     }
 }
