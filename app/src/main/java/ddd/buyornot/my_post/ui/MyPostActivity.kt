@@ -16,6 +16,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
@@ -46,6 +52,7 @@ import com.ddd.component.BDSTab
 import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.data.BDSTextData
+import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Red
 import com.ddd.component.theme.BDSColor.SlateGray600
@@ -61,8 +68,8 @@ import ddd.buyornot.util.openWeb
 import ddd.buyornot.util.sharePostWeb
 import kotlinx.coroutines.launch
 
-@ExperimentalMaterial3Api
 @AndroidEntryPoint
+@OptIn(ExperimentalMaterial3Api::class)
 class MyPostActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MyPostViewModel>()
@@ -126,8 +133,8 @@ class MyPostActivity : ComponentActivity() {
 
 // TODO: selectTabIndex, selectOptionIndex State로 전환
 
-@ExperimentalMaterial3Api
 @Composable
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 fun MyPostScreen(
     postList: List<PostResult>,
     selectedTabIndex: Int,
@@ -139,15 +146,23 @@ fun MyPostScreen(
     var openBottomDialog by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf(0) }
 
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = viewModel.isRefresh.value,
+        onRefresh = viewModel::refresh
+    )
+    val scrollState = rememberScrollState()
+
     val scope = rememberCoroutineScope()
 
-    if (postList.isEmpty()) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .pullRefresh(pullRefreshState)
+    ) {
+        if (postList.isEmpty()) {
             when (selectedTabIndex) {
                 0 -> {
-                    Column(modifier = Modifier.align(Alignment.Center)) {
+                    Column(modifier = Modifier.align(Alignment.Center)
+                        .verticalScroll(scrollState, true)) {
                         BDSImage(
                             resId = R.drawable.ic_content_empty,
                             modifier = Modifier
@@ -175,8 +190,10 @@ fun MyPostScreen(
                         )
                     }
                 }
+
                 1 -> {
-                    Column(modifier = Modifier.align(Alignment.Center)) {
+                    Column(modifier = Modifier.align(Alignment.Center)
+                        .verticalScroll(scrollState, true)) {
                         BDSImage(
                             resId = R.drawable.ic_content_empty,
                             modifier = Modifier
@@ -204,21 +221,27 @@ fun MyPostScreen(
                     }
                 }
             }
-        }
-    } else {
-        LazyColumn {
-            items(postList) { postResult ->
-                BDSHomeCard(
-                    post = postResult,
-                    isMyPost = true,
-                    onClickDots = {
-                        viewModel.selectedPostId = postResult.id
-                        openBottomSheet = true
-                    },
-                    onClick = { itemUrl -> context.openWeb(itemUrl) }
-                )
+        } else {
+            LazyColumn {
+                items(postList) { postResult ->
+                    BDSHomeCard(
+                        post = postResult,
+                        isMyPost = true,
+                        onClickDots = {
+                            viewModel.selectedPostId = postResult.id
+                            openBottomSheet = true
+                        },
+                        onClick = { itemUrl -> context.openWeb(itemUrl) }
+                    )
+                }
             }
         }
+        PullRefreshIndicator(
+            refreshing = viewModel.isRefresh.value,
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter),
+            backgroundColor = BDSColor.Primary400
+        )
     }
 
     if (openBottomSheet) {

@@ -1,5 +1,7 @@
 package ddd.buyornot.my_post.viewmodel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,6 +22,20 @@ class MyPostViewModel @Inject constructor(
 
     val tabIndex = MutableLiveData<Int>()
     var selectedPostId: Int? = null
+
+    private val _isRefresh = mutableStateOf(false)
+    val isRefresh: State<Boolean> = _isRefresh
+
+    fun refresh() {
+        viewModelScope.launch {
+            _isRefresh.value = true
+            when (tabIndex.value) {
+                0 -> fetchOnGoingPostList()
+                1 -> fetchClosedPostList()
+            }
+            _isRefresh.value = false
+        }
+    }
 
     val onGoingPostList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
     val closedPostList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
