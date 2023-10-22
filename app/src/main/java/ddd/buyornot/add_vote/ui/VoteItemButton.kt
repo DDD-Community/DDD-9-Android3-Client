@@ -1,28 +1,35 @@
 package ddd.buyornot.add_vote.ui
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
+import ddd.buyornot.postpage.ui.ShareActivity
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun VoteItemButton(
     modifier: Modifier,
     imageUrl: String?,
 ) {
+    val context = LocalContext.current
     if (imageUrl.isNullOrBlank()) {
         Column(
             modifier = modifier
@@ -30,7 +37,10 @@ internal fun VoteItemButton(
                     width = 1.dp,
                     color = BDSColor.Primary200,
                     shape = RoundedCornerShape(size = 16.dp)
-                ),
+                )
+                .clickable {
+                    // do nothing
+                },
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
