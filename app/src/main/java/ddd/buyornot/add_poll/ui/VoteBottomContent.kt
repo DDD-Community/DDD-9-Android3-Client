@@ -1,4 +1,4 @@
-package ddd.buyornot.add_vote.ui
+package ddd.buyornot.add_poll.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,14 +22,14 @@ import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
 
 @Composable
-fun VoteBottomContent(
+fun PollBottomContent(
     modifier: Modifier = Modifier,
     savedCount: Int = 0,
     postButtonEnabled: Boolean = false,
     onClickSave: (Boolean) -> Unit,
     onClickPost: (Boolean) -> Unit,
 ) {
-    var hideVote by remember { mutableStateOf(false) }
+    var hidePoll by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -42,9 +42,9 @@ fun VoteBottomContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             BDSSwitch(
-                checked = hideVote,
+                checked = hidePoll,
                 onCheckedChange = {
-                    hideVote = it
+                    hidePoll = it
                 },
             )
             BDSText(
@@ -64,7 +64,7 @@ fun VoteBottomContent(
                 contentColor = BDSColor.SlateGray900,
                 containerColor = Color.Transparent,
             ) {
-                onClickSave(hideVote)
+                onClickSave(hidePoll)
             }
             BDSButton(
                 containerColor = if (postButtonEnabled) BDSColor.Primary500 else BDSColor.SlateGray500,
@@ -73,7 +73,7 @@ fun VoteBottomContent(
                 text = "글 등록하기",
                 fontSize = 16.sp,
             ) {
-                onClickPost(hideVote)
+                onClickPost(hidePoll)
             }
         }
     }

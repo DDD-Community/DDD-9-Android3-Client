@@ -1,4 +1,4 @@
-package ddd.buyornot.add_vote.ui
+package ddd.buyornot.add_poll.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,11 +33,11 @@ import com.ddd.component.BDSTextFieldState
 import ddd.buyornot.util.findActivity
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BuyOrNotTheme
-import ddd.buyornot.add_vote.viewmodel.AddNewVoteViewModel
+import ddd.buyornot.add_poll.viewmodel.AddNewPollViewModel
 
 @Composable
-fun AddNewVoteScreen(
-    viewModel: AddNewVoteViewModel
+fun AddNewPollScreen(
+    viewModel: AddNewPollViewModel
 ) {
     BuyOrNotTheme {
         val activity = LocalContext.current.findActivity()
@@ -46,8 +46,8 @@ fun AddNewVoteScreen(
 
         val postButtonEnabled by viewModel.isValidPost.collectAsStateWithLifecycle(false)
         var isTempStorageAvailable by remember { mutableStateOf(false) }
-        var voteTitle by remember { mutableStateOf("") }
-        var voteDescription by remember { mutableStateOf("") }
+        var pollTitle by remember { mutableStateOf("") }
+        var pollDescription by remember { mutableStateOf("") }
 
         Box(
             modifier = Modifier
@@ -96,7 +96,7 @@ fun AddNewVoteScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    VoteItemButton(
+                    PollItemButton(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(200.dp)
@@ -104,7 +104,7 @@ fun AddNewVoteScreen(
                             .weight(1f),
                         imageUrl = ""
                     )
-                    VoteItemButton(
+                    PollItemButton(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(200.dp)
@@ -120,18 +120,18 @@ fun AddNewVoteScreen(
                         start = 22.dp,
                         end = 22.dp,
                     ),
-                    value = voteTitle,
+                    value = pollTitle,
                     onValueChange = {
-                        voteTitle = it
+                        pollTitle = it
                         viewModel.checkPostValidation(
-                            title = voteTitle,
-                            description = voteDescription
+                            title = pollTitle,
+                            description = pollDescription
                         )
                     },
                     title = "투표 제목을 작성해주세요",
                     hint = "",
-                    subText = "${voteTitle.length} / 최대 ${AddNewVoteViewModel.TITLE_MAX_LENGTH}자",
-                    maxLength = AddNewVoteViewModel.TITLE_MAX_LENGTH,
+                    subText = "${pollTitle.length} / 최대 ${AddNewPollViewModel.TITLE_MAX_LENGTH}자",
+                    maxLength = AddNewPollViewModel.TITLE_MAX_LENGTH,
                     onFocusChanged = {
                         bdsTextFieldState =
                             if (it.isFocused) BDSTextFieldState.Focus else BDSTextFieldState.UnFocus
@@ -147,18 +147,18 @@ fun AddNewVoteScreen(
                         vertical = 24.dp,
                         horizontal = 22.dp
                     ),
-                    value = voteDescription,
+                    value = pollDescription,
                     onValueChange = {
-                        voteDescription = it
+                        pollDescription = it
                         viewModel.checkPostValidation(
-                            title = voteTitle,
-                            description = voteDescription
+                            title = pollTitle,
+                            description = pollDescription
                         )
                     },
                     title = "내용을 작성해주세요 (선택)",
                     hint = "",
-                    maxLength = AddNewVoteViewModel.DESCRIPTION_MAX_LENGTH,
-                    subText = "${voteDescription.length} / 최대 ${AddNewVoteViewModel.DESCRIPTION_MAX_LENGTH}자",
+                    maxLength = AddNewPollViewModel.DESCRIPTION_MAX_LENGTH,
+                    subText = "${pollDescription.length} / 최대 ${AddNewPollViewModel.DESCRIPTION_MAX_LENGTH}자",
                     onFocusChanged = {
                         bdsTextFieldState =
                             if (it.isFocused) BDSTextFieldState.Focus else BDSTextFieldState.UnFocus
@@ -170,7 +170,7 @@ fun AddNewVoteScreen(
                 )
             }
 
-            VoteBottomContent(
+            PollBottomContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 36.dp, top = 16.dp)
@@ -178,17 +178,17 @@ fun AddNewVoteScreen(
                 savedCount = 0,
                 postButtonEnabled = postButtonEnabled,
                 onClickSave = {
-                    viewModel.saveVote(
-                        title = voteTitle,
-                        description = voteDescription,
-                        hideVote = it
+                    viewModel.savePoll(
+                        title = pollTitle,
+                        description = pollDescription,
+                        hidePoll = it
                     )
                 },
                 onClickPost = {
-                    viewModel.postVote(
-                        title = voteTitle,
-                        description = voteDescription,
-                        hideVote = it,
+                    viewModel.postPoll(
+                        title = pollTitle,
+                        description = pollDescription,
+                        hidePoll = it,
                     )
                 },
             )

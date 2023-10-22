@@ -47,7 +47,7 @@
             android:theme="@style/Theme.BuyOrNot" />
 
         <activity
-            android:name=".add_vote.ui.AddNewVoteActivity"
+            android:name=".add_poll.ui.AddNewVoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.BuyOrNot" />
 

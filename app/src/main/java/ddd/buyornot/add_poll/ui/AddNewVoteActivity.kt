@@ -1,22 +1,22 @@
-package ddd.buyornot.add_vote.ui
+package ddd.buyornot.add_poll.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import ddd.buyornot.add_vote.viewmodel.AddNewVoteViewModel
+import ddd.buyornot.add_poll.viewmodel.AddNewPollViewModel
 
 @AndroidEntryPoint
-class AddNewVoteActivity : ComponentActivity() {
+class AddNewPollActivity : ComponentActivity() {
 
-    private val viewModel by viewModels<AddNewVoteViewModel>()
+    private val viewModel by viewModels<AddNewPollViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            AddNewVoteScreen(viewModel)
+            AddNewPollScreen(viewModel)
         }
     }
 }

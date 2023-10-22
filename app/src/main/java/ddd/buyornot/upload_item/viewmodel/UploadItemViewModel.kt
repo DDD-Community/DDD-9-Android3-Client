@@ -16,13 +16,13 @@ class UploadItemViewModel @Inject constructor(
     fun uploadItem(
         title: String,
         description: String,
-        hideVote: Boolean,
+        hidePoll: Boolean,
         vararg itemUrls: String,
     ) {
         /*val request = PostRequest(
             title = title,
             content = description,
-            publicStatus = (if (hideVote) PublicStatus.PRIVATE else PublicStatus.PUBLIC).name,
+            publicStatus = (if (hidePoll) PublicStatus.PRIVATE else PublicStatus.PUBLIC).name,
             itemUrls = itemUrls.toList()
         )
         postService.item(request)*/

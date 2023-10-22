@@ -1,6 +1,5 @@
-package ddd.buyornot.add_vote.ui
+package ddd.buyornot.add_poll.ui
 
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,11 +20,10 @@ import androidx.compose.ui.unit.sp
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
-import ddd.buyornot.postpage.ui.ShareActivity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun VoteItemButton(
+internal fun PollItemButton(
     modifier: Modifier,
     imageUrl: String?,
 ) {

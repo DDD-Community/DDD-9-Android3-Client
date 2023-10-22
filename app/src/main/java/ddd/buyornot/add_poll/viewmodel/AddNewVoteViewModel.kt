@@ -1,4 +1,4 @@
-package ddd.buyornot.add_vote.viewmodel
+package ddd.buyornot.add_poll.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddNewVoteViewModel @Inject constructor(
+class AddNewPollViewModel @Inject constructor(
     private val postRepository: PostRepository
 ) : ViewModel() {
 
@@ -39,27 +39,27 @@ class AddNewVoteViewModel @Inject constructor(
         }
     }
 
-    fun postVote(
+    fun postPoll(
         title: String,
         description: String,
-        hideVote: Boolean,
+        hidePoll: Boolean,
         vararg itemUrls: String,
     ) {
         viewModelScope.launch {
             val request = PostRequest(
                 title = title,
                 content = description,
-                publicStatus = (if (hideVote) PublicStatus.PRIVATE else PublicStatus.PUBLIC).name,
+                publicStatus = (if (hidePoll) PublicStatus.PRIVATE else PublicStatus.PUBLIC).name,
                 itemUrls = itemUrls.toList()
             )
             postRepository.postNewPost(request)
         }
     }
 
-    fun saveVote(
+    fun savePoll(
         title: String,
         description: String,
-        hideVote: Boolean,
+        hidePoll: Boolean,
         vararg itemUrls: String,
     ) {
         viewModelScope.launch {
