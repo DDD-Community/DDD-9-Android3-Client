@@ -105,5 +105,8 @@ data class PollItemResponse(
     val itemUrl: String? = null,
 
     @SerializedName("originalPrice")
-    val originalPrice: Int? = null
+    val originalPrice: Int? = null,
+
+    @SerializedName("liked")
+    val liked: Boolean = false,
 )

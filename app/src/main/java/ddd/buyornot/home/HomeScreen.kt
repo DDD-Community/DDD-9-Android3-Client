@@ -226,7 +226,8 @@ fun BDSHomeCard(
                     brand = pollA.brand,
                     name = pollA.itemName,
                     discount = pollA.discountedRate,
-                    price = pollA.originalPrice
+                    price = pollA.originalPrice,
+                    liked = pollA.liked,
                 ),
                 title = if (post.pollResponse != null || post.pollStatus == PostResult.PollStatus.CLOSED) {
                     "A | ${(pollARate * 100).toInt()}%"
@@ -257,6 +258,7 @@ fun BDSHomeCard(
                     name = pollB.itemName,
                     discount = pollB.discountedRate,
                     price = pollB.originalPrice,
+                    liked = pollB.liked,
                 ),
                 title = if (post.pollResponse != null || post.pollStatus == PostResult.PollStatus.CLOSED) {
                     "B | ${(pollBRate * 100).toInt()}%"
