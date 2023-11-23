@@ -1,5 +1,6 @@
 package ddd.buyornot.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -49,7 +50,13 @@ class LoginActivity : ComponentActivity() {
     @Inject
     lateinit var sharedPreferenceWrapper: SharedPreferenceWrapper
 
-    // val pref = SharedPreferenceWrapper(this)
+    companion object {
+        fun open(context: Context) {
+            Intent(context, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }.run { context.startActivity(this) }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +76,7 @@ class LoginActivity : ComponentActivity() {
                             lifecycleScope.launch {
                                 val result = userRepository.fetchProfile()?.result?.let {
                                     sharedPreferenceWrapper.nickname = it.nickname ?: ""
-                                    sharedPreferenceWrapper.profile = it.profile ?:""
+                                    sharedPreferenceWrapper.profile = it.profile ?: ""
                                 }
                             }
                             startMainActivityAndFinish()

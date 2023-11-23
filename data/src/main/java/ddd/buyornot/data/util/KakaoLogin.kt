@@ -7,7 +7,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 
-class KakaoLogin(private val context: Context, private val postAuth: (String) -> Unit) {
+class KakaoLogin(private val context: Context, private val postAuth: ((String) -> Unit)? = null) {
     val TAG = "KakaoLogin"
 
     fun kakaoLogin() {
@@ -26,7 +26,7 @@ class KakaoLogin(private val context: Context, private val postAuth: (String) ->
                     UserApiClient.instance.loginWithKakaoAccount(context, callback = this::kakaoSignUp)
                 } else if (token != null) {
                     Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
-                    postAuth.invoke(token.accessToken)
+                    postAuth?.invoke(token.accessToken)
                 }
             }
         } else {
@@ -81,7 +81,7 @@ class KakaoLogin(private val context: Context, private val postAuth: (String) ->
                     }
                 }
                 Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
-                postAuth.invoke(token.accessToken)
+                postAuth?.invoke(token.accessToken)
             }
         }
     }

@@ -47,8 +47,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.util.KakaoLogin
+import ddd.buyornot.login.LoginActivity
 import ddd.buyornot.my_post.ui.MyPostActivity
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -66,20 +66,7 @@ class ProfileActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val kakaoLogin = KakaoLogin(this@ProfileActivity) { token ->
-            CoroutineScope(Dispatchers.IO).launch {
-                authRepository.logoutRemote(token)
-                    .onSuccess { response ->
-                        if (response.isSuccess) {
-                            finish()
-                        } else {
-                            handleLogoutError()
-                        }
-                    } .onFailure {
-                        handleLogoutError()
-                    }
-            }
-        }
+        val kakaoLogin = KakaoLogin(this@ProfileActivity)
 
         setContent {
             BuyOrNotTheme(darkStatusBar = true) {
@@ -220,6 +207,17 @@ class ProfileActivity : ComponentActivity() {
                                 onClick = {
                                     kakaoLogin.kakaoLogout()
                                     scope.launch {
+                                        authRepository.logoutRemote()
+                                            .onSuccess { response ->
+                                                if (response.isSuccess) {
+                                                    authRepository.logout()
+                                                    LoginActivity.open(this@ProfileActivity.baseContext)
+                                                } else {
+                                                    handleLogoutError()
+                                                }
+                                            } .onFailure {
+                                                handleLogoutError()
+                                            }
                                         sheetState.hide()
                                     }.invokeOnCompletion {
                                         if (!sheetState.isVisible) {

@@ -35,11 +35,11 @@ class AuthRepositoryImpl @Inject constructor(
         return authLocalDataSource.clearLocalData()
     }
 
-    override suspend fun logoutRemote(token: String): Result<BaseApiResponse<String>> {
-        return authRemoteDataSource.postLogout(token)
+    override suspend fun logoutRemote(): Result<BaseApiResponse<String>> {
+        return authRemoteDataSource.postLogout()
     }
 
-    override suspend fun signoutRemote(token: String): Result<BaseApiResponse<String>> {
-        return authRemoteDataSource.postSignOut(token)
+    override suspend fun signoutRemote(): Result<BaseApiResponse<String>> {
+        return authRemoteDataSource.postSignOut()
     }
 }
