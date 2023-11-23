@@ -14,6 +14,8 @@ interface ArchiveRepository {
 
     suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) : BaseApiResponse<String>?
 
+    suspend fun patchArchiveItemDelete(itemId: Int) : BaseApiResponse<String>?
+
     suspend fun fetchArchiveList(page: Int, count: Int) : BaseApiResponse<List<ArchiveResponse>>?
 
     suspend fun fetchPostLikedList(page: Int, count: Int) : BaseApiResponse<List<ArchiveResponse>>?

@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ddd.component.data.SnackbarUi
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ddd.buyornot.data.model.archive.DeleteArchiveReq
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.repository.archive.ArchiveRepository
@@ -83,7 +82,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun patchArchiveItemDelete(itemId: Int) {
         viewModelScope.launch {
-            archiveRepository.patchArchiveItemDelete(DeleteArchiveReq(listOf(itemId)))
+            archiveRepository.patchArchiveItemDelete(itemId)
             _uiEvent.emit(SnackbarUi.DELETE_ITEM)
         }
     }
