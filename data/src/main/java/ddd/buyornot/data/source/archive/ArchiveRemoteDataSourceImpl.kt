@@ -24,6 +24,10 @@ class ArchiveRemoteDataSourceImpl @Inject constructor(
         archiveService.patchArchiveItemDelete(deleteArchiveReq)
     }.getOrNull()
 
+    override suspend fun patchArchiveItemDelete(itemId: Int) = kotlin.runCatching {
+        archiveService.patchArchiveItemDelete(itemId)
+    }.getOrNull()
+
     override suspend fun fetchArchiveList(page: Int, count: Int) = runCatching {
         archiveService.fetchArchiveList(page, count)
     }.getOrNull()

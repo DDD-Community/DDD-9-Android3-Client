@@ -29,9 +29,14 @@ interface ArchiveService {
         @Path("archiveId") archiveId: Int
     ): BaseApiResponse<ArchiveResponse>
 
-    @PATCH("/api/archive/deletion")
+    @PATCH("/api/archive/deletions")
     suspend fun patchArchiveItemDelete(
         @Body deleteArchiveReq: DeleteArchiveReq
+    ): BaseApiResponse<String>
+
+    @PATCH("/api/archive/deletion/{itemId}")
+    suspend fun patchArchiveItemDelete(
+        @Path("itemId") itemId: Int
     ): BaseApiResponse<String>
 
     @GET("/api/archive/list")

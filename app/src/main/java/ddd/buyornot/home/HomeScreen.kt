@@ -26,7 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -135,7 +138,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                         BDSHomeCard(
                             post = post,
                             patchPollChoice = viewModel::patchPollChoice,
-                            postArchiveItem = viewModel::postArchiveItem,
+                            onClickLike = viewModel::clickLikeButton,
                             onClick = { itemUrl -> context.openWeb(itemUrl) }
                         )
                         Spacer(
@@ -168,17 +171,16 @@ private fun Int.calculatePollRate(other: Int): Float =
 fun BDSHomeCard(
     post: PostResult,
     patchPollChoice: suspend (Int, Int) -> Unit = { _, _ -> },
-    postArchiveItem: suspend () -> Unit = {},
     isMyPost: Boolean = false,
     onClick: (String) -> Unit = {},
-    onClickDots: () -> Unit = {}
+    onClickDots: () -> Unit = {},
+    onClickLike: suspend (Boolean, Int) -> Unit = { _, _ -> },
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
     val pollA = post.pollItemResponseList?.getOrNull(0) ?: return
     val pollB = post.pollItemResponseList?.getOrNull(1) ?: return
-
 
     val a = post.pollResponse?.firstItem ?: 0
     val b = post.pollResponse?.secondItem ?: 0
@@ -219,11 +221,13 @@ fun BDSHomeCard(
         ) {
             BDSPollCard(
                 archiveItem = ArchiveItem(
+                    itemId = pollA.itemId,
                     imageUrl = pollA.imgUrl,
                     brand = pollA.brand,
                     name = pollA.itemName,
                     discount = pollA.discountedRate,
-                    price = pollA.originalPrice
+                    price = pollA.originalPrice,
+                    liked = pollA.liked,
                 ),
                 title = if (post.pollResponse != null || post.pollStatus == PostResult.PollStatus.CLOSED) {
                     "A | ${(pollARate * 100).toInt()}%"
@@ -244,19 +248,17 @@ fun BDSHomeCard(
                         }
                     }
                 },
-                onClickLike = {
-                    scope.launch {
-                        postArchiveItem.invoke()
-                    }
-                }
+                onClickLike = onClickLike
             )
             BDSPollCard(
                 archiveItem = ArchiveItem(
+                    itemId = pollB.itemId,
                     imageUrl = pollB.imgUrl,
                     brand = pollB.brand,
                     name = pollB.itemName,
                     discount = pollB.discountedRate,
-                    price = pollB.originalPrice
+                    price = pollB.originalPrice,
+                    liked = pollB.liked,
                 ),
                 title = if (post.pollResponse != null || post.pollStatus == PostResult.PollStatus.CLOSED) {
                     "B | ${(pollBRate * 100).toInt()}%"
@@ -277,11 +279,7 @@ fun BDSHomeCard(
                         }
                     }
                 },
-                onClickLike = {
-                    scope.launch {
-                        postArchiveItem.invoke()
-                    }
-                }
+                onClickLike = onClickLike
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -378,18 +376,26 @@ private fun BDSPollCard(
     pollStatus: PostResult.PollStatus? = PostResult.PollStatus.ONGOING,
     pollResponse: PollResponse?,
     pollRate: Float = 0f,
-    isLike: Boolean = false,
     onClick: () -> Unit = {},
-    onClickLike: () -> Unit = {},
+    onClickLike: suspend (Boolean, Int) -> Unit = { _, _ -> },
     onClickPoll: () -> Unit = {}
 ) {
+    val scope = rememberCoroutineScope()
+
     Column {
+        var likeState by remember { mutableStateOf(archiveItem.liked) }
+
         BDSArchiveItemCard(
             archiveItem = archiveItem,
             modifier = modifier,
-            isLike = isLike,
+            isLike = likeState,
             onClick = onClick,
-            onClickLike = onClickLike,
+            onClickLike = {
+                scope.launch {
+                    archiveItem.itemId?.let { onClickLike(likeState, it) }
+                    likeState = !likeState
+                }
+            },
         )
         Spacer(modifier = Modifier.height(16.dp))
         if (pollResponse != null || pollStatus == PostResult.PollStatus.CLOSED) {
