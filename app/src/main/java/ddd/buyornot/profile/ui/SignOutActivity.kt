@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,7 +39,7 @@ import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.util.KakaoLogin
-import kotlinx.coroutines.CoroutineScope
+import ddd.buyornot.login.LoginActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,21 +53,7 @@ class SignOutActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val kakaoLogin = KakaoLogin(this@SignOutActivity) { token ->
-            CoroutineScope(Dispatchers.IO).launch {
-                authRepository.signoutRemote(token)
-                    .onSuccess { response ->
-                        if (response.isSuccess) {
-                            finish()
-                        } else {
-                            handleSignOutError()
-                        }
-                    } .onFailure {
-                        handleSignOutError()
-                    }
-            }
-        }
-
+        val kakaoLogin = KakaoLogin(this@SignOutActivity)
 
         setContent {
             BuyOrNotTheme {
@@ -74,6 +61,7 @@ class SignOutActivity : ComponentActivity() {
                 var checked1 by remember { mutableStateOf(false) }
                 var checked2 by remember { mutableStateOf(false) }
                 var checked3 by remember { mutableStateOf(false) }
+                val scope = rememberCoroutineScope()
 
                 allChecked = checked1 && checked2 && checked3
 
@@ -174,6 +162,19 @@ class SignOutActivity : ComponentActivity() {
                             enabled = allChecked,
                             onClick = {
                                 kakaoLogin.kakaoSignOut()
+                                scope.launch {
+                                    authRepository.signoutRemote()
+                                        .onSuccess { response ->
+                                            if (response.isSuccess) {
+                                                authRepository.logout()
+                                                LoginActivity.open(this@SignOutActivity.baseContext)
+                                            } else {
+                                                handleSignOutError()
+                                            }
+                                        } .onFailure {
+                                            handleSignOutError()
+                                        }
+                                }
                             }
                         )
                         Spacer(modifier = Modifier.height(54.dp))
