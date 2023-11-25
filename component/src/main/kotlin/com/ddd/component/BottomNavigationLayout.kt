@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.sp
 import com.ddd.component.BottomNavigationItem.Companion.bottomNavigationItems
 import com.ddd.component.data.SnackbarUi
 import com.ddd.component.theme.BDSColor
-import com.ddd.component.theme.BDSColor.Gray800
 import com.ddd.component.theme.BDSColor.Primary400
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray600
@@ -95,13 +94,14 @@ fun BDSBottomNavigationLayout(
                             BDSImage(
                                 modifier = Modifier
                                     .padding(bottom = 4.dp)
-                                    .size(
+                                    .size(24.dp),
+/*                                    .size(
                                         if (item is BottomNavigationItem.Add) 36.dp else 24.dp
-                                    ),
+                                    )*/
                                 resId = item.icon,
                                 contentDescription = item.title,
                                 tintColor = when {
-                                    item is BottomNavigationItem.Add -> Gray800
+                                    // item is BottomNavigationItem.Add -> Gray800
                                     isSelected -> Primary400
                                     else -> SlateGray500
                                 },
@@ -147,13 +147,13 @@ sealed class BottomNavigationItem(
 ) {
 
     object Home : BottomNavigationItem("홈", R.drawable.ic_house, "home")
-    object Add : BottomNavigationItem(null, R.drawable.ic_add_in_circle, "add")
+    // object Add : BottomNavigationItem(null, R.drawable.ic_add_in_circle, "add")
     object Archive : BottomNavigationItem("아카이브", R.drawable.ic_archive_navigation, "archive")
 
     companion object {
         val bottomNavigationItems = listOf(
             Home,
-            Add,
+            // Add,
             Archive
         )
     }
