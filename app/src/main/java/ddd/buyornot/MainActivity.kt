@@ -20,7 +20,6 @@ import com.ddd.component.BDSBottomNavigationLayout
 import com.ddd.component.BottomNavigationItem
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
-import ddd.buyornot.add_vote.ui.AddNewVoteActivity
 import ddd.buyornot.archive.viewmodel.ArchiveViewModel
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.home.viewmodel.HomeViewModel
@@ -107,11 +106,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            is BottomNavigationItem.Add -> {
+            /*is BottomNavigationItem.Add -> {
                 startActivity(
                     Intent(this, AddNewVoteActivity::class.java)
                 )
-            }
+            }*/
 
             is BottomNavigationItem.Archive -> {
                 navHostController.navigate(BuyOrNotNavigationRoute.Archive.route) {
