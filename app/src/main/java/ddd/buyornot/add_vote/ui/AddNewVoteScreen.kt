@@ -30,10 +30,10 @@ import com.ddd.component.BDSAppBar
 import com.ddd.component.BDSText
 import com.ddd.component.BDSTextField
 import com.ddd.component.BDSTextFieldState
+import ddd.buyornot.util.findActivity
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BuyOrNotTheme
 import ddd.buyornot.add_vote.viewmodel.AddNewVoteViewModel
-import ddd.buyornot.findActivity
 
 @Composable
 fun AddNewVoteScreen(

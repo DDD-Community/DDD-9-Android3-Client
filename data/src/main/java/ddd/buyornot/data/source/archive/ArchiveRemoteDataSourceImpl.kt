@@ -16,16 +16,20 @@ class ArchiveRemoteDataSourceImpl @Inject constructor(
         archiveService.postArchiveItem(itemId)
     }.getOrNull()
 
-    override suspend fun patchArchiveItemLike(itemId: Int) = runCatching {
-        archiveService.patchArchiveItemLike(itemId)
+    override suspend fun patchArchiveItemLike(archiveId: Int) = runCatching {
+        archiveService.patchArchiveItemLike(archiveId)
     }.getOrNull()
 
     override suspend fun patchArchiveItemDelete(deleteArchiveReq: DeleteArchiveReq) = runCatching {
         archiveService.patchArchiveItemDelete(deleteArchiveReq)
     }.getOrNull()
 
-    override suspend fun fetchPostList(page: Int, count: Int) = runCatching {
-        archiveService.fetchArchivePostList(page, count)
+    override suspend fun patchArchiveItemDelete(itemId: Int) = kotlin.runCatching {
+        archiveService.patchArchiveItemDelete(itemId)
+    }.getOrNull()
+
+    override suspend fun fetchArchiveList(page: Int, count: Int) = runCatching {
+        archiveService.fetchArchiveList(page, count)
     }.getOrNull()
 
     override suspend fun fetchLikedPostList(page: Int, count: Int) = runCatching {

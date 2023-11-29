@@ -1,5 +1,6 @@
 package ddd.buyornot.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -27,7 +28,9 @@ import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.MainActivity
 import ddd.buyornot.R
+import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.repository.login.AuthRepository
+import ddd.buyornot.data.repository.user.UserRepository
 import ddd.buyornot.data.util.KakaoLogin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +43,20 @@ class LoginActivity : ComponentActivity() {
 
     @Inject
     lateinit var authRepository: AuthRepository
+
+    @Inject
+    lateinit var userRepository: UserRepository
+
+    @Inject
+    lateinit var sharedPreferenceWrapper: SharedPreferenceWrapper
+
+    companion object {
+        fun open(context: Context) {
+            Intent(context, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }.run { context.startActivity(this) }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +73,12 @@ class LoginActivity : ComponentActivity() {
                 authRepository.issueAuthorizationCode(token)
                     .onSuccess { response ->
                         if (response.isSuccess) {
+                            lifecycleScope.launch {
+                                val result = userRepository.fetchProfile()?.result?.let {
+                                    sharedPreferenceWrapper.nickname = it.nickname ?: ""
+                                    sharedPreferenceWrapper.profile = it.profile ?: ""
+                                }
+                            }
                             startMainActivityAndFinish()
                         } else {
                             handleLoginError()
@@ -104,11 +127,11 @@ class LoginActivity : ComponentActivity() {
     }
 
     private fun startMainActivityAndFinish() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            Toast.makeText(this@LoginActivity, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(applicationContext, MainActivity::class.java))
-            finish()
+        runOnUiThread {
+            Toast.makeText(this, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
         }
+        startActivity(Intent(applicationContext, MainActivity::class.java))
+        finish()
     }
 
     private fun handleLoginError() {

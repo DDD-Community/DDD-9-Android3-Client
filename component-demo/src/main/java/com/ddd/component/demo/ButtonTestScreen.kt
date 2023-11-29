@@ -133,7 +133,7 @@ fun ButtonTestScreen() {
             BDSIconButton(painter = painterResource(id = com.ddd.component.R.drawable.ic_arrow_right_small_mono), onClick = { /*TODO*/ })
             BDSIconButton(painter = painterResource(id = com.ddd.component.R.drawable.ic_add_in_circle), onClick = { /*TODO*/ })
             BDSIconButton(painter = painterResource(id = com.ddd.component.R.drawable.ic_close), onClick = { /*TODO*/ })
-            BDSIconButton(painter = painterResource(id = com.ddd.component.R.drawable.ic_ic_round_close), onClick = { /*TODO*/ })
+            BDSIconButton(painter = painterResource(id = com.ddd.component.R.drawable.ic_round_close), onClick = { /*TODO*/ })
         }
     }
 }

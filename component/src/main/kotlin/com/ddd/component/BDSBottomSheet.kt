@@ -282,7 +282,7 @@ fun BDSBottomSheetTextList(
                 },
                 right = {
                     BDSIconButton(
-                        resId = R.drawable.ic_close,
+                        resId = R.drawable.ic_round_close,
                         onClick = onClickRightIcon
                     )
                 }

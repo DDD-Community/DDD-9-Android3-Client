@@ -21,7 +21,7 @@ interface ArchiveService {
     // 게시물에서 보관
     @POST("/api/archive/from-post/{itemId}")
     suspend fun postArchiveItem(
-        @Path("itemId") itemId: Int
+        @Path("itemId") id: Int
     ): BaseApiResponse<ArchiveResponse>
 
     @PATCH("/api/archive/pick/{archiveId}")
@@ -29,17 +29,23 @@ interface ArchiveService {
         @Path("archiveId") archiveId: Int
     ): BaseApiResponse<ArchiveResponse>
 
-    @PATCH("/api/archive/deletion")
+    @PATCH("/api/archive/deletions")
     suspend fun patchArchiveItemDelete(
         @Body deleteArchiveReq: DeleteArchiveReq
-    ): BaseApiResponse<Int>
+    ): BaseApiResponse<String>
+
+    @PATCH("/api/archive/deletion/{itemId}")
+    suspend fun patchArchiveItemDelete(
+        @Path("itemId") itemId: Int
+    ): BaseApiResponse<String>
 
     @GET("/api/archive/list")
-    suspend fun fetchArchivePostList(
+    suspend fun fetchArchiveList(
         @Query("page") page: Int,
         @Query("count") count: Int,
     ): BaseApiResponse<List<ArchiveResponse>>
 
+    // 좋아요 화면 spec out 으로 제거 예정
     @GET("/api/archive/liked-list")
     suspend fun fetchArchiveLikedPostList(
         @Query("page") page: Int,

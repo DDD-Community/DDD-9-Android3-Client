@@ -18,13 +18,13 @@ interface AuthRepository {
         refreshToken: String
     ): Result<BaseApiResponse<AuthResult>>
 
-    suspend fun logoutRemote(token: String): Result<BaseApiResponse<String>>
-
-    suspend fun signoutRemote(token: String): Result<BaseApiResponse<String>>
+    suspend fun logoutRemote(): Result<BaseApiResponse<String>>
 
     suspend fun saveAuthorizationCode(
         grantType: String,
         accessToken: String,
         refreshToken: String
     ): Result<Unit>
+  
+    suspend fun signoutRemote(): Result<BaseApiResponse<String>>
 }

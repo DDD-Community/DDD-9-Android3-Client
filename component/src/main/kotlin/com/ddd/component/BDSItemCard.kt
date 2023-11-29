@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -24,12 +23,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ddd.component.theme.BDSColor.Gray950
 import com.ddd.component.theme.BDSColor.Primary400
 import java.text.DecimalFormat
 
 // TODO: data class 위치 변경
 data class ArchiveItem(
+    val id: Int? = null,
     val itemId: Int? = null,
+    val itemUrl: String? = null,
     val imageUrl: String? = null,
     val brand: String? = null,
     val name: String? = null,
@@ -54,16 +56,16 @@ fun BDSArchiveItemCard(
     Box(
         modifier
             .size(164.dp, 260.dp)
+            .clickable { onClick() }
     ) {
         Column {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(4.dp))
                     .size(164.dp, 164.dp)
-                    .clickable { onClick() }
             ) {
                 BDSImage(
-                    resId = R.drawable.ic_app_logo_sample, /*?: defaultImage*/
+                    url = archiveItem.imageUrl,
                     modifier = Modifier
                         .fillMaxSize()
                         .then(modifier),
@@ -80,8 +82,8 @@ fun BDSArchiveItemCard(
                             .padding(top = 10.dp, end = 10.dp)
                     ) {
                         BDSCheckbox(
-                            checkedImage = R.drawable.ic_check,
-                            uncheckedImage = R.drawable.ic_uncheck,
+                            checkedImage = R.drawable.ic_check_true,
+                            uncheckedImage = R.drawable.ic_check_false,
                             checked = isSelected,
                             onClick = onClick
                         )
@@ -109,9 +111,10 @@ fun BDSArchiveItemCard(
                 )
                 BDSText(
                     text = archiveItem.brand,
-                    style = MaterialTheme.typography.labelMedium,
+                    fontSize = 12.sp,
                     lineHeight = 14.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Gray950
                 )
             }
             if (archiveItem.name != null) {
@@ -122,9 +125,11 @@ fun BDSArchiveItemCard(
                 )
                 BDSText(
                     text = archiveItem.name,
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Gray950,
                     maxLines = 2,
-                    style = MaterialTheme.typography.bodySmall,
-                    lineHeight = 20.sp
                 )
             }
             Spacer(
@@ -138,7 +143,7 @@ fun BDSArchiveItemCard(
                         text = "${archiveItem.discount}% ",
                         modifier = modifier.offset(0.dp, 2.dp),
                         color = Primary400,
-                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         lineHeight = 20.sp
                     )
@@ -146,7 +151,9 @@ fun BDSArchiveItemCard(
                 if (archiveItem.price != null) {
                     BDSText(
                         text = archiveItem.price.toPriceFormat(),
-                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        color = Gray950,
                         fontWeight = FontWeight.Bold
                     )
                 }

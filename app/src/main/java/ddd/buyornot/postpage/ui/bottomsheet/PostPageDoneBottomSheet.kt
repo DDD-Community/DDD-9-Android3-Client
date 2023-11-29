@@ -1,6 +1,8 @@
 package ddd.buyornot.postpage.ui.bottomsheet
 
+import android.content.Intent
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,11 +28,15 @@ import com.ddd.component.BDSFilledButton
 import com.ddd.component.BDSImage
 import com.ddd.component.BDSText
 import com.ddd.component.theme.BDSColor
-import ddd.buyornot.findActivity
+import ddd.buyornot.MainActivity
+import ddd.buyornot.postpage.viewmodel.ShareViewModel
+import ddd.buyornot.util.findActivity
 
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WritePostPageDoneBottomSheet(
     title: String,
+    viewModel: ShareViewModel,
     onDismissRequest: () -> Unit
 ) {
     val context = LocalContext.current
@@ -61,22 +68,58 @@ fun WritePostPageDoneBottomSheet(
                         .align(Alignment.Center),
                     contentAlignment = Alignment.Center
                 ) {
-                    BDSImage(
-                        url = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                        modifier = Modifier
-                            .size(91.dp, 91.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .border(width = 1.dp, color = BDSColor.SlateGray900)
-                            .align(Alignment.TopStart)
-                    )
-                    BDSImage(
-                        url = "https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-                        modifier = Modifier
-                            .size(91.dp, 91.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .border(width = 1.dp, color = BDSColor.SlateGray900)
-                            .align(Alignment.BottomEnd)
-                    )
+                    if (viewModel.currentPostItemImageUrl != null) {
+                        BDSImage(
+                            url = viewModel.currentPostItemImageUrl,
+                            modifier = Modifier
+                                .size(91.dp, 91.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .align(Alignment.TopStart)
+                        )
+                        if (viewModel.sharedItemImageUrl != null) {
+                            BDSImage(
+                                url = viewModel.sharedItemImageUrl,
+                                modifier = Modifier
+                                    .size(91.dp, 91.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .align(Alignment.BottomEnd)
+                            )
+                        } else {
+                            BDSImage(
+                                resId = com.ddd.component.R.drawable.ic_unknown_item,
+                                modifier = Modifier
+                                    .size(91.dp, 91.dp)
+                                    .align(Alignment.BottomEnd)
+                            )
+                        }
+                    } else if (viewModel.sharedItemImageUrl != null) {
+                        BDSImage(
+                            url = viewModel.sharedItemImageUrl,
+                            modifier = Modifier
+                                .size(91.dp, 91.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .align(Alignment.TopStart)
+                        )
+                        BDSImage(
+                            resId = com.ddd.component.R.drawable.ic_unknown_item,
+                            modifier = Modifier
+                                .size(91.dp, 91.dp)
+                                .align(Alignment.BottomEnd)
+                        )
+                    } else {
+                        BDSImage(
+                            resId = com.ddd.component.R.drawable.ic_unknown_item,
+                            modifier = Modifier
+                                .size(91.dp, 91.dp)
+                                .align(Alignment.TopStart)
+                        )
+                        BDSImage(
+                            resId = com.ddd.component.R.drawable.ic_unknown_item,
+                            modifier = Modifier
+                                .size(91.dp, 91.dp)
+                                .align(Alignment.BottomEnd)
+                        )
+                    }
                 }
             }
         },
@@ -84,7 +127,10 @@ fun WritePostPageDoneBottomSheet(
             BDSBottomSheetVerticalDualButton(
                 confirmButton = {
                     BDSFilledButton(
-                        onClick = { /*TODO*/ }, text = "앱에서 투표 완성하기",
+                        onClick = {
+                            context.startActivity(Intent(context, MainActivity::class.java))
+                            context.findActivity().finish()
+                        }, text = "앱에서 확인하기",
                         modifier = Modifier
                             .height(50.dp)
                             .fillMaxWidth(),

@@ -36,7 +36,7 @@ import com.ddd.component.BDSTextField
 import com.ddd.component.BDSTextFieldState
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BuyOrNotTheme
-import ddd.buyornot.findActivity
+import ddd.buyornot.util.findActivity
 import ddd.buyornot.upload_item.viewmodel.UploadItemViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)

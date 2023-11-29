@@ -20,13 +20,9 @@ interface LoginService {
     ): BaseApiResponse<AuthResult>
 
     @POST("/auth/logout")
-    suspend fun postLogout(
-        @Body kakaoAuthRequest: KaKaoAuthRequest
-    ): BaseApiResponse<String>
+    suspend fun postLogout(): BaseApiResponse<String>
 
     @POST("/auth/sign-out")
-    suspend fun postSignOut(
-        @Body kakaoAuthRequest: KaKaoAuthRequest
-    ): BaseApiResponse<String>
+    suspend fun postSignOut(): BaseApiResponse<String>
 
 }

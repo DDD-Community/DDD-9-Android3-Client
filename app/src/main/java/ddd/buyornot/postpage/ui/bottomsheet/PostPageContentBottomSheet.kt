@@ -42,8 +42,9 @@ fun PostPageContentBottomSheet(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
+    val savedContent = viewModel.selectedPost.value?.content ?: ""
     var content by remember {
-        mutableStateOf("")
+        mutableStateOf(savedContent)
     }
     var state: BDSTextFieldState by remember { mutableStateOf(BDSTextFieldState.UnFocus) }
     var checked: Boolean by remember { mutableStateOf(false) }
@@ -121,8 +122,13 @@ fun PostPageContentBottomSheet(
                     BDSFilledButton(
                         onClick = {
                             viewModel.setCurrentPostContent(content)
+                            viewModel.setCurrentPostPublic(checked)
                             coroutineScope.launch() {
-                                viewModel.postNewPost()
+                                if (viewModel.selectedPost.value != null) {
+                                    viewModel.postPublishPost()
+                                } else {
+                                    viewModel.postNewPost()
+                                }
                             }
                             onClickNext()
                         },
@@ -139,7 +145,11 @@ fun PostPageContentBottomSheet(
                     BDSBorderlessButton(
                         onClick = {
                             coroutineScope.launch {
-                                viewModel.postNewPost()
+                                if (viewModel.selectedPost.value != null) {
+                                    viewModel.postPublishPost()
+                                } else {
+                                    viewModel.postNewPost()
+                                }
                             }
                             onClickNext()
                         },

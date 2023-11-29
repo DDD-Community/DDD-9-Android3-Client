@@ -3,20 +3,18 @@ package ddd.buyornot.data.model.poll
 import com.google.gson.annotations.SerializedName
 
 data class PollResponse(
-    @SerializedName("result")
-    val result: PollResult? = null
-)
-
-data class PollResult(
     // 비추천
-    @SerializedName("additionalProp1")
-    val additionalProp1: Int? = null,
+    @SerializedName("unrecommended")
+    val unrecommended: Int = 0,
 
     // A 추천
-    @SerializedName("additionalProp2")
-    val additionalProp2: Int? = null,
+    @SerializedName("firstItem")
+    val firstItem: Int = 0,
 
     // B 추천
-    @SerializedName("additionalProp3")
-    val additionalProp3: Int? = null
+    @SerializedName("secondItem")
+    val secondItem: Int = 0,
+
+    @SerializedName("polled")
+    val polled: Int = -1,
 )

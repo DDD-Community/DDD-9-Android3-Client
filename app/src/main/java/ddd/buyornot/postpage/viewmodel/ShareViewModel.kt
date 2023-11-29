@@ -7,22 +7,25 @@ import androidx.lifecycle.viewModelScope
 import com.ddd.component.PostItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ddd.buyornot.data.model.post.PostRequest
+import ddd.buyornot.data.model.post.PostResult
+import ddd.buyornot.data.repository.archive.ArchiveRepository
+import ddd.buyornot.data.repository.item.ItemRepository
 import ddd.buyornot.data.repository.post.PostRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ShareViewModel @Inject constructor(
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val archiveRepository: ArchiveRepository,
+    private val itemRepository: ItemRepository,
 ) : ViewModel() {
 
     private val _postList = MutableLiveData<List<PostItem>>()
     val postList: LiveData<List<PostItem>>
         get() = _postList
 
-    private val _currentPost = MutableLiveData(PostRequest())
-    val currentPost: LiveData<PostRequest>
-        get() = _currentPost
+    var currentPost = PostRequest()
 
     private val _selectedPost = MutableLiveData<PostItem?>(null)
     val selectedPost: LiveData<PostItem?>
@@ -30,16 +33,24 @@ class ShareViewModel @Inject constructor(
 
     var sharedItemUrl: String = ""
 
+    var sharedItemImageUrl: String? = null
+    var currentPostItemImageUrl: String? = null
+
     fun setCurrentPostTitle(title: String) {
-        _currentPost.run {
-            postValue(value?.copy(title = title))
-        }
+        currentPost = currentPost.copy(title = title)
     }
 
     fun setCurrentPostContent(content: String) {
-        _currentPost.run {
-            postValue(value?.copy(content = content))
-        }
+        currentPost = currentPost.copy(content = content)
+    }
+
+    fun setCurrentPostPublic(isPrivate: Boolean) {
+        currentPost =
+            currentPost.copy(publicStatus = if (isPrivate) PostResult.PublicStatus.PRIVATE.name else PostResult.PublicStatus.PUBLIC.name)
+    }
+
+    private fun setCurrentPostIsPublish(isPublish: Boolean) {
+        currentPost = currentPost.copy(published = isPublish)
     }
 
     fun setSelectedPost(postItem: PostItem?) {
@@ -49,12 +60,16 @@ class ShareViewModel @Inject constructor(
     suspend fun fetchPostList() {
         viewModelScope.launch {
             val postResult = postRepository.fetchTemporaryPost()?.result ?: return@launch
-            postResult.map { it -> PostItem(
-                postId = it.id,
-                imageUrl = it.pollItemResponseList?.first()?.imgUrl,
-                title = it.content,
-                isPublic = false // publicStatus로 변경 예정
-            ) }
+            val postItemList = postResult.map { it ->
+                PostItem(
+                    postId = it.id,
+                    imageUrl = it.pollItemResponseList?.first()?.imgUrl,
+                    title = it.title,
+                    content = it.content,
+                    isPublic = it.publicStatus == PostResult.PublicStatus.PUBLIC
+                )
+            }
+            _postList.postValue(postItemList)
         }
     }
 
@@ -65,22 +80,52 @@ class ShareViewModel @Inject constructor(
             setCurrentPostTitle(postResult.title ?: throw NullPointerException())
             setCurrentPostContent(postResult.content ?: "")
             addPostItemUrl(postResult.pollItemResponseList?.first()?.itemUrl ?: throw NullPointerException())
+            currentPostItemImageUrl = postResult.pollItemResponseList?.first()?.imgUrl
         }
     }
 
     private fun addPostItemUrl(itemUrl: String) {
-        _currentPost.run {
-            val currentItemUrls = value?.itemUrls?.toMutableList()
-            currentItemUrls?.add(itemUrl)
-            postValue(value?.copy(itemUrls = currentItemUrls?.toList()))
-        }
+        val currentItemUrls = currentPost.itemUrls?.toMutableList() ?: mutableListOf()
+        currentItemUrls.add(itemUrl)
+
+        currentPost = currentPost.copy(itemUrls = currentItemUrls.toList())
     }
 
     suspend fun postNewPost() {
-        addPostItemUrl(sharedItemUrl)
         viewModelScope.launch {
-            currentPost.value?.let {
-                postRepository.postNewVote(it)
+            addPostItemUrl(sharedItemUrl)
+            setCurrentPostIsPublish(false)
+            postRepository.postNewPost(currentPost)
+        }
+    }
+
+    suspend fun postPublishPost() {
+        viewModelScope.launch {
+            selectedPost.value?.postId?.let {
+                addPostItemUrl(sharedItemUrl)
+                setCurrentPostIsPublish(true)
+                postRepository.postPublishPost(it, currentPost)
+            }
+        }
+    }
+
+    suspend fun postArchiveItem() {
+        viewModelScope.launch {
+            if (sharedItemUrl.isNotEmpty()) {
+                val result = archiveRepository.postArchiveItem(sharedItemUrl)
+                archiveRepository.postArchiveItem(sharedItemUrl)
+            }
+        }
+    }
+
+    suspend fun fetchItem(url: String, isCurrentItem: Boolean = false) {
+        viewModelScope.launch {
+            val result = itemRepository.fetchItem(url)?.result?.let {
+                if (isCurrentItem) {
+                    currentPostItemImageUrl = it.imageUrl
+                } else {
+                    sharedItemImageUrl = it.imageUrl
+                }
             }
         }
     }

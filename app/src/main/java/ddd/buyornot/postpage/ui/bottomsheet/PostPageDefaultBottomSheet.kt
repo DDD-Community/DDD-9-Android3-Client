@@ -1,7 +1,9 @@
 package ddd.buyornot.postpage.ui.bottomsheet
 
+import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,7 +44,8 @@ import com.ddd.component.theme.BDSColor.SlateGray100
 import com.ddd.component.theme.BDSColor.SlateGray300
 import com.ddd.component.theme.BDSColor.SlateGray600
 import com.ddd.component.theme.BDSColor.SlateGray900
-import ddd.buyornot.findActivity
+import ddd.buyornot.MainActivity
+import ddd.buyornot.util.findActivity
 
 @Composable
 fun WritePostPageDefaultBottomSheet(
@@ -65,16 +69,17 @@ fun WritePostPageDefaultBottomSheet(
                 },
                 right = {
                     BDSIconButton(
-                        resId = R.drawable.ic_ic_round_close,
+                        resId = R.drawable.ic_round_close,
                         onClick = onClickClose
                     )
                 }
             )
         },
         bodyContent = {
-            Column(modifier = Modifier
-                .padding(top = 16.dp)
-                .padding(horizontal = 18.dp),
+            Column(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .padding(horizontal = 18.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 SelectionButton(
@@ -136,9 +141,10 @@ fun SelectionButton(
                 color = SlateGray600
             )
         }
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(38.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(38.dp)
         ) {
             Icon(
                 modifier = Modifier.align(Alignment.CenterEnd),
@@ -149,6 +155,7 @@ fun SelectionButton(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ArchivingSuccessBottomSheet(
     onDismissRequest: () -> Unit,
@@ -184,7 +191,10 @@ fun ArchivingSuccessBottomSheet(
             BDSBottomSheetVerticalDualButton(
                 confirmButton = {
                     BDSFilledButton(
-                        onClick = { /*TODO*/ }, text = "앱에서 확인하기",
+                        onClick = {
+                            context.startActivity(Intent(context, MainActivity::class.java))
+                            context.findActivity().finish()
+                        }, text = "앱에서 확인하기",
                         modifier = Modifier
                             .height(50.dp)
                             .fillMaxWidth(),

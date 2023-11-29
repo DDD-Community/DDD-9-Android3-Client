@@ -20,7 +20,7 @@ interface PostService {
     ): BaseApiResponse<PostResult>
 
     @POST("/api/post/new")
-    suspend fun postNewVote(
+    suspend fun postNewPost(
         @Body postRequest: PostRequest
     ): BaseApiResponse<PostResult>
 

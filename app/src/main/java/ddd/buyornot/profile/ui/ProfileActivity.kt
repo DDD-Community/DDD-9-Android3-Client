@@ -44,10 +44,11 @@ import com.ddd.component.clickableWithoutRipple
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
+import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.util.KakaoLogin
+import ddd.buyornot.login.LoginActivity
 import ddd.buyornot.my_post.ui.MyPostActivity
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -59,26 +60,16 @@ class ProfileActivity : ComponentActivity() {
     @Inject
     lateinit var authRepository: AuthRepository
 
+    @Inject
+    lateinit var sharedPreferenceWrapper: SharedPreferenceWrapper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val kakaoLogin = KakaoLogin(this@ProfileActivity) { token ->
-            CoroutineScope(Dispatchers.IO).launch {
-                authRepository.logoutRemote(token)
-                    .onSuccess { response ->
-                        if (response.isSuccess) {
-                            finish()
-                        } else {
-                            handleLogoutError()
-                        }
-                    } .onFailure {
-                        handleLogoutError()
-                    }
-            }
-        }
+        val kakaoLogin = KakaoLogin(this@ProfileActivity)
 
         setContent {
-            BuyOrNotTheme {
+            BuyOrNotTheme(darkStatusBar = true) {
 
                 val scope = rememberCoroutineScope()
                 var showLogoutDialogState by remember { mutableStateOf(false) }
@@ -104,7 +95,7 @@ class ProfileActivity : ComponentActivity() {
                         )
                     }
                     BDSText(
-                        text = "익명의티셔츠234",
+                        text = sharedPreferenceWrapper.nickname,
                         modifier = Modifier
                             .padding(horizontal = 20.dp)
                             .padding(top = 42.dp, bottom = 34.dp),
@@ -145,7 +136,9 @@ class ProfileActivity : ComponentActivity() {
                     Divider(modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp))
                     BDSText(
                         modifier = Modifier
-                            .clickableWithoutRipple { showLogoutDialogState = true }
+                            .clickableWithoutRipple {
+                                showLogoutDialogState = true
+                            }
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp, vertical = 13.dp),
                         text = "로그아웃",
@@ -166,14 +159,25 @@ class ProfileActivity : ComponentActivity() {
                         color = BDSColor.Red
                     )
                 }
-                BDSImage(
-                    resId = R.drawable.ic_app_logo_sample,
-                    modifier = Modifier
-                        .offset(32.dp, 153.dp)
-                        .clip(CircleShape)
-                        .size(56.dp)
-                        .border(2.dp, BDSColor.White, CircleShape)
-                )
+                if (sharedPreferenceWrapper.profile.isNotEmpty()) {
+                    BDSImage(
+                        url = sharedPreferenceWrapper.profile,
+                        modifier = Modifier
+                            .offset(32.dp, 153.dp)
+                            .clip(CircleShape)
+                            .size(56.dp)
+                            .border(2.dp, BDSColor.White, CircleShape)
+                    )
+                } else {
+                    BDSImage(
+                        resId = R.drawable.ic_app_logo_sample,
+                        modifier = Modifier
+                            .offset(32.dp, 153.dp)
+                            .clip(CircleShape)
+                            .size(56.dp)
+                            .border(2.dp, BDSColor.White, CircleShape)
+                    )
+                }
 
                 if (showLogoutDialogState) {
                     val sheetState: SheetState = rememberModalBottomSheetState()
@@ -203,6 +207,17 @@ class ProfileActivity : ComponentActivity() {
                                 onClick = {
                                     kakaoLogin.kakaoLogout()
                                     scope.launch {
+                                        authRepository.logoutRemote()
+                                            .onSuccess { response ->
+                                                if (response.isSuccess) {
+                                                    authRepository.logout()
+                                                    LoginActivity.open(this@ProfileActivity.baseContext)
+                                                } else {
+                                                    handleLogoutError()
+                                                }
+                                            } .onFailure {
+                                                handleLogoutError()
+                                            }
                                         sheetState.hide()
                                     }.invokeOnCompletion {
                                         if (!sheetState.isVisible) {

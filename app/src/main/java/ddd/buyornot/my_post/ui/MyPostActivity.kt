@@ -16,10 +16,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -44,19 +52,24 @@ import com.ddd.component.BDSTab
 import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.data.BDSTextData
+import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BDSColor.Black
 import com.ddd.component.theme.BDSColor.Red
+import com.ddd.component.theme.BDSColor.SlateGray600
 import com.ddd.component.theme.BDSColor.SlateGray800
 import com.ddd.component.theme.BDSColor.SlateGray900
+import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.add_vote.ui.AddNewVoteActivity
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.BDSHomeCard
 import ddd.buyornot.my_post.viewmodel.MyPostViewModel
+import ddd.buyornot.util.openWeb
+import ddd.buyornot.util.sharePostWeb
 import kotlinx.coroutines.launch
 
-@ExperimentalMaterial3Api
 @AndroidEntryPoint
+@OptIn(ExperimentalMaterial3Api::class)
 class MyPostActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MyPostViewModel>()
@@ -65,46 +78,54 @@ class MyPostActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            var selectedTabIndex by remember { mutableStateOf(0) }
+            BuyOrNotTheme {
+                val tabIndex by viewModel.tabIndex.observeAsState(0)
 
-            val onGoingPostList by viewModel.onGoingPostList.observeAsState(emptyList())
-            val closedPostList by viewModel.closedPostList.observeAsState(emptyList())
+                val onGoingPostList by viewModel.onGoingPostList.observeAsState(emptyList())
+                val closedPostList by viewModel.closedPostList.observeAsState(emptyList())
 
-            // TODO: data fetch 로직 추가
-            // TODO: paging 추가
+                // TODO: data fetch 로직 추가
 
-            var postList by remember {
-                mutableStateOf(
-                    when (selectedTabIndex) {
-                        0 -> onGoingPostList
-                        1 -> closedPostList
-                        else -> emptyList()
+                LaunchedEffect(key1 = tabIndex) {
+                    when (tabIndex) {
+                        0 -> viewModel.fetchOnGoingPostList()
+                        1 -> viewModel.fetchClosedPostList()
                     }
-                )
-            }
+                }
+                // TODO: paging 추가
 
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                BDSAppBar(
-                    modifier = Modifier
-                        .height(54.dp)
-                        .fillMaxWidth(),
-                    left = {
-                        BDSIconButton(resId = R.drawable.ic_back, onClick = { finish() })
-                    },
-                    title = "내 투표 아카이브"
-                )
-                BDSTab(
-                    titles = listOf("진행중인 투표", "종료된 투표"),
-                    selectedTabIndex = selectedTabIndex,
-                    onTabSelected = { selectedTabIndex = it }
-                )
-                MyPostScreen(
-                    postList,
-                    selectedTabIndex,
-                    viewModel
-                )
+                val postList = when (tabIndex) {
+                    0 -> onGoingPostList
+                    1 -> closedPostList
+                    else -> emptyList()
+                }
+
+                Scaffold(
+                    topBar = {
+                        BDSAppBar(
+                            modifier = Modifier
+                                .height(54.dp)
+                                .fillMaxWidth(),
+                            left = {
+                                BDSIconButton(resId = R.drawable.ic_back, onClick = { finish() })
+                            },
+                            title = "내 투표 아카이브"
+                        )
+                    }
+                ) { paddingValues ->
+                    Column(modifier = Modifier.padding(paddingValues)) {
+                        BDSTab(
+                            titles = listOf("진행중인 투표", "종료된 투표"),
+                            selectedTabIndex = tabIndex,
+                            onTabSelected = { viewModel.setTabIndex(it) }
+                        )
+                        MyPostScreen(
+                            postList,
+                            tabIndex,
+                            viewModel
+                        )
+                    }
+                }
             }
         }
     }
@@ -112,8 +133,8 @@ class MyPostActivity : ComponentActivity() {
 
 // TODO: selectTabIndex, selectOptionIndex State로 전환
 
-@ExperimentalMaterial3Api
 @Composable
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 fun MyPostScreen(
     postList: List<PostResult>,
     selectedTabIndex: Int,
@@ -123,55 +144,104 @@ fun MyPostScreen(
 
     var openBottomSheet by remember { mutableStateOf(false) }
     var openBottomDialog by remember { mutableStateOf(false) }
-    var selectedPostId: Int? = null
-    var selectedOption: Int? = null
+    var selectedOption by remember { mutableStateOf(0) }
+
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = viewModel.isRefresh.value,
+        onRefresh = viewModel::refresh
+    )
+    val scrollState = rememberScrollState()
 
     val scope = rememberCoroutineScope()
 
-    if (postList.isEmpty()) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Column(modifier = Modifier.align(Alignment.Center)) {
-                BDSImage(
-                    resId = R.drawable.ic_archive_empty,
-                    modifier = Modifier.size(150.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                BDSText(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    text = "앗, 만들어진 투표가 없어요!",
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = SlateGray900,
-                )
-                Spacer(modifier = Modifier.height(54.dp))
-                BDSFilledButton(
-                    modifier = Modifier
-                        .height(50.dp)
-                        .fillMaxWidth()
-                        .padding(horizontal = 32.dp),
-                    onClick = { context.startActivity(Intent(context, AddNewVoteActivity::class.java)) },
-                    text = "투표 만들러 가기",
-                    contentPadding = BDSButtonInnerPadding.MEDIUM
-                )
-            }
-        }
-    } else {
-        LazyColumn {
-            items(postList) { postResult ->
-                BDSHomeCard(
-                    post = postResult,
-                    isMyPost = true,
-                    onClickDots = {
-                        selectedPostId = postResult.id
-                        openBottomSheet = true
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .pullRefresh(pullRefreshState)
+    ) {
+        if (postList.isEmpty()) {
+            when (selectedTabIndex) {
+                0 -> {
+                    Column(modifier = Modifier.align(Alignment.Center)
+                        .verticalScroll(scrollState, true)) {
+                        BDSImage(
+                            resId = R.drawable.ic_content_empty,
+                            modifier = Modifier
+                                .size(150.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        BDSText(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            text = "앗, 만들어진 투표가 없어요!",
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = SlateGray900,
+                        )
+                        Spacer(modifier = Modifier.height(54.dp))
+                        BDSFilledButton(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = 32.dp),
+                            onClick = { context.startActivity(Intent(context, AddNewVoteActivity::class.java)) },
+                            text = "투표 만들러 가기",
+                            contentPadding = BDSButtonInnerPadding.MEDIUM
+                        )
                     }
-                )
+                }
+
+                1 -> {
+                    Column(modifier = Modifier.align(Alignment.Center)
+                        .verticalScroll(scrollState, true)) {
+                        BDSImage(
+                            resId = R.drawable.ic_content_empty,
+                            modifier = Modifier
+                                .size(150.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        BDSText(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            text = "앗, 만들어진 투표가 없어요!",
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = SlateGray900,
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        BDSText(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            text = "진행중인 투표를 눌러 투표 현황을 확인해보세요!",
+                            fontSize = 14.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = SlateGray600
+                        )
+                    }
+                }
+            }
+        } else {
+            LazyColumn {
+                items(postList) { postResult ->
+                    BDSHomeCard(
+                        post = postResult,
+                        isMyPost = true,
+                        onClickDots = {
+                            viewModel.selectedPostId = postResult.id
+                            openBottomSheet = true
+                        },
+                        onClick = { itemUrl -> context.openWeb(itemUrl) }
+                    )
+                }
             }
         }
+        PullRefreshIndicator(
+            refreshing = viewModel.isRefresh.value,
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter),
+            backgroundColor = BDSColor.Primary400
+        )
     }
 
     if (openBottomSheet) {
@@ -182,7 +252,7 @@ fun MyPostScreen(
                 0 -> listOf(
                     BDSTextData(
                         text = "투표 공유하기",
-                        modifier = Modifier.clickable { selectedOption = 0 },
+                        modifier = Modifier.clickable { viewModel.selectedPostId?.let { context.sharePostWeb(postId = it) } },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -191,8 +261,9 @@ fun MyPostScreen(
                     BDSTextData(
                         text = "답변 그만받기",
                         modifier = Modifier.clickable {
-                            openBottomDialog = true
                             selectedOption = 1
+                            openBottomSheet = false
+                            openBottomDialog = true
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
@@ -202,8 +273,9 @@ fun MyPostScreen(
                     BDSTextData(
                         text = "투표 삭제하기",
                         modifier = Modifier.clickable {
-                            openBottomDialog = true
                             selectedOption = 2
+                            openBottomSheet = false
+                            openBottomDialog = true
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
@@ -216,8 +288,9 @@ fun MyPostScreen(
                     BDSTextData(
                         text = "투표 삭제하기",
                         modifier = Modifier.clickable {
-                            openBottomDialog = true
                             selectedOption = 2
+                            openBottomSheet = false
+                            openBottomDialog = true
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
@@ -267,7 +340,7 @@ fun MyPostScreen(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         scope.launch {
-                            selectedPostId?.let {
+                            viewModel.selectedPostId?.let {
                                 when (selectedOption) {
                                     1 -> viewModel.patchPostFinish(it)
                                     2 -> viewModel.patchPostDelete(it)

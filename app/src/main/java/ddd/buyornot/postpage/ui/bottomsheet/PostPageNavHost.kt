@@ -2,14 +2,16 @@ package ddd.buyornot.postpage.ui.bottomsheet
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import ddd.buyornot.findActivity
 import ddd.buyornot.postpage.viewmodel.ShareViewModel
+import ddd.buyornot.util.findActivity
+import kotlinx.coroutines.launch
 
 @Composable
 @ExperimentalMaterial3Api
@@ -23,6 +25,7 @@ fun PostPageNavHost(
     ) {
         composable(PostPageNavigationRoute.Default.route) {
             val context = LocalContext.current
+            val scope = rememberCoroutineScope()
 
             WritePostPageDefaultBottomSheet(
                 onDismissRequest = {
@@ -32,9 +35,15 @@ fun PostPageNavHost(
                     navHostController.navigate(PostPageNavigationRoute.Close.route)
                 },
                 onClickPoll = {
+                    scope.launch {
+                        viewModel.fetchItem(viewModel.sharedItemUrl)
+                    }
                     navHostController.navigate(PostPageNavigationRoute.Post.route)
                 },
                 onClickArchive = {
+                    scope.launch {
+                        viewModel.postArchiveItem()
+                    }
                     navHostController.navigate(PostPageNavigationRoute.ArchiveDone.route)
                 }
             )
@@ -53,7 +62,6 @@ fun PostPageNavHost(
                 },
                 onClickAddItem = {
                     navHostController.navigate("${PostPageNavigationRoute.Description.route}/투표 올리기")
-
                 }
             )
         }
@@ -86,7 +94,7 @@ fun PostPageNavHost(
                     navHostController.popBackStack()
                 },
                 onClickNext = {
-                    navHostController.navigate("${PostPageNavigationRoute.PostDone.route}/${if (title == "새 투표 만들기") "새로운 투표를 만들었어요!" else "투표가 완성됐어요!"}}")
+                    navHostController.navigate("${PostPageNavigationRoute.PostDone.route}/${if (title == "새 투표 만들기") "새로운 투표를 만들었어요!" else "투표가 완성됐어요!"}")
                 }
             )
         }
@@ -103,6 +111,7 @@ fun PostPageNavHost(
 
             WritePostPageDoneBottomSheet(
                 title = it.arguments?.getString("title") ?: "새로운 투표를 만들었어요!",
+                viewModel = viewModel,
                 onDismissRequest = {
                     context.findActivity().finish()
                 }

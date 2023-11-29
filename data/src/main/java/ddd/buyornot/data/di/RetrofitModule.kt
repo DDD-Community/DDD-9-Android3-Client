@@ -7,11 +7,13 @@ import dagger.hilt.components.SingletonComponent
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.service.ArchiveService
+import ddd.buyornot.data.service.ItemService
 import ddd.buyornot.data.service.LoginService
 import ddd.buyornot.data.service.PollService
 import ddd.buyornot.data.service.PostService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import ddd.buyornot.data.service.UserService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -117,6 +119,20 @@ class RetrofitModule {
         @Named("RequireAuthHeader") retrofit: Retrofit
     ): ArchiveService =
         retrofit.create(ArchiveService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserService(
+        retrofit: Retrofit
+    ): UserService =
+        retrofit.create(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideItemService(
+        retrofit: Retrofit
+    ): ItemService =
+        retrofit.create(ItemService::class.java)
 
     @Provides
     @Singleton

@@ -8,7 +8,7 @@ interface PostRepository {
 
     suspend fun postPublishPost(postId: Int, postRequest: PostRequest): BaseApiResponse<PostResult>?
 
-    suspend fun postNewVote(postRequest: PostRequest): BaseApiResponse<PostResult>?
+    suspend fun postNewPost(postRequest: PostRequest): BaseApiResponse<PostResult>?
 
     suspend fun postNewPostFromArchive(postRequest: PostRequest, itemId1: Int, itemId2: Int): BaseApiResponse<PostResult>?
 

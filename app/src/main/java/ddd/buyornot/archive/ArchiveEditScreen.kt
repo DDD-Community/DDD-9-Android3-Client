@@ -20,6 +20,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
@@ -52,7 +53,8 @@ import com.ddd.component.BDSText
 import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
 import ddd.buyornot.archive.viewmodel.ArchiveViewModel
-import ddd.buyornot.findActivity
+import ddd.buyornot.util.findActivity
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
@@ -62,25 +64,18 @@ fun ArchiveEditScreen(
 ) {
     val context = LocalContext.current
 
-    val tabIndex by viewModel.tabIndex.observeAsState(0)
-
-    val likedItems by viewModel.likedItemList.observeAsState(emptyList())
-    val savedItems by viewModel.savedItemList.observeAsState(emptyList())
-
-    val archiveItems by remember {
-        mutableStateOf(
-            when (tabIndex) {
-                0 -> likedItems
-                1 -> savedItems
-                else -> emptyList()
-            }
-        )
-    }
+    val archiveItems by viewModel.archiveItemList.observeAsState(emptyList())
 
     val selectItems = remember { mutableStateListOf<ArchiveItem>() }
     val scope = rememberCoroutineScope()
     var showDeleteDialogState by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(key1 = Unit) {
+        scope.launch {
+            viewModel.fetchArchiveItemList()
+        }
+    }
 
     BDSEditBottomNavigationLayout(
         selectCount = selectItems.size,
@@ -105,8 +100,8 @@ fun ArchiveEditScreen(
                 )
             },
             snackbarHost = {
-                SnackbarHost(snackbarHostState) {
-                    BDSSingleTextSnackbar(text = "아카이브함에서 상품을 삭제했어요")
+                SnackbarHost(snackbarHostState) { snackbarData ->
+                    BDSSingleTextSnackbar(text = snackbarData.visuals.message)
                 }
             }
         ) { paddingValues ->
@@ -185,6 +180,19 @@ fun ArchiveEditScreen(
         }
     }
 
+    LaunchedEffect(key1 = Unit) {
+        scope.launch {
+            viewModel.uiEvent.collectLatest { event ->
+                event.message?.let {
+                    snackbarHostState.showSnackbar(
+                        message = it,
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            }
+        }
+    }
+
     if (showDeleteDialogState) {
         val sheetState: SheetState = rememberModalBottomSheetState()
         BDSConfirmDialog(
@@ -218,12 +226,6 @@ fun ArchiveEditScreen(
                         }.invokeOnCompletion {
                             if (!sheetState.isVisible) {
                                 showDeleteDialogState = false
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        message = "Delete Archive Items",
-                                        duration = SnackbarDuration.Short
-                                    )
-                                }
                             }
                         }
                     },
