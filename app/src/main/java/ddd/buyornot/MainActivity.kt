@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.getValue
@@ -20,7 +21,9 @@ import com.ddd.component.BottomNavigationItem
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 import ddd.buyornot.add_vote.ui.AddNewVoteActivity
+import ddd.buyornot.archive.viewmodel.ArchiveViewModel
 import ddd.buyornot.data.repository.login.AuthRepository
+import ddd.buyornot.home.viewmodel.HomeViewModel
 import ddd.buyornot.login.LoginActivity
 import ddd.buyornot.navigation.BuyOrNotNavHost
 import ddd.buyornot.navigation.BuyOrNotNavigationRoute
@@ -34,6 +37,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var repository: AuthRepository
+
+    private val homeViewModel by viewModels<HomeViewModel>()
+    private val archiveViewModel by viewModels<ArchiveViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -66,7 +72,11 @@ class MainActivity : ComponentActivity() {
                     BackHandler {
                         onBackPressed(navHostController)
                     }
-                    BuyOrNotNavHost(navHostController = navHostController)
+                    BuyOrNotNavHost(
+                        navHostController = navHostController,
+                        homeViewModel = homeViewModel,
+                        archiveViewModel = archiveViewModel
+                    )
                 }
             }
         }
