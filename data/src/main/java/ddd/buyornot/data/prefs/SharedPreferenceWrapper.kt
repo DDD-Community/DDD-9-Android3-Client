@@ -10,7 +10,10 @@ class SharedPreferenceWrapper @Inject constructor(
 ) {
 
     val prefs: SharedPreferences by lazy {
-        context.getSharedPreferences(context.packageName + "." + SharedPreferenceWrapper::class.java.simpleName, Context.MODE_PRIVATE)
+        context.getSharedPreferences(
+            context.packageName + "." + SharedPreferenceWrapper::class.java.simpleName,
+            Context.MODE_PRIVATE
+        )
     }
 
     fun clear() {
@@ -19,8 +22,12 @@ class SharedPreferenceWrapper @Inject constructor(
 
     var name: String by DelegatedPreferences(prefs, "")
     var birthYear: String by DelegatedPreferences(prefs, "")
+
+    var grantType: String by DelegatedPreferences(prefs, "")
+    var accessToken: String by DelegatedPreferences(prefs, "")
+    var refreshToken: String by DelegatedPreferences(prefs, "")
+
     var authenticationCode: String by DelegatedPreferences(prefs, "")
 
     var nickname: String by DelegatedPreferences(prefs, "")
-    var profile: String by DelegatedPreferences(prefs, "")
 }

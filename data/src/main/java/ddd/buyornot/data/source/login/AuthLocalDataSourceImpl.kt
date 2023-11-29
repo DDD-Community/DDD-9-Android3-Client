@@ -1,6 +1,5 @@
 package ddd.buyornot.data.source.login
 
-import android.util.Log
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import javax.inject.Inject
 
@@ -10,14 +9,19 @@ class AuthLocalDataSourceImpl @Inject constructor(
 
     override suspend fun isLoggedIn(): Result<Boolean> {
         return runCatching {
-            Log.d("", "isLoggedIn: ${prefWrapper.authenticationCode}")
-            prefWrapper.authenticationCode.isNotBlank()
+            prefWrapper.accessToken.isNotBlank()
         }
     }
 
-    override suspend fun saveAuthorizationCode(code: String): Result<Unit> {
+    override suspend fun saveAuthorizationCode(
+        grantType: String,
+        accessToken: String,
+        refreshToken: String
+    ): Result<Unit> {
         return runCatching {
-            prefWrapper.authenticationCode = code
+            prefWrapper.grantType = grantType
+            prefWrapper.accessToken = accessToken
+            prefWrapper.refreshToken = refreshToken
         }
     }
 

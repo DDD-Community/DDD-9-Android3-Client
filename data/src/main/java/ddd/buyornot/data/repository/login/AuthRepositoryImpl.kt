@@ -16,23 +16,46 @@ class AuthRepositoryImpl @Inject constructor(
         return authLocalDataSource.isLoggedIn()
     }
 
-    override suspend fun issueAuthorizationCode(token: String, loginMethod: LoginMethod): Result<BaseApiResponse<AuthResult>> {
-        return authRemoteDataSource.issueAuthorizationCode(token, loginMethod).onSuccess { authInfo ->
-            val authorizationHeader = authInfo.result?.run { grantType + accessToken } ?: ""
-            saveAuthorizationCode(authorizationHeader)
-        }
+    override suspend fun issueAuthorizationCode(
+        accessToken: String,
+        loginMethod: LoginMethod
+    ): Result<BaseApiResponse<AuthResult>> {
+        return authRemoteDataSource.issueAuthorizationCode(accessToken, loginMethod)
+            .onSuccess { authInfo ->
+                saveAuthorizationCode(
+                    authInfo.result?.grantType ?: "Bearer ",
+                    authInfo.result?.accessToken ?: "",
+                    authInfo.result?.refreshToken ?: ""
+                )
+            }
     }
 
-    override suspend fun saveAuthorizationCode(code: String): Result<Unit> {
-        if (code.isEmpty()) {
+    override suspend fun saveAuthorizationCode(
+        grantType: String,
+        accessToken: String,
+        refreshToken: String
+    ): Result<Unit> {
+        if (accessToken.isEmpty()) {
             return Result.failure(IllegalArgumentException("empty token"))
         }
 
-        return authLocalDataSource.saveAuthorizationCode(code)
+        return authLocalDataSource.saveAuthorizationCode(grantType, accessToken, refreshToken)
     }
 
-    override suspend fun logout(): Result<Unit> {
-        return authLocalDataSource.clearLocalData()
+    override suspend fun refreshToken(
+        accessToken: String,
+        refreshToken: String
+    ): Result<BaseApiResponse<AuthResult>> {
+        return authRemoteDataSource.refreshToken(accessToken, refreshToken)
+            .onSuccess { authInfo ->
+                authInfo.result?.let {
+                    saveAuthorizationCode(
+                        it.grantType ?: "Bearer ",
+                        it.accessToken ?: "",
+                        it.refreshToken ?: ""
+                    )
+                }
+            }
     }
 
     override suspend fun logoutRemote(): Result<BaseApiResponse<String>> {
