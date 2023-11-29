@@ -18,6 +18,8 @@ interface AuthRepository {
         refreshToken: String
     ): Result<BaseApiResponse<AuthResult>>
 
+    suspend fun logout(): Result<Unit>
+
     suspend fun logoutRemote(): Result<BaseApiResponse<String>>
 
     suspend fun saveAuthorizationCode(
@@ -25,6 +27,6 @@ interface AuthRepository {
         accessToken: String,
         refreshToken: String
     ): Result<Unit>
-  
+
     suspend fun signoutRemote(): Result<BaseApiResponse<String>>
 }

@@ -27,7 +27,6 @@ class SharedPreferenceWrapper @Inject constructor(
     var accessToken: String by DelegatedPreferences(prefs, "")
     var refreshToken: String by DelegatedPreferences(prefs, "")
 
-    var authenticationCode: String by DelegatedPreferences(prefs, "")
-
     var nickname: String by DelegatedPreferences(prefs, "")
+    var profile: String by DelegatedPreferences(prefs, "")
 }

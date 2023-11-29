@@ -11,9 +11,9 @@ import ddd.buyornot.data.service.ItemService
 import ddd.buyornot.data.service.LoginService
 import ddd.buyornot.data.service.PollService
 import ddd.buyornot.data.service.PostService
+import ddd.buyornot.data.service.UserService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import ddd.buyornot.data.service.UserService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -123,14 +123,14 @@ class RetrofitModule {
     @Provides
     @Singleton
     fun provideUserService(
-        retrofit: Retrofit
+        @Named("RequireAuthHeader") retrofit: Retrofit
     ): UserService =
         retrofit.create(UserService::class.java)
 
     @Provides
     @Singleton
     fun provideItemService(
-        retrofit: Retrofit
+        @Named("RequireAuthHeader") retrofit: Retrofit
     ): ItemService =
         retrofit.create(ItemService::class.java)
 
