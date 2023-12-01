@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var page = 0
-    private val count = 20
+    private val count = 500
     val postList: MutableLiveData<List<PostResult>> = MutableLiveData(mutableListOf())
     val profile = sharedPreferenceWrapper.profile
 
