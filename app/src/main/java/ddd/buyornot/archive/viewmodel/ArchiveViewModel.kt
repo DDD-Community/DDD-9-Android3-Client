@@ -21,7 +21,7 @@ class ArchiveViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var page = 0
-    private val count = 20
+    private val count = 500
 
     val archiveItemList = MutableLiveData<MutableList<ArchiveItem>>()
 

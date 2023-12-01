@@ -18,7 +18,7 @@ class MyPostViewModel @Inject constructor(
 
     private var onGoingPage = 0
     private var closedPage = 0
-    private val count = 20
+    private val count = 500
 
     val tabIndex = MutableLiveData<Int>()
     var selectedPostId: Int? = null
