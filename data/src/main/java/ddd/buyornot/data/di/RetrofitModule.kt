@@ -161,7 +161,7 @@ class AuthInterceptor @Inject constructor(
             )
         }
 
-        return if (response.code == 403) {
+        return if (response.code == 500) {
             val newAccessToken = runBlocking(Dispatchers.IO) {
                 authRepository.refreshToken(prefWrapper.accessToken, prefWrapper.refreshToken)
             }.getOrNull()?.result?.accessToken ?: ""
