@@ -37,6 +37,8 @@ import com.ddd.component.R
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
+import ddd.buyornot.BuyOrNotApplication
+import ddd.buyornot.data.model.application.Event
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.util.KakaoLogin
 import ddd.buyornot.login.LoginActivity
@@ -46,9 +48,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignOutActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var authRepository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,19 +160,9 @@ class SignOutActivity : ComponentActivity() {
                             fontWeight = FontWeight.SemiBold,
                             enabled = allChecked,
                             onClick = {
-                                kakaoLogin.kakaoSignOut()
                                 scope.launch {
-                                    authRepository.signoutRemote()
-                                        .onSuccess { response ->
-                                            if (response.isSuccess) {
-                                                authRepository.logout()
-                                                LoginActivity.open(this@SignOutActivity.baseContext)
-                                            } else {
-                                                handleSignOutError()
-                                            }
-                                        } .onFailure {
-                                            handleSignOutError()
-                                        }
+                                    BuyOrNotApplication.changeEvent(Event.SIGN_OUT)
+                                    kakaoLogin.kakaoSignOut()
                                 }
                             }
                         )

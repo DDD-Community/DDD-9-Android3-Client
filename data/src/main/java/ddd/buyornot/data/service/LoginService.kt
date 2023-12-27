@@ -19,10 +19,4 @@ interface LoginService {
         @Body refreshRequest: AuthRefreshRequest
     ): BaseApiResponse<AuthResult>
 
-    @POST("/auth/logout")
-    suspend fun postLogout(): BaseApiResponse<String>
-
-    @POST("/auth/sign-out")
-    suspend fun postSignOut(): BaseApiResponse<String>
-
 }
