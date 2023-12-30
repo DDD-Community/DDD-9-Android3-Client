@@ -44,6 +44,8 @@ import com.ddd.component.clickableWithoutRipple
 import com.ddd.component.theme.BDSColor
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
+import ddd.buyornot.BuyOrNotApplication
+import ddd.buyornot.data.model.application.Event
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.util.KakaoLogin
@@ -56,9 +58,6 @@ import javax.inject.Inject
 @ExperimentalMaterial3Api
 @AndroidEntryPoint
 class ProfileActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var authRepository: AuthRepository
 
     @Inject
     lateinit var sharedPreferenceWrapper: SharedPreferenceWrapper
@@ -205,19 +204,9 @@ class ProfileActivity : ComponentActivity() {
                             BDSFilledButton(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = {
-                                    kakaoLogin.kakaoLogout()
                                     scope.launch {
-                                        authRepository.logoutRemote()
-                                            .onSuccess { response ->
-                                                if (response.isSuccess) {
-                                                    authRepository.logout()
-                                                    LoginActivity.open(this@ProfileActivity.baseContext)
-                                                } else {
-                                                    handleLogoutError()
-                                                }
-                                            } .onFailure {
-                                                handleLogoutError()
-                                            }
+                                        BuyOrNotApplication.changeEvent(Event.LOGOUT)
+                                        kakaoLogin.kakaoLogout()
                                         sheetState.hide()
                                     }.invokeOnCompletion {
                                         if (!sheetState.isVisible) {
@@ -232,12 +221,6 @@ class ProfileActivity : ComponentActivity() {
                     )
                 }
             }
-        }
-    }
-
-    private fun handleLogoutError() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            Toast.makeText(this@ProfileActivity, "로그아웃에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
 }

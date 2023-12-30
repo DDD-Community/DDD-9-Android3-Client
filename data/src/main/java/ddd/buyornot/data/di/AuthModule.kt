@@ -8,6 +8,7 @@ import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.repository.login.AuthRepositoryImpl
 import ddd.buyornot.data.service.LoginService
+import ddd.buyornot.data.service.LogoutService
 import ddd.buyornot.data.source.login.AuthLocalDataSource
 import ddd.buyornot.data.source.login.AuthLocalDataSourceImpl
 import ddd.buyornot.data.source.login.AuthRemoteDataSource
@@ -21,8 +22,9 @@ object AuthModule {
     @Provides
     @Singleton
     fun bindAuthRemoteDateSource(
-        loginService: LoginService
-    ): AuthRemoteDataSource = AuthRemoteDataSourceImpl(loginService)
+        loginService: LoginService,
+        logoutService: LogoutService
+    ): AuthRemoteDataSource = AuthRemoteDataSourceImpl(loginService, logoutService)
 
     @Provides
     @Singleton

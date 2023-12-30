@@ -9,6 +9,7 @@ import ddd.buyornot.data.repository.login.AuthRepository
 import ddd.buyornot.data.service.ArchiveService
 import ddd.buyornot.data.service.ItemService
 import ddd.buyornot.data.service.LoginService
+import ddd.buyornot.data.service.LogoutService
 import ddd.buyornot.data.service.PollService
 import ddd.buyornot.data.service.PostService
 import ddd.buyornot.data.service.UserService
@@ -48,6 +49,12 @@ class RetrofitModule {
 
     @Provides
     @Singleton
+    fun provideLogoutInterceptor(
+        prefWrapper: SharedPreferenceWrapper
+    ): LogoutInterceptor = LogoutInterceptor(prefWrapper)
+
+    @Provides
+    @Singleton
     @Named("RequireAuthHeader")
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
@@ -66,6 +73,18 @@ class RetrofitModule {
     ): OkHttpClient =
         OkHttpClient.Builder()
             .addNetworkInterceptor(httpLoggingInterceptor)
+            .build()
+
+    @Provides
+    @Singleton
+    @Named("LogoutAuthHeader")
+    fun provideLogoutAuthHeaderOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        logoutInterceptor: LogoutInterceptor,
+    ): OkHttpClient =
+        OkHttpClient.Builder()
+            .addNetworkInterceptor(httpLoggingInterceptor)
+            .addInterceptor(logoutInterceptor)
             .build()
 
     @Provides
@@ -101,6 +120,19 @@ class RetrofitModule {
 
     @Provides
     @Singleton
+    @Named("LogoutAuthHeader")
+    fun provideLogoutHeaderRetrofit(
+        @Named("LogoutAuthHeader") okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+
+    @Provides
+    @Singleton
     fun providePollService(
         @Named("RequireAuthHeader") retrofit: Retrofit
     ): PollService =
@@ -112,6 +144,13 @@ class RetrofitModule {
         @Named("NoAuthHeader") retrofit: Retrofit
     ): LoginService =
         retrofit.create(LoginService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideLogoutService(
+        @Named("LogoutAuthHeader") retrofit: Retrofit
+    ): LogoutService =
+        retrofit.create(LogoutService::class.java)
 
     @Provides
     @Singleton
@@ -161,7 +200,7 @@ class AuthInterceptor @Inject constructor(
             )
         }
 
-        return if (response.code == 403) {
+        return if (response.code == 500) {
             val newAccessToken = runBlocking(Dispatchers.IO) {
                 authRepository.refreshToken(prefWrapper.accessToken, prefWrapper.refreshToken)
             }.getOrNull()?.result?.accessToken ?: ""
@@ -173,6 +212,25 @@ class AuthInterceptor @Inject constructor(
             )
         } else {
             response
+        }
+    }
+}
+
+class LogoutInterceptor @Inject constructor(
+    private val prefWrapper: SharedPreferenceWrapper
+) : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val accessToken = prefWrapper.accessToken
+        val request = chain.request()
+
+        return if (accessToken.isBlank()) {
+            chain.proceed(request)
+        } else {
+            chain.proceed(
+                request.newBuilder()
+                    .header("Authorization", accessToken)
+                    .build()
+            )
         }
     }
 }
