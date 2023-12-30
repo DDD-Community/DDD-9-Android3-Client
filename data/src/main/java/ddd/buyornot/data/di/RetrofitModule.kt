@@ -61,7 +61,7 @@ class RetrofitModule {
         authInterceptor: AuthInterceptor,
     ): OkHttpClient =
         OkHttpClient.Builder()
-            .addNetworkInterceptor(httpLoggingInterceptor)
+            //.addNetworkInterceptor(httpLoggingInterceptor)
             .addInterceptor(authInterceptor)
             .build()
 
@@ -72,7 +72,7 @@ class RetrofitModule {
         httpLoggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient =
         OkHttpClient.Builder()
-            .addNetworkInterceptor(httpLoggingInterceptor)
+            //.addNetworkInterceptor(httpLoggingInterceptor)
             .build()
 
     @Provides
@@ -83,7 +83,7 @@ class RetrofitModule {
         logoutInterceptor: LogoutInterceptor,
     ): OkHttpClient =
         OkHttpClient.Builder()
-            .addNetworkInterceptor(httpLoggingInterceptor)
+            //.addNetworkInterceptor(httpLoggingInterceptor)
             .addInterceptor(logoutInterceptor)
             .build()
 
