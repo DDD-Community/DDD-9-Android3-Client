@@ -1,5 +1,6 @@
 package ddd.buyornot.data.util
 
+/*
 import android.content.Context
 import android.util.Log
 import com.navercorp.nid.NaverIdLoginSDK
@@ -10,6 +11,7 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 import ddd.buyornot.data.BuildConfig
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
 
+*/
 /*
     네이버 로그인 사용법
 
@@ -17,7 +19,8 @@ import ddd.buyornot.data.prefs.SharedPreferenceWrapper
     context는 로그인을 시도하는 activity를 넘겨주도록 한다.
 
     추후에 로그인 화면의 ViewModel로 migration 예정
- */
+ *//*
+
 class NaverLogin(
     sharedPreferenceWrapper: SharedPreferenceWrapper
 ) {
@@ -63,4 +66,4 @@ class NaverLogin(
     fun authenticate(context: Context) {
         NaverIdLoginSDK.authenticate(context, oAuthLoginCallback)
     }
-}
+}*/

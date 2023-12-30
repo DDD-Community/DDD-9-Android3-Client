@@ -60,7 +60,6 @@ import com.ddd.component.theme.BDSColor.SlateGray800
 import com.ddd.component.theme.BDSColor.SlateGray900
 import com.ddd.component.theme.BuyOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
-import ddd.buyornot.add_vote.ui.AddNewVoteActivity
 import ddd.buyornot.data.model.post.PostResult
 import ddd.buyornot.home.BDSHomeCard
 import ddd.buyornot.my_post.viewmodel.MyPostViewModel
@@ -179,7 +178,7 @@ fun MyPostScreen(
                             color = SlateGray900,
                         )
                         Spacer(modifier = Modifier.height(54.dp))
-                        BDSFilledButton(
+                        /*BDSFilledButton(
                             modifier = Modifier
                                 .height(50.dp)
                                 .fillMaxWidth()
@@ -187,7 +186,7 @@ fun MyPostScreen(
                             onClick = { context.startActivity(Intent(context, AddNewVoteActivity::class.java)) },
                             text = "투표 만들러 가기",
                             contentPadding = BDSButtonInnerPadding.MEDIUM
-                        )
+                        )*/
                     }
                 }
 
