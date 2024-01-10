@@ -190,9 +190,11 @@ class AuthInterceptor @Inject constructor(
         val accessToken = prefWrapper.accessToken
         val request = chain.request()
 
+        // 기존 액세스 토큰이 없으면 일단 그냥 진행 (responseCode 500 에러로 재발급)
         val response = if (accessToken.isBlank()) {
             chain.proceed(request)
         } else {
+            // 기존 액세스 토큰이 있으면 리퀘스트 헤더에 토큰을 추가하고 api 호출
             chain.proceed(
                 request.newBuilder()
                     .header("Authorization", accessToken)
@@ -200,17 +202,23 @@ class AuthInterceptor @Inject constructor(
             )
         }
 
+        // 액세스 토큰이 없거나 만료되었을 경우
         return if (response.code == 500) {
+            response.close()
+
+            // 액세스 토큰을 리프레쉬 후 request에 토큰을 변경 후 다시 호출
             val newAccessToken = runBlocking(Dispatchers.IO) {
                 authRepository.refreshToken(prefWrapper.accessToken, prefWrapper.refreshToken)
             }.getOrNull()?.result?.accessToken ?: ""
 
+            // 만약 리프레쉬 토큰도 만료됐을 경우 로그아웃으로 이동
             chain.proceed(
                 request.newBuilder()
                     .header("Authorization", newAccessToken)
                     .build()
             )
         } else {
+            // 호출이 정상 동작했을 경우
             response
         }
     }

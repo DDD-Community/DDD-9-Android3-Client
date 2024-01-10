@@ -3,10 +3,11 @@ package ddd.buyornot.data.repository.login
 import ddd.buyornot.data.model.BaseApiResponse
 import ddd.buyornot.data.model.LoginMethod
 import ddd.buyornot.data.model.login.AuthResult
+import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
 
-    suspend fun isLoggedIn(): Result<Boolean>
+    fun isLoggedIn(): Flow<Boolean>
 
     suspend fun issueAuthorizationCode(
         accessToken: String,

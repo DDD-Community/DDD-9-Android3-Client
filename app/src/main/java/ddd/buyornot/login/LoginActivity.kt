@@ -62,9 +62,10 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-            val isLoggedIn = authRepository.isLoggedIn().getOrNull() ?: false
-            if (isLoggedIn) {
-                startMainActivityAndFinish()
+            authRepository.isLoggedIn().collect { isLoggedIn ->
+                if (isLoggedIn) {
+                    startMainActivityAndFinish()
+                }
             }
         }
 

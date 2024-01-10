@@ -1,17 +1,15 @@
 package ddd.buyornot.data.source.login
 
 import ddd.buyornot.data.prefs.SharedPreferenceWrapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class AuthLocalDataSourceImpl @Inject constructor(
     private val prefWrapper: SharedPreferenceWrapper
 ) : AuthLocalDataSource {
 
-    override suspend fun isLoggedIn(): Result<Boolean> {
-        return runCatching {
-            prefWrapper.accessToken.isNotBlank()
-        }
-    }
+    override fun isLoggedIn() = flow { emit(prefWrapper.accessToken.isNotBlank()) }
 
     override suspend fun saveAuthorizationCode(
         grantType: String,
@@ -28,6 +26,7 @@ class AuthLocalDataSourceImpl @Inject constructor(
     override suspend fun clearLocalData(): Result<Unit> {
         return kotlin.runCatching {
             prefWrapper.clear()
+            isLoggedIn()
         }
     }
 }
