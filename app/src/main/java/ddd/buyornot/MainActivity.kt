@@ -45,12 +45,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-            repository.isLoggedIn().onSuccess {
-                if (!it) {
+            repository.isLoggedIn().collect { isLoggedIn ->
+                if (!isLoggedIn) {
                     startKakaoLogin()
                 }
-            }.onFailure {
-                startKakaoLogin()
             }
         }
 

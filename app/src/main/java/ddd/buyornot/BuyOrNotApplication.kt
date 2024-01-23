@@ -1,6 +1,7 @@
 package ddd.buyornot
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
@@ -11,6 +12,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,6 +41,13 @@ class BuyOrNotApplication : Application() {
         instance = this
         KakaoSdk.init(this, BuildConfig.KAKAO_OAUTH_HOST_SCHEME)
         GlobalScope.launch {
+            authRepository.isLoggedIn().collect { isLoggedIn ->
+                if (!isLoggedIn) {
+                    withContext(Dispatchers.Main) {
+                        LoginActivity.open(baseContext)
+                    }
+                }
+            }
             _eventSharedFlow.collectLatest { event ->
                 when (event) {
                     Event.LOGOUT -> {
@@ -57,6 +66,7 @@ class BuyOrNotApplication : Application() {
                                 handleError("로그아웃에 실패했습니다. 다시 시도해주세요.")
                             }
                     }
+
                     Event.SIGN_OUT -> {
                         authRepository.signoutRemote()
                             .onSuccess { response ->
@@ -73,6 +83,7 @@ class BuyOrNotApplication : Application() {
                                 handleError("계정 삭제에 실패했습니다. 다시 시도해주세요.")
                             }
                     }
+
                     else -> {}
                 }
             }

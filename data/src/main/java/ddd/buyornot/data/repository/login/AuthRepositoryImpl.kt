@@ -5,14 +5,14 @@ import ddd.buyornot.data.model.LoginMethod
 import ddd.buyornot.data.model.login.AuthResult
 import ddd.buyornot.data.source.login.AuthLocalDataSource
 import ddd.buyornot.data.source.login.AuthRemoteDataSource
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val authLocalDataSource: AuthLocalDataSource,
     private val authRemoteDataSource: AuthRemoteDataSource,
 ) : AuthRepository {
-
-    override suspend fun isLoggedIn(): Result<Boolean> {
+    override fun isLoggedIn(): Flow<Boolean> {
         return authLocalDataSource.isLoggedIn()
     }
 
@@ -55,6 +55,8 @@ class AuthRepositoryImpl @Inject constructor(
                         it.refreshToken ?: ""
                     )
                 }
+            }.onFailure {
+                logout()
             }
     }
 

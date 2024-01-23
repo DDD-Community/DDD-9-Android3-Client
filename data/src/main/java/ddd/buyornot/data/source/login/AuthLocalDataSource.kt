@@ -1,8 +1,10 @@
 package ddd.buyornot.data.source.login
 
+import kotlinx.coroutines.flow.Flow
+
 interface AuthLocalDataSource {
 
-    suspend fun isLoggedIn(): Result<Boolean>
+    fun isLoggedIn(): Flow<Boolean>
 
     suspend fun saveAuthorizationCode(
         grantType: String,
