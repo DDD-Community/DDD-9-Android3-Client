@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.sp
 import com.ddd.component.theme.BDSColor.Primary50
 import com.ddd.component.theme.BDSColor.SlateGray500
 import com.ddd.component.theme.BDSColor.SlateGray900
-import com.ddd.component.theme.ColorRipple
 
 // TODO: data class 위치 변경
 data class PostItem(

@@ -17,7 +17,7 @@ localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace 'ddd.buyornot'
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         manifestPlaceholders = [KAKAO_OAUTH_HOST_SCHEME: localProperties['KAKAO_OAUTH_HOST_SCHEME']]
@@ -26,9 +26,9 @@ android {
     defaultConfig {
         applicationId "ddd.buyornot"
         minSdk 26
-        targetSdk 33
-        versionCode 5
-        versionName "1.0.4"
+        targetSdk 35
+        versionCode 6
+        versionName "1.0.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -57,7 +57,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.3.2'
+        kotlinCompilerExtensionVersion '1.5.14'
     }
     packagingOptions {
         resources {
@@ -74,14 +74,14 @@ dependencies {
     implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
 
     implementation rootProject.ext.compose
-    implementation platform('androidx.compose:compose-bom:2022.10.00')
+    implementation platform('androidx.compose:compose-bom:2024.10.00')
     implementation rootProject.ext.composeUi
     implementation rootProject.ext.composeUiGraphics
     implementation rootProject.ext.composeUiPreview
     implementation rootProject.ext.composeRuntime
     implementation rootProject.ext.composeMaterial
     implementation rootProject.ext.composeMaterial3
-    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
+    androidTestImplementation platform('androidx.compose:compose-bom:2024.10.00')
     androidTestImplementation rootProject.ext.composeUiTest
     debugImplementation rootProject.ext.composeUiTooling
     debugImplementation rootProject.ext.composeUiTestManifest
@@ -102,7 +102,6 @@ dependencies {
     implementation rootProject.ext.firebaseMessaging
     // crashlytics
     implementation rootProject.ext.firebaseCrashlyticsKtx
-    implementation rootProject.ext.firebaseCrashlyticsNdk
     // dynamic link
     implementation rootProject.ext.firebaseDynamicLinks
     // inapp message
@@ -147,9 +146,6 @@ dependencies {
     // Dagger-Hilt
     implementation rootProject.ext.daggerHilt
     kapt rootProject.ext.daggerHiltCompiler
-
-    implementation rootProject.ext.hiltViewModel
-    kapt rootProject.ext.hiltCompiler
 
     kapt rootProject.ext.kotlinMetadataJvm
 

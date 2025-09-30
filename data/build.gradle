@@ -64,8 +64,5 @@ dependencies {
     implementation rootProject.ext.daggerHilt
     kapt rootProject.ext.daggerHiltCompiler
 
-    implementation rootProject.ext.hiltViewModel
-    kapt rootProject.ext.hiltCompiler
-
     kapt rootProject.ext.kotlinMetadataJvm
 }
